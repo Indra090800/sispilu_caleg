@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 30 Nov 2023 pada 03.34
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 30 Nov 2023 pada 14.40
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,18 @@ SET time_zone = "+00:00";
 --
 -- Database: `sispilu`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `layout`
+--
+
+CREATE TABLE `layout` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `gambar` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -50,6 +62,24 @@ CREATE TABLE `tb_parpol` (
   `alamat` varchar(50) NOT NULL,
   `no_telp` varchar(15) NOT NULL,
   `foto_logo` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_pemilih`
+--
+
+CREATE TABLE `tb_pemilih` (
+  `nik` int(20) NOT NULL,
+  `nama_pemilih` varchar(50) NOT NULL,
+  `usia` int(3) NOT NULL,
+  `alamat` varchar(50) NOT NULL,
+  `rt` varchar(5) NOT NULL,
+  `rw` varchar(5) NOT NULL,
+  `kelurahan` varchar(50) NOT NULL,
+  `kecamatan` varchar(50) NOT NULL,
+  `kabupaten` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -158,6 +188,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `id_role`, `remember_tok
 --
 
 --
+-- Indeks untuk tabel `layout`
+--
+ALTER TABLE `layout`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `tb_parpol`
 --
 ALTER TABLE `tb_parpol`
@@ -185,6 +221,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `layout`
+--
+ALTER TABLE `layout`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_parpol`

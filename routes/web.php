@@ -8,7 +8,7 @@ use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\IzinAbsen;
 use App\Http\Controllers\Izincuti;
 use App\Http\Controllers\IzinSakit;
-use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\CalegController;
 use App\Http\Controllers\KonfigurasiController;
 use App\Http\Controllers\PresensiController;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::middleware(['guest:karyawan'])->group(function(){
+Route::middleware(['guest:caleg'])->group(function(){
     Route::get('/', function () {
         return view('auth.login');
     })->name('login');
@@ -41,7 +41,7 @@ Route::middleware(['guest:user'])->group(function(){
 });
 
 
-Route::middleware(['auth:karyawan'])->group(function(){
+Route::middleware(['auth:caleg'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/proseslogout', [AuthController::class, 'proseslogout']);
 
@@ -85,56 +85,9 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('panel/dashboardadmin', [DashboardController::class, 'dashboardadmin']);
     Route::get('/proseslogoutadmin', [AuthController::class, 'proseslogoutadmin']);
 
-    Route::get('/karyawan', [KaryawanController::class, 'index']);
-    Route::post('/addKaryawan', [KaryawanController::class, 'addKaryawan']);
-    Route::post('/karyawan/{nik}/edit', [KaryawanController::class, 'editKaryawan']);
-    Route::post('/karyawan/{nik}/delete', [KaryawanController::class, 'delete']);
-
-    Route::get('/departemen', [DepartemenController::class, 'index']);
-    Route::post('/adddept', [DepartemenController::class, 'adddept']);
-    Route::post('/dept/{nik}/edit', [DepartemenController::class, 'edit']);
-    Route::post('/dept/{nik}/delete', [DepartemenController::class, 'delete']);
-
-    Route::get('/cabang', [CabangController::class, 'index']);
-    Route::post('/addcabang', [CabangController::class, 'addcabang']);
-    Route::post('/cabang/{nik}/edit', [CabangController::class, 'edit']);
-    Route::post('/cabang/{nik}/delete', [CabangController::class, 'delete']);
-
-    Route::get('/cuti', [CutiController::class, 'index']);
-    Route::post('/addcuti', [CutiController::class, 'addcuti']);
-    Route::post('/cuti/{nik}/edit', [CutiController::class, 'edit']);
-    Route::post('/cuti/{nik}/delete', [CutiController::class, 'delete']);
-
-    Route::get('/presensi/monitoring', [PresensiController::class, 'monitoring']);
-    Route::post('/getpresensi', [PresensiController::class, 'getpresensi']);
-    Route::post('/tampilpeta', [PresensiController::class, 'tampilpeta']);
-
-    Route::get('/presensi/laporan-presensi', [PresensiController::class, 'laporanpresensi']);
-    Route::post('/presensi/cetaklaporan', [PresensiController::class, 'cetaklaporan']);
-
-    Route::get('/presensi/rekap-presensi', [PresensiController::class, 'rekappresensi']);
-    Route::post('/presensi/cetakrekap', [PresensiController::class, 'cetakrekap']);
-
-    Route::get('/presensi/datapengajuan', [PresensiController::class, 'datapengajuan']);
-    Route::post('/presensi/uppengajuan/{id_izin}', [PresensiController::class, 'uppengajuan']);
-    Route::get('/batalkan/{id_izin}', [PresensiController::class, 'batalkan']);
-
-    Route::get('/configurasi/lokasi-kantor', [KonfigurasiController::class, 'lokasi_kantor']);
-    Route::post('/configurasi/updatelokasi', [KonfigurasiController::class, 'updatelokasi']);
-
-    Route::get('/configurasi/jam-kerja', [KonfigurasiController::class, 'jam_kerja']);
-    Route::post('/addjamKerja', [KonfigurasiController::class, 'addjamKerja']);
-    Route::post('/jamKerja/{kode_jamKerja}/edit', [KonfigurasiController::class, 'edit']);
-    Route::post('/jamKerja/{kode_jamKerja}/delete', [KonfigurasiController::class, 'delete']);
-    Route::get('/konfig/{nik}/setjamkerja', [KonfigurasiController::class, 'setJamKerja']);
-    Route::post('/konfig/setJamKaryawan', [KonfigurasiController::class, 'setJamKaryawan']);
-    Route::post('/konfig/editsetJamKaryawan', [KonfigurasiController::class, 'editsetJamKaryawan']);
-
-    Route::get('/configurasi/jam-kerjaDep', [KonfigurasiController::class, 'jam_kerjaDep']);
-    Route::get('/konfig/jamKerjaDept/create', [KonfigurasiController::class, 'createJkDept']);
-    Route::post('/konfig/jamKerjaDept/createJkDept', [KonfigurasiController::class, 'createJkDept1']);
-    Route::get('/konfig/jamKerjaDept/{kode_jk_dept}/edit', [KonfigurasiController::class, 'vEdit']);
-    Route::post('/konfig/jamKerjaDept/{kode_jk_dept}/editJkDept', [KonfigurasiController::class, 'editJkDept']);
-    Route::post('/konfig/jamKerjaDept/{kode_jk_dept}/deleteJkDept', [KonfigurasiController::class, 'deleteJkDept']);
+    Route::get('/caleg', [CalegController::class, 'index']);
+    Route::post('/addCaleg', [CalegController::class, 'addCaleg']);
+    Route::post('/caleg/{nik}/edit', [CalegController::class, 'editCaleg']);
+    Route::post('/caleg/{nik}/delete', [CalegController::class, 'delete']);
 });
 
