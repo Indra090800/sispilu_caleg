@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Caleg;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
@@ -21,8 +22,8 @@ class CalegController extends Controller
         if(!empty($request->nama_caleg)){
             $query->where('nama_caleg', 'like', '%'. $request->nama_caleg.'%');
         }
-        if(!empty($request->kode_dept)){
-            $query->where('tb_caleg.kode_dept', $request->kode_dept);
+        if(!empty($request->id_parpol)){
+            $query->where('tb_caleg.id_parpol', $request->id_parpol);
         }
         $caleg = $query->paginate(7);
         $parpol = DB::table('tb_parpol')->get();
@@ -33,29 +34,28 @@ class CalegController extends Controller
     public function addCaleg(Request $request)
     {
         $nik            = $request->nik;
-        $nama_caleg   = $request->nama_caleg;
-        $jabatan        = $request->jabatan;
+        $nama_caleg     = $request->nama_caleg;
+        $alamat         = $request->alamat;
         $no_hp          = $request->no_hp;
-        $kode_dept      = $request->kode_dept;
-        $kode_cabang      = $request->kode_cabang;
+        $id_parpol      = $request->id_parpol;
+        $id_role        = Auth::guard('user')->user()->id_role;
         $password       = Hash::make('12345');
-        $kode_cabang    = $request->kode_cabang;
 
         if($request->hasFile('foto')){
             $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
         }else{
             $foto = null;
         }
-        
+
         try {
             $data = [
                 'nik'           => $nik,
-                'nama_caleg'  => $nama_caleg,
-                'jabatan'       => $jabatan,
+                'nama_caleg'    => $nama_caleg,
+                'alamat'        => $alamat,
                 'no_hp'         => $no_hp,
-                'kode_dept'     => $kode_dept,
                 'password'      => $password,
-                'kode_cabang'   => $kode_cabang,
+                'id_parpol'     => $id_parpol,
+                'id_role'       => $id_role,
                 'foto'          => $foto
             ];
             $simpan = DB::table('tb_caleg')->insert($data);
@@ -78,12 +78,13 @@ class CalegController extends Controller
 
     public function editCaleg($nik, Request $request)
     {
-        $nama_caleg = $request->nama_caleg;
-        $jabatan = $request->jabatan;
-        $no_hp = $request->no_hp;
-        $kode_dept = $request->kode_dept;
-        $password = Hash::make('12345');
-        $kode_cabang = $request->kode_cabang;
+        $nik            = $request->nik;
+        $nama_caleg     = $request->nama_caleg;
+        $alamat         = $request->alamat;
+        $no_hp          = $request->no_hp;
+        $id_role        = Auth::guard('user')->user()->id_role;
+        $id_parpol      = $request->id_parpol;
+        $password       = Hash::make('12345');
 
         $caleg = DB::table('tb_caleg')->where('nik', $nik)->first();
         $old_foto = $caleg->foto;
@@ -93,16 +94,16 @@ class CalegController extends Controller
         }else{
             $foto = $old_foto;
         }
-        
+
         try {
             $data = [
-                'nama_caleg' => $nama_caleg,
-                'jabatan' => $jabatan,
-                'no_hp' => $no_hp,
-                'kode_dept' =>$kode_dept,
-                'password' => $password,
-                'kode_cabang'   => $kode_cabang,
-                'foto' => $foto
+                'nama_caleg'    => $nama_caleg,
+                'alamat'        => $alamat,
+                'no_hp'         => $no_hp,
+                'id_role'       => $id_role,
+                'password'      => $password,
+                'id_parpol'     => $id_parpol,
+                'foto'          => $foto
             ];
             $update = DB::table('tb_caleg')->where('nik', $nik)->update($data);
         if($update){
@@ -125,12 +126,12 @@ class CalegController extends Controller
         $old_foto = $caleg->foto;
         $folderPathOld = "public/uploads/caleg/".$old_foto;
         Storage::delete($folderPathOld);
-        $delete =  DB::table('tb_caleg')->where('nik', $nik)->delete();  
-        
+        $delete =  DB::table('tb_caleg')->where('nik', $nik)->delete();
+
         if($delete){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
         }else{
-            return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']); 
+            return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);
         }
     }
 }
