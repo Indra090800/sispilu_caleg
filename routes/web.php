@@ -6,6 +6,7 @@ use App\Http\Controllers\CalegController;
 use App\Http\Controllers\SaksiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ParpolController;
+use App\Http\Controllers\PemilihController;
 use App\Http\Controllers\TPSController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,5 +75,11 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addTPS', [TPSController::class, 'addTPS']);
     Route::post('/tps/{id_tps}/edit', [TPSController::class, 'editTPS']);
     Route::post('/tps/{id_tps}/delete', [TPSController::class, 'delete']);
+
+    //pemilih
+    Route::get('/pemilih', [PemilihController::class, 'index']);
+    Route::post('/addTPS', [PemilihController::class, 'addPemilih']);
+    Route::post('/pemilih/{id_pemilih}/edit', [PemilihController::class, 'editPemilih']);
+    Route::post('/pemilih/{id_pemilih}/delete', [PemilihController::class, 'delete']);
 });
 
