@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CalegController;
+use App\Http\Controllers\SaksiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ParpolController;
 use App\Http\Controllers\TPSController;
@@ -49,6 +50,12 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addCaleg', [CalegController::class, 'addCaleg']);
     Route::post('/caleg/{nik}/edit', [CalegController::class, 'editCaleg']);
     Route::post('/caleg/{nik}/delete', [CalegController::class, 'delete']);
+
+    //saksi
+    Route::get('/saksi', [SaksiController::class, 'index']);
+    Route::post('/addSaksi', [SaksiController::class, 'addSaksi']);
+    Route::post('/saksi/{nik}/edit', [SaksiController::class, 'editSaksi']);
+    Route::post('/saksi/{nik}/delete', [SaksiController::class, 'delete']);
 
     //parpol
     Route::get('/parpol', [ParpolController::class, 'index']);

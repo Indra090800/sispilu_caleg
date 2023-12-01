@@ -34,7 +34,7 @@ class ParpolController extends Controller
         $id_role        = Auth::guard('user')->user()->id_role;
 
         if($request->hasFile('foto_logo')){
-            $foto_logo = $id_parpol.".".$request->file('foto_logo')->getClientOriginalExtension();
+            $foto_logo = $nama_parpol.".".$request->file('foto_logo')->getClientOriginalExtension();
         }else{
             $foto_logo = null;
         }
@@ -76,7 +76,7 @@ class ParpolController extends Controller
         $old_foto_logo = $parpol->foto_logo;
 
         if($request->hasFile('foto_logo')){
-            $foto_logo = $id_parpol.".".$request->file('foto_logo')->getClientOriginalExtension();
+            $foto_logo = $nama_parpol.".".$request->file('foto_logo')->getClientOriginalExtension();
         }else{
             $foto_logo = $old_foto_logo;
         }
