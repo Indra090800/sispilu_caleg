@@ -41,10 +41,10 @@ class CalegController extends Controller
         $id_role        = Auth::guard('user')->user()->id_role;
         $password       = Hash::make('12345');
 
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
+        if($request->hasFile('foto_caleg')){
+            $foto_caleg = $nik.".".$request->file('foto_caleg')->getClientOriginalExtension();
         }else{
-            $foto = null;
+            $foto_caleg = null;
         }
 
         try {
@@ -56,13 +56,13 @@ class CalegController extends Controller
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_role'       => $id_role,
-                'foto'          => $foto
+                'foto_caleg'    => $foto_caleg
             ];
             $simpan = DB::table('tb_caleg')->insert($data);
         if($simpan){
-            if($request->hasFile('foto')){
+            if($request->hasFile('foto_caleg')){
                 $folderPath = "public/uploads/caleg/";
-                $request->file('foto')->storeAs($folderPath, $foto);
+                $request->file('foto_caleg')->storeAs($folderPath, $foto_caleg);
             }
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
         }
@@ -87,12 +87,12 @@ class CalegController extends Controller
         $password       = Hash::make('12345');
 
         $caleg = DB::table('tb_caleg')->where('nik', $nik)->first();
-        $old_foto = $caleg->foto;
+        $old_foto_caleg = $caleg->foto_caleg;
 
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
+        if($request->hasFile('foto_caleg')){
+            $foto_caleg = $nik.".".$request->file('foto_caleg')->getClientOriginalExtension();
         }else{
-            $foto = $old_foto;
+            $foto_caleg = $old_foto_caleg;
         }
 
         try {
@@ -103,15 +103,15 @@ class CalegController extends Controller
                 'id_role'       => $id_role,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
-                'foto'          => $foto
+                'foto_caleg'    => $foto_caleg
             ];
             $update = DB::table('tb_caleg')->where('nik', $nik)->update($data);
         if($update){
-            if($request->hasFile('foto')){
+            if($request->hasFile('foto_caleg')){
                 $folderPath = "public/uploads/caleg/";
-                $folderPathOld = "public/uploads/caleg/".$old_foto;
+                $folderPathOld = "public/uploads/caleg/".$old_foto_caleg;
                 Storage::delete($folderPathOld);
-                $request->file('foto')->storeAs($folderPath, $foto);
+                $request->file('foto_caleg')->storeAs($folderPath, $foto_caleg);
             }
             return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
         }
@@ -123,8 +123,8 @@ class CalegController extends Controller
     public function delete($nik)
     {
         $caleg = DB::table('tb_caleg')->where('nik', $nik)->first();
-        $old_foto = $caleg->foto;
-        $folderPathOld = "public/uploads/caleg/".$old_foto;
+        $old_foto_caleg = $caleg->foto_caleg;
+        $folderPathOld = "public/uploads/caleg/".$old_foto_caleg;
         Storage::delete($folderPathOld);
         $delete =  DB::table('tb_caleg')->where('nik', $nik)->delete();
 

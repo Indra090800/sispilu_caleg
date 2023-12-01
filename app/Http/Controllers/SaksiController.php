@@ -42,10 +42,10 @@ class SaksiController extends Controller
         $id_tps         = $request->id_tps;
         $password       = Hash::make('12345');
 
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
+        if($request->hasFile('foto_saksi')){
+            $foto_saksi = $nik.".".$request->file('foto_saksi')->getClientOriginalExtension();
         }else{
-            $foto = null;
+            $foto_saksi = null;
         }
 
         try {
@@ -57,13 +57,13 @@ class SaksiController extends Controller
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_tps'        => $id_tps,
-                'foto'          => $foto
+                'foto_saksi'          => $foto_saksi
             ];
             $simpan = DB::table('tb_saksi')->insert($data);
         if($simpan){
-            if($request->hasFile('foto')){
+            if($request->hasFile('foto_saksi')){
                 $folderPath = "public/uploads/saksi/";
-                $request->file('foto')->storeAs($folderPath, $foto);
+                $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
             }
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
         }
@@ -88,12 +88,12 @@ class SaksiController extends Controller
         $password       = Hash::make('12345');
 
         $saksi = DB::table('tb_saksi')->where('nik', $nik)->first();
-        $old_foto = $saksi->foto;
+        $old_foto_saksi = $saksi->foto_saksi;
 
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
+        if($request->hasFile('foto_saksi')){
+            $foto_saksi = $nik.".".$request->file('foto_saksi')->getClientOriginalExtension();
         }else{
-            $foto = $old_foto;
+            $foto_saksi = $old_foto_saksi;
         }
 
         try {
@@ -104,15 +104,15 @@ class SaksiController extends Controller
                 'id_tps'        => $id_tps,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
-                'foto'          => $foto
+                'foto_saksi'          => $foto_saksi
             ];
             $update = DB::table('tb_saksi')->where('nik', $nik)->update($data);
         if($update){
-            if($request->hasFile('foto')){
+            if($request->hasFile('foto_saksi')){
                 $folderPath = "public/uploads/saksi/";
-                $folderPathOld = "public/uploads/saksi/".$old_foto;
+                $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
                 Storage::delete($folderPathOld);
-                $request->file('foto')->storeAs($folderPath, $foto);
+                $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
             }
             return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
         }
@@ -124,8 +124,8 @@ class SaksiController extends Controller
     public function delete($nik)
     {
         $saksi = DB::table('tb_saksi')->where('nik', $nik)->first();
-        $old_foto = $saksi->foto;
-        $folderPathOld = "public/uploads/saksi/".$old_foto;
+        $old_foto_saksi = $saksi->foto_saksi;
+        $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
         Storage::delete($folderPathOld);
         $delete =  DB::table('tb_saksi')->where('nik', $nik)->delete();
 

@@ -95,7 +95,7 @@
                                                 <th class="text-center">Nama Saksi</th>
                                                 <th class="text-center">Alamat</th>
                                                 <th class="text-center">No. HP</th>
-                                                <th class="text-center">Foto</th>
+                                                <th class="text-center">foto_saksi</th>
                                                 <th class="text-center">Asal Parpol</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
@@ -103,7 +103,7 @@
                                         <tbody>
                                             @foreach ($saksi as $k)
                                             @php
-                                                $path = Storage::url('uploads/saksi/'.$k->foto);
+                                                $path = Storage::url('uploads/saksi/'.$k->foto_saksi);
                                             @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration + $saksi->firstItem()-1 }}</td>
@@ -112,7 +112,7 @@
                                                     <td>{{ $k->alamat }}</td>
                                                     <td>{{ $k->no_hp }}</td>
                                                     <td class="text-center">
-                                                        @if (empty($k->foto))
+                                                        @if (empty($k->foto_saksi))
                                                         <img src="{{ asset('assets/img/nophoto.png') }}" class="avatar" alt="">
                                                         @else
                                                         <img src="{{ url($path) }}" class="avatar" alt="">
@@ -274,7 +274,7 @@
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class="mb-3">
-                            <input type="file" name="foto" id="foto" class="form-control">
+                            <input type="file" name="foto_saksi" id="foto_saksi" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -388,7 +388,7 @@
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class="mb-3">
-                            <input type="file" name="foto" id="foto" class="form-control">
+                            <input type="file" name="foto_saksi" id="foto_saksi" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -458,6 +458,7 @@
                 var alamat = $("#alamat").val();
                 var no_hp = $("#no_hp").val();
                 var id_parpol = $("#frmSaksi").find("#id_parpol").val();
+                var foto_saksi = $("#frmSaksi").find("#foto_saksi").val();
 
                 if(nik==""){
                     Swal.fire({
@@ -511,6 +512,17 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#id_parpol").focus();
+                    });
+
+                    return false;
+                }else if(foto_saksi==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: ' Foto Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#foto_saksi").focus();
                     });
 
                     return false;
