@@ -101,7 +101,6 @@
                                                 <th class="text-center">Kecamatan</th>
                                                 <th class="text-center">Lokasi</th>
                                                 <th class="text-center">Aksi</th>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -135,16 +134,6 @@
                                                         </form>
                                                         </div>
                                                     </td>
-                                                    <td><a href="#" class="btn btn-primary btn-sm tampilpeta" id="{{ $k->id_tps }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5"></path>
-                                                        <path d="M9 4v13"></path>
-                                                        <path d="M15 7v5.5"></path>
-                                                        <path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z"></path>
-                                                        <path d="M19 18v.01"></path>
-                                                        </svg>
-                                                    </a></td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -355,7 +344,11 @@
 
 
             $("#frmTPS").submit(function(){
-                var nama_tps = $("#nama_tps").val();
+                var nama_tps = $("#frmTPS").find("#nama_tps").val();
+                var alamat = $("#alamat").val();
+                var desa = $("#desa").val();
+                var kecamatan = $("#kecamatan").val();
+                var lokasi = $("#lokasi").val();
 
                 if(nama_tps==""){
                     Swal.fire({
@@ -368,11 +361,56 @@
                     });
 
                     return false;
+                }else if(alamat==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Alamat TPS Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#alamat").focus();
+                    });
+
+                    return false;
+                }else if(desa==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Desa Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#desa").focus();
+                    });
+
+                    return false;
+                }else if(kecamatan==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Kecamatan Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#kecamatan").focus();
+                    });
+
+                    return false;
+                }
+                else if(lokasi==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Lokasi TPS Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#lokasi").focus();
+                    });
+
+                    return false;
                 }
             });
 
-            $("#frtps").submit(function(){
-                var nama_tps = $("#frtps").find("#nama_tps").val();
+            $("#frTPS").submit(function(){
+                var nama_tps = $("#frTPS").find("#nama_tps").val();
 
                 if(nama_tps==""){
                     Swal.fire({

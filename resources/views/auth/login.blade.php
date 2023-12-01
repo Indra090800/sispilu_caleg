@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-links mt-2">
-                        <div><a href="page-forgot-password.html" class="text-muted">Forgot Password?</a></div>
+                        <div><a href="/panel" class="text-muted">Login Sebagai Caleg?</a></div>
                     </div>
 
                     <div class="form-button-group">

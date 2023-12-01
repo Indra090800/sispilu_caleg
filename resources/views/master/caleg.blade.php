@@ -447,7 +447,7 @@
                 var nama_caleg = $("#frmCaleg").find("#nama_caleg").val();
                 var alamat = $("#alamat").val();
                 var no_hp = $("#no_hp").val();
-                var id_parpol = $("#frmcaleg").find("#id_parpol").val();
+                var id_parpol = $("#frmCaleg").find("#id_parpol").val();
 
                 if(nik==""){
                     Swal.fire({
@@ -507,12 +507,12 @@
                 }
             });
 
-            $("#frcaleg").submit(function(){
-                var nik = $("#frcaleg").find("#nik").val();
-                var nama_caleg = $("#frcaleg").find("#nama_caleg").val();
-                var alamat = $("#frcaleg").find("#alamat").val();
-                var no_hp = $("#frcaleg").find("#no_hp").val();
-                var id_parpol = $("#frcaleg").find("#id_parpol").val();
+            $("#frCaleg").submit(function(){
+                var nik = $("#frCaleg").find("#nik").val();
+                var nama_caleg = $("#frCaleg").find("#nama_caleg").val();
+                var alamat = $("#frCaleg").find("#alamat").val();
+                var no_hp = $("#frCaleg").find("#no_hp").val();
+                var id_parpol = $("#frCaleg").find("#id_parpol").val();
 
                 if(nik==""){
                     Swal.fire({
