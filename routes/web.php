@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CalegController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ParpolController;
 use App\Http\Controllers\TPSController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +49,12 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addCaleg', [CalegController::class, 'addCaleg']);
     Route::post('/caleg/{nik}/edit', [CalegController::class, 'editCaleg']);
     Route::post('/caleg/{nik}/delete', [CalegController::class, 'delete']);
+
+    //parpol
+    Route::get('/parpol', [ParpolController::class, 'index']);
+    Route::post('/addParpol', [ParpolController::class, 'addParpol']);
+    Route::post('/parpol/{id_parpol}/edit', [ParpolController::class, 'editParpol']);
+    Route::post('/parpol/{id_parpol}/delete', [ParpolController::class, 'delete']);
 
     //role admin
     Route::get('/role', [RoleController::class, 'index']);
