@@ -91,7 +91,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">NIK</th>
+                                                <th class="text-center">nik_ktp</th>
                                                 <th class="text-center">Nama Saksi</th>
                                                 <th class="text-center">Alamat</th>
                                                 <th class="text-center">No. HP</th>
@@ -107,7 +107,7 @@
                                             @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration + $saksi->firstItem()-1 }}</td>
-                                                    <td>{{ $k->nik }}</td>
+                                                    <td>{{ $k->nik_ktp }}</td>
                                                     <td>{{ $k->nama_saksi }}</td>
                                                     <td>{{ $k->alamat }}</td>
                                                     <td>{{ $k->no_hp }}</td>
@@ -121,7 +121,7 @@
                                                     <td>{{ $k->nama_parpol }}</td>
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <form action="/saksi/{{ $k->nik }}/delete" method="POST" style="margin-left: 5px;">
+                                                        <form action="/saksi/{{ $k->id_saksi }}/delete" method="POST" style="margin-left: 5px;">
                                                             @csrf
                                                             <a class="btn btn-danger btn-sm btnEdit">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eraser" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -130,13 +130,7 @@
                                                             <path d="M18 13.3l-6.3 -6.3"></path>
                                                             </svg>
                                                             </a>
-                                                            <a href="/konfig/{{ $k->nik }}/setjamkerja" class="btn btn-success btn-sm">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path d="M14.647 4.081a.724 .724 0 0 0 1.08 .448c2.439 -1.485 5.23 1.305 3.745 3.744a.724 .724 0 0 0 .447 1.08c2.775 .673 2.775 4.62 0 5.294a.724 .724 0 0 0 -.448 1.08c1.485 2.439 -1.305 5.23 -3.744 3.745a.724 .724 0 0 0 -1.08 .447c-.673 2.775 -4.62 2.775 -5.294 0a.724 .724 0 0 0 -1.08 -.448c-2.439 1.485 -5.23 -1.305 -3.745 -3.744a.724 .724 0 0 0 -.447 -1.08c-2.775 -.673 -2.775 -4.62 0 -5.294a.724 .724 0 0 0 .448 -1.08c-1.485 -2.439 1.305 -5.23 3.744 -3.745a.722 .722 0 0 0 1.08 -.447c.673 -2.775 4.62 -2.775 5.294 0zm-2.647 4.919a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
-                                                                 </svg>
-                                                                </a>
-                                                            <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editsaksi{{ $k->nik }}">
+                                                            <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editsaksi{{ $k->id_saksi }}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                                 <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
@@ -191,7 +185,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="text" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
+                            <input type="text" maxlength="17" name="nik_ktp" class="form-control" placeholder="nik_ktp" id="nik_ktp">
                         </div>
                     </div>
                 </div>
@@ -260,6 +254,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="row mt-2">
                     <div class="col-12">
                         <select name="id_parpol" id="id_parpol" class="form-select">
@@ -299,7 +294,7 @@
 </div>
 
 @foreach ($saksi as $k)
-<div class="modal modal-blur fade" id="editsaksi{{ $k->nik }}" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal modal-blur fade" id="editsaksi{{ $k->id_saksi }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -307,7 +302,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/saksi/{{ $k->nik }}/edit" method="POST" id="frSaksi" enctype="multipart/form-data">
+            <form action="/saksi/{{ $k->id_saksi }}/edit" method="POST" id="frSaksi" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12">
@@ -326,7 +321,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="number" value="{{ $k->nik }}" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
+                            <input type="number" value="{{ $k->nik_ktp }}" maxlength="17" name="nik_ktp" class="form-control" placeholder="nik_ktp" id="nik_ktp">
                         </div>
                     </div>
                 </div>
@@ -385,14 +380,6 @@
                     </div>
                 </div>
 
-                <div class="row mt-2">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <input type="file" name="foto_saksi" id="foto_saksi" class="form-control">
-                        </div>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-12">
                         <select name="id_parpol" id="id_parpol" class="form-select">
@@ -401,6 +388,25 @@
                                 <option value="{{ $j->id_parpol }}">{{ $j->nama_parpol }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select name="id_tps" id="id_tps" class="form-select">
+                            <option value="{{ $k->id_tps }}">{{ $k->nama_tps }}</option>
+                            @foreach ($tps as $j)
+                                <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <input type="file" name="foto_saksi" id="foto_saksi" class="form-control">
+                        </div>
                     </div>
                 </div>
 
@@ -430,7 +436,7 @@
     <script>
         $(function(){
 
-            $('#nik').mask("00000000000000000");
+            $('#nik_ktp').mask("00000000000000000");
             $("#btnTambah").click(function(){
                 $("#modal-inputsaksi").modal("show");
             });
@@ -453,21 +459,21 @@
 
 
             $("#frmSaksi").submit(function(){
-                var nik = $("#nik").val();
+                var nik_ktp = $("#nik_ktp").val();
                 var nama_saksi = $("#frmSaksi").find("#nama_saksi").val();
                 var alamat = $("#alamat").val();
                 var no_hp = $("#no_hp").val();
                 var id_parpol = $("#frmSaksi").find("#id_parpol").val();
                 var foto_saksi = $("#frmSaksi").find("#foto_saksi").val();
 
-                if(nik==""){
+                if(nik_ktp==""){
                     Swal.fire({
                     title: 'Warning!',
-                    text: 'NIK Harus Diisi !!',
+                    text: 'nik_ktp Harus Diisi !!',
                     icon: 'warning',
                     confirmButtonText: 'OK'
                     }).then((result) => {
-                        $("#nik").focus();
+                        $("#nik_ktp").focus();
                     });
 
                     return false;
@@ -530,20 +536,20 @@
             });
 
             $("#frSaksi").submit(function(){
-                var nik = $("#frSaksi").find("#nik").val();
+                var nik_ktp = $("#frSaksi").find("#nik_ktp").val();
                 var nama_saksi = $("#frSaksi").find("#nama_saksi").val();
                 var alamat = $("#frSaksi").find("#alamat").val();
                 var no_hp = $("#frSaksi").find("#no_hp").val();
                 var id_parpol = $("#frSaksi").find("#id_parpol").val();
 
-                if(nik==""){
+                if(nik_ktp==""){
                     Swal.fire({
                     title: 'Warning!',
-                    text: 'NIK Harus Diisi !!',
+                    text: 'nik_ktp Harus Diisi !!',
                     icon: 'warning',
                     confirmButtonText: 'OK'
                     }).then((result) => {
-                        $("#nik").focus();
+                        $("#nik_ktp").focus();
                     });
 
                     return false;

@@ -34,7 +34,7 @@ class SaksiController extends Controller
 
     public function addSaksi(Request $request)
     {
-        $nik            = $request->nik;
+        $nik_ktp            = $request->nik_ktp;
         $nama_saksi     = $request->nama_saksi;
         $alamat         = $request->alamat;
         $no_hp          = $request->no_hp;
@@ -43,33 +43,34 @@ class SaksiController extends Controller
         $password       = Hash::make('12345');
 
         if($request->hasFile('foto_saksi')){
-            $foto_saksi = $nik.".".$request->file('foto_saksi')->getClientOriginalExtension();
+            $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
         }else{
             $foto_saksi = null;
         }
 
         try {
             $data = [
-                'nik'           => $nik,
+                'nik_ktp'           => $nik_ktp,
                 'nama_saksi'    => $nama_saksi,
                 'alamat'        => $alamat,
                 'no_hp'         => $no_hp,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_tps'        => $id_tps,
-                'foto_saksi'          => $foto_saksi
+                'foto_saksi'    => $foto_saksi
             ];
             $simpan = DB::table('tb_saksi')->insert($data);
-        if($simpan){
-            if($request->hasFile('foto_saksi')){
-                $folderPath = "public/uploads/saksi/";
-                $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+            if($simpan){
+                if($request->hasFile('foto_saksi')){
+                    $folderPath = "public/uploads/saksi/";
+                    $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
             }
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
-        }
+
         } catch (\Exception $e) {
             if($e->getCode()==23000){
-                $message = "Data NIK = ".$nik." Sudah Ada!!";
+                $message = "Data nik_ktp = ".$nik_ktp." Sudah Ada!!";
             }else {
                 $message = "Hubungi Tim IT";
             }
@@ -77,9 +78,9 @@ class SaksiController extends Controller
         }
     }
 
-    public function editSaksi($nik, Request $request)
+    public function editSaksi($id_saksi, Request $request)
     {
-        $nik            = $request->nik;
+        $nik_ktp        = $request->nik_ktp;
         $nama_saksi     = $request->nama_saksi;
         $alamat         = $request->alamat;
         $no_hp          = $request->no_hp;
@@ -87,11 +88,11 @@ class SaksiController extends Controller
         $id_parpol      = $request->id_parpol;
         $password       = Hash::make('12345');
 
-        $saksi = DB::table('tb_saksi')->where('nik', $nik)->first();
+        $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         $old_foto_saksi = $saksi->foto_saksi;
 
         if($request->hasFile('foto_saksi')){
-            $foto_saksi = $nik.".".$request->file('foto_saksi')->getClientOriginalExtension();
+            $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
         }else{
             $foto_saksi = $old_foto_saksi;
         }
@@ -104,30 +105,30 @@ class SaksiController extends Controller
                 'id_tps'        => $id_tps,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
-                'foto_saksi'          => $foto_saksi
+                'foto_saksi'    => $foto_saksi
             ];
-            $update = DB::table('tb_saksi')->where('nik', $nik)->update($data);
-        if($update){
-            if($request->hasFile('foto_saksi')){
-                $folderPath = "public/uploads/saksi/";
-                $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
-                Storage::delete($folderPathOld);
-                $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+            $update = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->update($data);
+            if($update){
+                if($request->hasFile('foto_saksi')){
+                    $folderPath = "public/uploads/saksi/";
+                    $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
+                    Storage::delete($folderPathOld);
+                    $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
             }
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
-        }
         } catch (\Exception $e) {
             return Redirect::back()->with(['error' => 'Data Gagal Di Update!!']);
         }
     }
 
-    public function delete($nik)
+    public function delete($id_saksi)
     {
-        $saksi = DB::table('tb_saksi')->where('nik', $nik)->first();
+        $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         $old_foto_saksi = $saksi->foto_saksi;
         $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
         Storage::delete($folderPathOld);
-        $delete =  DB::table('tb_saksi')->where('nik', $nik)->delete();
+        $delete =  DB::table('tb_saksi')->where('id_saksi', $id_saksi)->delete();
 
         if($delete){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);

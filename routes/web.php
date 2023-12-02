@@ -55,8 +55,8 @@ Route::middleware(['auth:user'])->group(function(){
     //saksi
     Route::get('/saksi', [SaksiController::class, 'index']);
     Route::post('/addSaksi', [SaksiController::class, 'addSaksi']);
-    Route::post('/saksi/{nik}/edit', [SaksiController::class, 'editSaksi']);
-    Route::post('/saksi/{nik}/delete', [SaksiController::class, 'delete']);
+    Route::post('/saksi/{id_saksi}/edit', [SaksiController::class, 'editSaksi']);
+    Route::post('/saksi/{id_saksi}/delete', [SaksiController::class, 'delete']);
 
     //parpol
     Route::get('/parpol', [ParpolController::class, 'index']);

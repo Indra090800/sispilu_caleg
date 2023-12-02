@@ -363,6 +363,8 @@
                 var alamat = $("#alamat").val();
                 var no_telp = $("#no_telp").val();
                 var id_parpol = $("#frmParpol").find("#id_parpol").val();
+                var foto_logo = $("#frmParpol").find("#foto_logo").val();
+
 
                 if(id_parpol==""){
                     Swal.fire({
@@ -416,6 +418,17 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#id_parpol").focus();
+                    });
+
+                    return false;
+                } else if(foto_logo==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: ' Pilih Foto Terlebih Dahulu !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#foto_logo").focus();
                     });
 
                     return false;
