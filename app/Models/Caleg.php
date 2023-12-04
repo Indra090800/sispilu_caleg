@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Caleg extends Model
 {
     use HasFactory;
-    protected $table = "tb_caleg";
+    protected $table = "users";
 }

@@ -111,4 +111,16 @@ class VotersController extends Controller
             return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);
         }
     }
+
+    public function cetakVoters()
+    {
+        $cetak = DB::table('tb_voters')->orderBy('id_voters')->get();
+        if(isset($_POST['excel'])){
+            $time = date("d-M-Y H:i:s");
+
+            header("Content-type: application/vnd-ms-excel");
+            header("Content-Disposition: attachment; filename=Rekap-Pemilih-Relawan-Ades.xlsx");
+        }
+        return view('report.pdfVoters', compact('cetak'));
+    }
 }

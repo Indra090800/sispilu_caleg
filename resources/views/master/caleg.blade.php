@@ -94,6 +94,7 @@
                                                 <th class="text-center">NIK</th>
                                                 <th class="text-center">Nama Caleg</th>
                                                 <th class="text-center">Alamat</th>
+                                                <th class="text-center">Email</th>
                                                 <th class="text-center">No. HP</th>
                                                 <th class="text-center">foto_caleg</th>
                                                 <th class="text-center">Asal Parpol</th>
@@ -110,6 +111,7 @@
                                                     <td>{{ $k->nik }}</td>
                                                     <td>{{ $k->nama_caleg }}</td>
                                                     <td>{{ $k->alamat }}</td>
+                                                    <td>{{ $k->email }}</td>
                                                     <td>{{ $k->no_hp }}</td>
                                                     <td class="text-center">
                                                         @if (empty($k->foto_caleg))
@@ -226,6 +228,17 @@
                                 </svg>
                             </span>
                             <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Alamat">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg>
+                            </span>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">
                         </div>
                     </div>
                 </div>
@@ -360,6 +373,18 @@
                         <div class="input-icon mb-3">
                             <span class="input-icon-addon">
                                 <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg>
+                            </span>
+                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-address-book" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M20 6v12a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2z"></path>
@@ -447,6 +472,7 @@
                 var nama_caleg = $("#frmCaleg").find("#nama_caleg").val();
                 var alamat = $("#alamat").val();
                 var no_hp = $("#no_hp").val();
+                var email = $("#email").val();
                 var id_parpol = $("#frmCaleg").find("#id_parpol").val();
                 var foto_caleg = $("#frmCaleg").find("#foto_caleg").val();
 
@@ -516,6 +542,17 @@
                     });
 
                     return false;
+                }else if(email==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Email Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#email").focus();
+                    });
+
+                    return false;
                 }
             });
 
@@ -524,6 +561,7 @@
                 var nama_caleg = $("#frCaleg").find("#nama_caleg").val();
                 var alamat = $("#frCaleg").find("#alamat").val();
                 var no_hp = $("#frCaleg").find("#no_hp").val();
+                var email = $("#frCaleg").find("#email").val();
                 var id_parpol = $("#frCaleg").find("#id_parpol").val();
 
                 if(nik==""){
@@ -589,6 +627,17 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#kode_cabang").focus();
+                    });
+
+                    return false;
+                }else if(email==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Email Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#email").focus();
                     });
 
                     return false;

@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 04 Des 2023 pada 02.17
--- Versi server: 10.4.28-MariaDB
--- Versi PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 04 Des 2023 pada 05.24
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,18 +24,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_caleg`
+-- Struktur dari tabel `tb_log`
 --
 
-CREATE TABLE `tb_caleg` (
-  `nik` varchar(11) NOT NULL,
-  `nama_caleg` varchar(50) NOT NULL,
-  `alamat` varchar(100) NOT NULL,
-  `no_hp` varchar(20) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `foto_caleg` varchar(50) DEFAULT NULL,
-  `id_role` int(11) NOT NULL,
-  `id_parpol` varchar(11) NOT NULL
+CREATE TABLE `tb_log` (
+  `id_log` int(11) NOT NULL,
+  `deskripsi` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -58,7 +52,6 @@ CREATE TABLE `tb_parpol` (
 --
 
 INSERT INTO `tb_parpol` (`id_parpol`, `nama_parpol`, `alamat`, `no_telp`, `foto_logo`, `id_role`) VALUES
-(1, 'PDIP CILEGON', 'Grogol, Cilegon Barat', '099087', '', 2),
 (3, 'PDIP Depok', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '089663366710', 'PDIP Depok.png', 2);
 
 -- --------------------------------------------------------
@@ -79,7 +72,7 @@ CREATE TABLE `tb_role` (
 INSERT INTO `tb_role` (`id_role`, `nama_role`) VALUES
 (1, 'caleg'),
 (2, 'admin'),
-(4, 'Parpol');
+(3, 'Parpol');
 
 -- --------------------------------------------------------
 
@@ -104,7 +97,8 @@ CREATE TABLE `tb_saksi` (
 --
 
 INSERT INTO `tb_saksi` (`id_saksi`, `nik_ktp`, `nama_saksi`, `id_parpol`, `alamat`, `no_hp`, `foto_saksi`, `id_tps`, `password`) VALUES
-(3, '12123', 'Andri M', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '1', '$2y$12$kptFNWVI4oqm/yvRTQJbbOAwidu3RVVuKAZX1L8Pi0.EfhSjm32WW');
+(3, '12123', 'Andri M', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '1', '$2y$12$kptFNWVI4oqm/yvRTQJbbOAwidu3RVVuKAZX1L8Pi0.EfhSjm32WW'),
+(4, '123455', 'Indra Maulana', '3', 'Banjar', '089663366710', '123455.jpg', '1', '$2y$12$uPhz41d.aM3IQuastq1FvO2I4yLxslVpbWhCh.a.D0akjP7SJxiS.');
 
 -- --------------------------------------------------------
 
@@ -189,10 +183,15 @@ CREATE TABLE `tb_vote_parpol` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `nik` varchar(20) NOT NULL,
+  `nama_caleg` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `id_role` int(11) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `no_hp` varchar(15) NOT NULL,
+  `foto_caleg` varchar(50) NOT NULL,
+  `id_parpol` int(11) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -200,19 +199,20 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `id_role`, `remember_token`) VALUES
-(1, 'Indra Maulana', 'inmaulana09@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 2, NULL),
-(2, 'Indra Maulana', 'in@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 1, NULL);
+INSERT INTO `users` (`id`, `nik`, `nama_caleg`, `email`, `password`, `id_role`, `alamat`, `no_hp`, `foto_caleg`, `id_parpol`, `remember_token`) VALUES
+(1, '12345', 'Indra Maulana', 'inmaulana09@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 2, 'Banjar', '09898879', '', 3, NULL),
+(2, '12346', 'Andri M', 'in@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 1, '', '', '', 3, NULL),
+(6, '112', 'Indra', 'in11@gmail.com', '$2y$12$rfsYZSKjIXL.NPOJD1UDle8/4sD4OmAfnM0j0rvbbMFlerv8PxeO2', 1, 'Banjar', '2342342', '112.jpg', 3, NULL);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_caleg`
+-- Indeks untuk tabel `tb_log`
 --
-ALTER TABLE `tb_caleg`
-  ADD PRIMARY KEY (`nik`);
+ALTER TABLE `tb_log`
+  ADD PRIMARY KEY (`id_log`);
 
 --
 -- Indeks untuk tabel `tb_parpol`
@@ -256,6 +256,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `tb_log`
+--
+ALTER TABLE `tb_log`
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `tb_parpol`
 --
 ALTER TABLE `tb_parpol`
@@ -271,7 +277,7 @@ ALTER TABLE `tb_role`
 -- AUTO_INCREMENT untuk tabel `tb_saksi`
 --
 ALTER TABLE `tb_saksi`
-  MODIFY `id_saksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_saksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_tps`
@@ -289,7 +295,7 @@ ALTER TABLE `tb_voters`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

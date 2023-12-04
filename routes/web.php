@@ -81,5 +81,7 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addVoters', [VotersController::class, 'addVoters']);
     Route::post('/voters/{id_voters}/edit', [VotersController::class, 'editVoters']);
     Route::post('/voters/{id_voters}/delete', [VotersController::class, 'delete']);
+    //report
+    Route::post('/voters/cetakVoters', [VotersController::class, 'cetakVoters']);
 });
 

@@ -163,31 +163,37 @@
                 <div class="dropdown-menu {{ request()->is(['caleg', 'parpol','saksi', 'tps','role','voters']) ? 'show' : '' }}">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-                      <a class="dropdown-item {{ request()->is(['caleg']) ? 'active' : '' }}" href="/caleg">
-                        Master Caleg
-                      </a>
-                      <a class="dropdown-item {{ request()->is(['parpol']) ? 'active' : '' }}" href="/parpol">
-                        Master Parpol
-                      </a>
-                      <a class="dropdown-item {{ request()->is(['saksi']) ? 'active' : '' }}" href="/saksi">
-                        Master Saksi
-                      </a>
-                      <a class="dropdown-item {{ request()->is(['tps']) ? 'active' : '' }}" href="/tps">
-                        Master TPS
-                      </a>
-                      <a class="dropdown-item {{ request()->is(['role']) ? 'active' : '' }}" href="/role">
-                        Master Role
-                      </a>
-                      <a class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
-                        Master voters
-                      </a>
+                      @if(Auth::guard('user')->user()->id_role == 1)
+                        <a class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
+                          Master voters 
+                        </a>
+                      @else if (Auth::guard('user')->user()->id_role == 2)
+                        <a class="dropdown-item {{ request()->is(['caleg']) ? 'active' : '' }}" href="/caleg">
+                          Master Caleg
+                        </a>
+                        <a class="dropdown-item {{ request()->is(['parpol']) ? 'active' : '' }}" href="/parpol">
+                          Master Parpol
+                        </a>
+                        <a class="dropdown-item {{ request()->is(['saksi']) ? 'active' : '' }}" href="/saksi">
+                          Master Saksi
+                        </a>
+                        <a class="dropdown-item {{ request()->is(['tps']) ? 'active' : '' }}" href="/tps">
+                          Master TPS
+                        </a>
+                        <a class="dropdown-item {{ request()->is(['role']) ? 'active' : '' }}" href="/role">
+                          Master Role
+                        </a>
+                        <a class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
+                          Master voters 
+                        </a>
+                      @endif
                     </div>
                   </div>
                 </div>
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link {{ request()->is(['sispilu/monitoring']) ? 'show' : '' }}" href="/sispilu/monitoring" >
+                  <a class="nav-link {{ request()->is(['sispilu/monitoring_caleg']) ? 'show' : '' }}" href="/sispilu/monitoring" >
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-heart-rate-monitor" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -205,7 +211,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link {{ request()->is(['sispilu/datapengajuan']) ? 'show' : '' }}" href="/sispilu/datapengajuan" >
+                  <a class="nav-link {{ request()->is(['sispilu/monitoring_parpol']) ? 'show' : '' }}" href="/sispilu/datapengajuan" >
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stethoscope" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
