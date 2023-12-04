@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 02 Des 2023 pada 09.16
+-- Waktu pembuatan: 04 Des 2023 pada 02.17
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -140,12 +140,20 @@ CREATE TABLE `tb_voters` (
   `nik_voters` int(17) NOT NULL,
   `usia` int(4) NOT NULL,
   `alamat` varchar(100) NOT NULL,
-  `rt` int(5) NOT NULL,
-  `rw` int(5) NOT NULL,
-  `kelurahan` varchar(50) NOT NULL,
+  `rt` varchar(5) NOT NULL,
+  `rw` varchar(5) NOT NULL,
+  `desa` varchar(50) NOT NULL,
   `kecamatan` varchar(50) NOT NULL,
-  `kota` varchar(50) NOT NULL
+  `kota` varchar(50) NOT NULL,
+  `no_hp` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_voters`
+--
+
+INSERT INTO `tb_voters` (`id_voters`, `nama_voters`, `nik_voters`, `usia`, `alamat`, `rt`, `rw`, `desa`, `kecamatan`, `kota`, `no_hp`) VALUES
+(2, 'Indra Maulana', 80232901, 23, 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '06', '04', 'Banjar', 'Banjar', 'Banjar', '089663366719');
 
 -- --------------------------------------------------------
 
@@ -275,7 +283,7 @@ ALTER TABLE `tb_tps`
 -- AUTO_INCREMENT untuk tabel `tb_voters`
 --
 ALTER TABLE `tb_voters`
-  MODIFY `id_voters` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_voters` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
