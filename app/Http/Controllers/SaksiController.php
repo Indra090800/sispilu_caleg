@@ -50,7 +50,7 @@ class SaksiController extends Controller
 
         try {
             $data = [
-                'nik_ktp'           => $nik_ktp,
+                'nik_ktp'       => $nik_ktp,
                 'nama_saksi'    => $nama_saksi,
                 'alamat'        => $alamat,
                 'no_hp'         => $no_hp,
@@ -99,6 +99,7 @@ class SaksiController extends Controller
 
         try {
             $data = [
+                'nik_ktp'       => $nik_ktp,
                 'nama_saksi'    => $nama_saksi,
                 'alamat'        => $alamat,
                 'no_hp'         => $no_hp,
