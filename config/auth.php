@@ -75,7 +75,7 @@ return [
 
         'calegs' => [
             'driver' => 'eloquent',
-            'model' => App\Models\caleg::class,
+            'model' => App\Models\Karyawan::class,
         ],
         // 'users' => [
         //     'driver' => 'database',

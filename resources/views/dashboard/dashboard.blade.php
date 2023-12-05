@@ -5,20 +5,19 @@
             <div id="user-detail">
                 <div class="avatar">
 
-                    @if (!empty(Auth::guard()->user()->foto))
+                    {{-- @if (!empty(Auth::guard()->user()->foto))
                     @php
                         $path = Storage::url('public/uploads/karyawan/'.Auth::guard('karyawan')->user()->foto);
                     @endphp
                     <img src="{{ url($path) }}" alt="avatar" class="imaged w64 rounded" style="height: 60px;">
-                    @else
+                    @else --}}
                     <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w64 rounded">
-                    @endif
-                    
+                    {{-- @endif --}}
+
                 </div>
                 <div id="user-info">
-                    <h2 id="user-name">{{ Auth::guard('karyawan')->user()->nama_lengkap }}</h2>
-                    <span id="user-role">{{ Auth::guard('karyawan')->user()->jabatan }}</span>
-                    <span id="user-role"><b>({{ Auth::guard('karyawan')->user()->kode_cabang }})</b></span>
+                    <h2 id="user-name">{{ Auth::guard('caleg')->user()->nama_saksi }}</h2>
+                    <span id="user-role"><b>Saksi {{ $saksi->nama_parpol }}</span>
                 </div>
             </div>
         </div>
@@ -84,104 +83,36 @@
         <div class="section mt-2" id="presence-section">
             <div class="todaypresence">
                 <div class="row">
-                    <div class="col-6">
-                        <div class="card gradasigreen">
-                            <div class="card-body">
-                                <div class="presencecontent">
-                                    <div class="iconpresence">
-                                        @if ($presensihariini != null)
-                                            @php
-                                                $path = Storage::url('uploads/absensi/'.$presensihariini->foto_in);
-                                            @endphp
-                                            <img src="{{ url($path) }}" alt="" class="imaged w48">
-                                        @else
-                                        <ion-icon name="camera"></ion-icon>
-                                        @endif
-                                    </div>
-                                    <div class="presencedetail">
-                                        <h4 class="presencetitle">Masuk</h4>
-                                        <span>{{ $presensihariini != null ? $presensihariini->jam_in : 'Belum Absen' }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card gradasired">
-                            <div class="card-body">
-                                <div class="presencecontent">
-                                    <div class="iconpresence">
-                                    @if ($presensihariini != null && $presensihariini->foto_out != null)
-                                            @php
-                                                $path = Storage::url('uploads/absensi/'.$presensihariini->foto_out);
-                                            @endphp
-                                            <img src="{{ url($path) }}" alt="" class="imaged w48">
-                                        @else
-                                        <ion-icon name="camera"></ion-icon>
-                                        @endif
-                                    </div>
-                                    <div class="presencedetail">
-                                        <h4 class="presencetitle">Pulang</h4>
-                                        <span>{{ $presensihariini != null && $presensihariini->jam_out != null ? $presensihariini->jam_out : 'Belum Absen' }}</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Nama TPS</th>
+                                    <th>Alamat</th>
+                                    <th>Desa</th>
+                                    <th>Kecamatan</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $tps->nama_tps }}</td>
+                                    <td>{{ $tps->alamat }}</td>
+                                    <td>{{ $tps->desa }}</td>
+                                    <td>{{ $tps->kecamatan }}</td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="rekappresensi">
-                <h3>Rekap Presensi Bulan {{ $namabulan[$bulanini] }} Tahun {{ $tahunini }}</h3>
-                <div class="row">
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-body text-center" style="padding: 12px  12px !important; line-height: 0.8rem;">
-                                <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999;">{{ $rekappresensi->jmlhadir }}</span>
-                                <ion-icon name="accessibility-outline" style="font-size: 1.6rem;" class="text-primary mb-1"></ion-icon>
-                                <br>
-                                <span style="font-size: 0.8rem; font-weight: 500">Hadir</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-body text-center" style="padding: 12px  12px !important; line-height: 0.8rem;">
-                                <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999;">{{ $rekappengajuan->jmlizin != null ? $rekappengajuan->jmlizin : 0 }}</span>
-                                <ion-icon name="newspaper-outline" style="font-size: 1.6rem;" class="text-success mb-1"></ion-icon>
-                                <br>
-                                <span style="font-size: 0.8rem; font-weight: 500">Izin</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-body text-center" style="padding: 12px  12px !important; line-height: 0.8rem;">
-                                <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999;">{{ $rekappengajuan->jmlsakit != null ? $rekappengajuan->jmlsakit : 0 }}</span>
-                                <ion-icon name="medkit-outline" style="font-size: 1.6rem;" class="text-warning mb-1"></ion-icon>
-                                <br>
-                                <span style="font-size: 0.8rem; font-weight: 500">Sakit</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <div class="card">
-                            <div class="card-body text-center" style="padding: 12px  12px !important; line-height: 0.8rem;">
-                                <span class="badge bg-danger" style="position: absolute; top: 3px; right: 10px; font-size: 0.6rem; z-index: 999;">{{ $rekappresensi->jmltelat }}</span>
-                                <ion-icon name="alarm-outline" style="font-size: 1.6rem;" class="text-danger mb-1"></ion-icon>
-                                <br>
-                                <span style="font-size: 0.8rem; font-weight: 500">Telat</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <div class="presencetab mt-2">
                 <div class="tab-pane fade show active" id="pilled" role="tabpanel">
                     <ul class="nav nav-tabs style1" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#home" role="tab">
-                                Bulan Ini
+                                Kandidat
                             </a>
                         </li>
                         <li class="nav-item">
@@ -193,11 +124,11 @@
                 </div>
                 <div class="tab-content mt-2" style="margin-bottom:100px;">
                     <div class="tab-pane fade show active" id="home" role="tabpanel">
-                        {{-- <ul class="listview image-listview">
+                        <ul class="listview image-listview">
 
-                            @foreach ($historybulanini as $d)
+                            @foreach ($caleg as $d)
                             @php
-                                $path = Storage::url('uploads/absensi/'.$d->foto_in);
+                                $path = Storage::url('uploads/caleg/'.$d->foto_caleg);
                             @endphp
                             <li>
                                 <div class="item">
@@ -206,15 +137,15 @@
                                             aria-label="image outline"></ion-icon>
                                     </div>
                                     <div class="in">
-                                        <div>{{ date("d-m-Y",strtotime($d->tgl_presensi)) }}</div>
-                                        <span class="badge badge-success">{{ $d->jam_in }}</span>
-                                        <span class="badge badge-danger">{{ $presensihariini != null && $d->jam_out != null ? $d->jam_out : 'Belum Absen' }}</span>
+                                        <div>{{ $d->nama_caleg }}</div>
+                                        <span class="badge badge-success"></span>
+                                        <span class="badge badge-danger">{{ $d->nama_parpol }}</span>
                                     </div>
                                 </div>
                             </li>
                             @endforeach
-                            
-                        </ul> --}}
+
+                        </ul>
                         <style>
                             .historycontent{
                                 display: flex;
@@ -223,7 +154,7 @@
                                 margin-left: 10px
                             }
                         </style>
-                        @foreach ($historybulanini as $d)
+                        {{-- @foreach ($historybulanini as $d)
                             <div class="card">
                                 <div class="card-body">
                                     <div class="historycontent">
@@ -264,12 +195,12 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                     <div class="tab-pane fade" id="profile" role="tabpanel">
                         <ul class="listview image-listview">
 
-                            @foreach ($leaderboard as $l)
+                            {{-- @foreach ($leaderboard as $l)
                             <li>
                                 <div class="item">
                                     <img src="assets/img/sample/avatar/avatar1.jpg" alt="image" class="image">
@@ -282,8 +213,8 @@
                                     </div>
                                 </div>
                             </li>
-                            @endforeach
-                            
+                            @endforeach --}}
+
                         </ul>
                     </div>
 

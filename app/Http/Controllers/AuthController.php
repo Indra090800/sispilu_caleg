@@ -10,9 +10,9 @@ class AuthController extends Controller
 {
     public function proseslogin(Request $request)
     {
-       if (Auth::guard('karyawan')->attempt([
-        'nik'      => $request->nik,
-        'password' => $request->password
+       if (Auth::guard('caleg')->attempt([
+        'nik_ktp'      => $request->nik_ktp,
+        'password'     => $request->password
        ])) {
            return redirect('/dashboard');
        }else{
@@ -22,8 +22,8 @@ class AuthController extends Controller
 
     public function proseslogout()
     {
-        if(Auth::guard('karyawan')->check()){
-            Auth::guard('karyawan')->logout();
+        if(Auth::guard('caleg')->check()){
+            Auth::guard('caleg')->logout();
             return redirect('/');
         }
     }

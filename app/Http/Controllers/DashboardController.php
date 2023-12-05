@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caleg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -11,45 +12,22 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $nik = Auth::guard('karyawan')->user()->nik;
-        $hariini = date("Y-m-d");
-        $bulanini = date("m") * 1;
-        $tahunini = date("Y");
-        $presensihariini = DB::table('tbl_presensi')->where('nik', $nik)->where('tgl_presensi', $hariini)->first();
-        $historybulanini = DB::table('tbl_presensi')
-        ->leftJoin('jam_kerja', 'tbl_presensi.kode_jamKerja', '=', 'jam_kerja.kode_jamKerja')
-        ->where('nik', $nik)
-        ->where('nik', $nik)
-        ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
-        ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
-        ->orderBy('tgl_presensi')
-        ->get();
+        $id_tps = Auth::guard('caleg')->user()->id_tps;
+        $id_parpol = Auth::guard('caleg')->user()->id_parpol;
+        $id_saksi = Auth::guard('caleg')->user()->id_saksi;
+        $query = Caleg::query();
+        $query->select('users.*', 'nama_parpol');
+        $query->join('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->orderBY('nama_caleg');
+        $query->where('users.id_parpol', $id_parpol);
+        $caleg = $query->get();
+        $tps = DB::table('tb_tps')
+        ->where('id_tps', $id_tps)->first();
+        $saksi = DB::table('tb_saksi')
+        ->leftJoin('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol')
+        ->where('id_saksi', $id_saksi)->first();
 
-        $rekappresensi = DB::table('tbl_presensi')
-        ->selectRaw('COUNT(nik) as jmlhadir, SUM(IF(jam_in > jam_masuk,1,0)) as jmltelat')
-        ->leftJoin('jam_kerja', 'tbl_presensi.kode_jamKerja', '=', 'jam_kerja.kode_jamKerja')
-        ->where('nik', $nik)
-        ->whereRaw('MONTH(tgl_presensi)="'.$bulanini.'"')
-        ->whereRaw('YEAR(tgl_presensi)="'.$tahunini.'"')
-        ->first();
-
-        $rekappengajuan = DB::table('tbl_pengajuan')
-        ->selectRaw('SUM(IF(status="i",1,0)) as jmlizin, SUM(IF(status="s",1,0)) as jmlsakit')
-        ->where('nik', $nik)
-        ->whereRaw('MONTH(tgl_izin_dari)="'.$bulanini.'"')
-        ->whereRaw('YEAR(tgl_izin_dari)="'.$tahunini.'"')
-        ->where('status_approved', 1)
-        ->first();
-
-        $leaderboard = DB::table('tbl_presensi')
-        ->join('tbl_karyawan', 'tbl_presensi.nik', '=', 'tbl_karyawan.nik')
-        ->where('tgl_presensi', $hariini)
-        ->orderBy('jam_in')
-        ->get();
-
-        $namabulan = ["","Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        return view('dashboard.dashboard', compact('presensihariini','historybulanini', 'namabulan', 'bulanini',
-         'tahunini', 'rekappresensi', 'leaderboard', 'rekappengajuan'));
+        return view('dashboard.dashboard', compact('tps', 'caleg', 'saksi'));
     }
 
     public function dashboardadmin()

@@ -12,12 +12,13 @@ class Karyawan extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "tbl_karyawan";
-    protected $primaryKey = "nik";
+    protected $table = "tb_saksi";
+    protected $primaryKey = "id_saksi";
+
     protected $fillable = [
-        'nik',
-        'nama_lengkap',
-        'jabatan',
+        'nik_ktp',
+        'nama_saksi',
+        'alamat',
         'no_hp',
         'password',
     ];
