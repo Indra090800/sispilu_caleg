@@ -92,7 +92,7 @@
                                     <th>Alamat</th>
                                     <th>Desa</th>
                                     <th>Kecamatan</th>
-                                    <th></th>
+                                    <th>Lokasi</th>
                                 </tr>
                                 <tr>
                                     <td>{{ $tps->nama_tps }}</td>

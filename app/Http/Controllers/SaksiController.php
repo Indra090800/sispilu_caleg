@@ -189,4 +189,17 @@ class SaksiController extends Controller
             return Redirect('/editprofile')->with(['error' => 'Data Gagal Di Update!!']);
         }
     }
+
+    public function create()
+    {
+        $caleg = DB::table('users')
+        ->leftJoin('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol')
+        ->where('users.id_parpol', '>=', 1)
+        ->orderBy('users.id_parpol', 'ASC')->get();
+        //tps
+        $id_tps = Auth::guard('caleg')->user()->id_tps;
+        $tps = DB::table('tb_tps')
+        ->where('id_tps', $id_tps)->first();
+        return view('vote.create', compact('tps', 'caleg'));
+    }
 }
