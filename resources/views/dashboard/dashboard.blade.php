@@ -1,6 +1,7 @@
 @extends('layout.presensi')
 @section('content')
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
         <div class="section" id="user-section">
             <div id="user-detail">
                 <div class="avatar">
@@ -242,14 +243,42 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <style>
+                        #map { height: 250px; }
+                    </style>
+
+                    <div id="map"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>
-            </div>
+        </div>
 
 @endsection
 
+@push('myscript')
+<script>
+    var lokasi = "{{ $tps->lokasi }}";
+    var lok = lokasi.split(",");
+    var map = L.map('map').setView([lok[0], lok[1]], 18);
+
+    
+    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(map);
+    var marker = L.marker([lok[0], lok[1]]).addTo(map);
+    var circle = L.circle([lok[0], lok[1]], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 20
+    }).addTo(map);
+    var popup = L.popup()
+    .setLatLng([lok[0], lok[1]])
+    .setContent("{{ $tps->nama_tps }}")
+    .openOn(map);
+</script>
+@endpush
