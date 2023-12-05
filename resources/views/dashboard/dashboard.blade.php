@@ -17,7 +17,7 @@
                 </div>
                 <div id="user-info">
                     <h2 id="user-name">{{ Auth::guard('caleg')->user()->nama_saksi }}</h2>
-                    <span id="user-role"><b>Saksi {{ $saksi->nama_parpol }}</span>
+                    <span id="user-role"><b>Relawan {{ $saksi->nama_parpol }}</span>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <div class="list-menu">
                         <div class="item-menu text-center">
                             <div class="menu-icon">
-                                <a href="" class="green" style="font-size: 40px;">
+                                <a href="/editprofile" class="green" style="font-size: 40px;">
                                     <ion-icon name="person-sharp"></ion-icon>
                                 </a>
                             </div>
@@ -43,7 +43,7 @@
                                 </a>
                             </div>
                             <div class="menu-name">
-                                <span class="text-center">Cuti</span>
+                                <span class="text-center">Kalender</span>
                             </div>
                         </div>
                         <div class="item-menu text-center">
@@ -98,7 +98,18 @@
                                     <td>{{ $tps->alamat }}</td>
                                     <td>{{ $tps->desa }}</td>
                                     <td>{{ $tps->kecamatan }}</td>
-                                    <td></td>
+                                    <td>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter{{ $tps->id_tps }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 18.5l-3 -1.5l-6 3v-13l6 -3l6 3l6 -3v7.5"></path>
+                                        <path d="M9 4v13"></path>
+                                        <path d="M15 7v5.5"></path>
+                                        <path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z"></path>
+                                        <path d="M19 18v.01"></path>
+                                        </svg>
+                                    </button>
+                                </td>
                                 </tr>
                             </table>
                         </div>
@@ -133,8 +144,7 @@
                             <li>
                                 <div class="item">
                                     <div class="icon-box bg-primary">
-                                        <ion-icon name="finger-print-outline" role="img" class="md hydrated"
-                                            aria-label="image outline"></ion-icon>
+                                        <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w32 rounded">
                                     </div>
                                     <div class="in">
                                         <div>{{ $d->nama_caleg }}</div>
@@ -222,4 +232,24 @@
             </div>
         </div>
 
+        <div class="modal fade" id="exampleModalCenter{{ $tps->id_tps }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+            </div>
+            </div>
+
 @endsection
+

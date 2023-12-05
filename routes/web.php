@@ -40,6 +40,9 @@ Route::middleware(['guest:user'])->group(function(){
 Route::middleware(['auth:caleg'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/proseslogout', [AuthController::class, 'proseslogout']);
+
+    Route::get('/editprofile', [SaksiController::class, 'editprofile']);
+    Route::post('/sispilu/{id_saksi}/updateprofile', [SaksiController::class, 'updateprofile']);
 });
 
 Route::middleware(['auth:user'])->group(function(){

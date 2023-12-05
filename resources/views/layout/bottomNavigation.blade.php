@@ -5,7 +5,7 @@
                 <strong>Home</strong>
             </div>
         </a>
-        <a href="/presensi/create" class="item">
+        <a href="/vote/create" class="item">
             <div class="col">
                 <div class="action-button large">
                     <ion-icon name="cube-outline"></ion-icon>

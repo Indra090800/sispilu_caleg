@@ -32,6 +32,13 @@ class SaksiController extends Controller
         return view('master.saksi', compact('saksi','parpol', 'tps'));
     }
 
+    public function editprofile()
+    {
+        $id_saksi = Auth::guard('caleg')->user()->id_saksi;
+        $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
+        return view('vote.editprofile', compact('saksi'));
+    }
+
     public function addSaksi(Request $request)
     {
         $nik_ktp            = $request->nik_ktp;
@@ -135,6 +142,51 @@ class SaksiController extends Controller
             return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
         }else{
             return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);
+        }
+    }
+
+    public function updateprofile($id_saksi, Request $request)
+    {
+        $nik_ktp        = $request->nik_ktp;
+        $nama_saksi     = $request->nama_saksi;
+        $alamat         = $request->alamat;
+        $no_hp          = $request->no_hp;
+        $id_tps         = Auth::guard('caleg')->user()->id_tps;
+        $id_parpol      = Auth::guard('caleg')->user()->id_parpol;
+        $password       = Hash::make($request->password);
+
+        $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
+        $old_foto_saksi = $saksi->foto_saksi;
+
+        if($request->hasFile('foto_saksi')){
+            $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
+        }else{
+            $foto_saksi = $old_foto_saksi;
+        }
+
+        try {
+            $data = [
+                'nik_ktp'       => $nik_ktp,
+                'nama_saksi'    => $nama_saksi,
+                'alamat'        => $alamat,
+                'no_hp'         => $no_hp,
+                'id_tps'        => $id_tps,
+                'password'      => $password,
+                'id_parpol'     => $id_parpol,
+                'foto_saksi'    => $foto_saksi
+            ];
+            $update = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->update($data);
+            if($update){
+                if($request->hasFile('foto_saksi')){
+                    $folderPath = "public/uploads/saksi/";
+                    $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
+                    Storage::delete($folderPathOld);
+                    $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+                }
+                return Redirect('/editprofile')->with(['success' => 'Data Berhasil Di Update!!']);
+            }
+        } catch (\Exception $e) {
+            return Redirect('/editprofile')->with(['error' => 'Data Gagal Di Update!!']);
         }
     }
 }
