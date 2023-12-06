@@ -198,8 +198,81 @@ class SaksiController extends Controller
         ->orderBy('users.id_parpol', 'ASC')->get();
         //tps
         $id_tps = Auth::guard('caleg')->user()->id_tps;
-        $tps = DB::table('tb_tps')
-        ->where('id_tps', $id_tps)->first();
-        return view('vote.create', compact('tps', 'caleg'));
+        $tps = DB::table('tb_tps')->where('id_tps', $id_tps)->first();
+        $suara = DB::table('tb_vote_caleg')
+        ->leftJoin('users', 'tb_vote_caleg.id', '=', 'users.id')
+        ->where('id_tps', $id_tps)
+        ->orderBy('tb_vote_caleg.id', 'asc')
+        ->get();
+
+        return view('vote.create', compact('tps', 'caleg', 'suara'));
+    }
+
+    public function addvote(Request $request)
+    {
+        $id_saksi = Auth::guard('caleg')->user()->id_saksi;
+        $id_tps = Auth::guard('caleg')->user()->id_tps;
+        $id = $request->id;
+        $jml_vote = $request->jml_vote;
+        $caleg = DB::table('users')->where('id', $id)->first();
+        try {
+            $data = [
+                'id_saksi' => $id_saksi,
+                'id_tps'   => $id_tps,
+                'id'       => $id,
+                'jml_vote' => $jml_vote
+            ];
+            $simpan = DB::table('tb_vote_caleg')->insert($data);
+        if($simpan){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+        }
+        } catch (\Exception $e) {
+            if($e->getCode()==23000){
+                $message = "Data Suara Kandidat ".$caleg->nama_caleg." Sudah Ada!!";
+            }else {
+                $message = "Hubungi Tim IT";
+            }
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
+        }
+    }
+
+    public function addbukti(Request $request)
+    {
+        $id_tps = Auth::guard('caleg')->user()->id_tps;
+        if($request->hasFile('foto_bukti')){
+            $foto_bukti = $id_tps.".".$request->file('foto_bukti')->getClientOriginalExtension();
+        }else{
+            $foto_bukti = null;
+        }
+
+        try {
+            $data = [
+                'foto_bukti'    => $foto_bukti
+            ];
+            $simpan = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data);
+        if($simpan){
+            if($request->hasFile('foto_bukti')){
+                $folderPath = "public/uploads/bukti_tps/";
+                $request->file('foto_bukti')->storeAs($folderPath, $foto_bukti);
+            }
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+        }
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!!']);
+        }
+    }
+
+    public function deleteVote($id,$id_tps)
+    {
+        $delete =  DB::table('tb_vote_caleg')
+        ->where('id', $id)
+        ->where('id_tps', $id_tps)
+        ->delete();
+
+        if($delete){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
+        }else{
+            return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);
+        }
     }
 }

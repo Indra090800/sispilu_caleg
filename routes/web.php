@@ -45,6 +45,8 @@ Route::middleware(['auth:caleg'])->group(function(){
     Route::post('/sispilu/{id_saksi}/updateprofile', [SaksiController::class, 'updateprofile']);
     //vote
     Route::get('/vote/create', [SaksiController::class, 'create']);
+    Route::post('/vote/addvote', [SaksiController::class, 'addvote']);
+    Route::post('/vote/{id}/{id_tps}/deleteVote', [SaksiController::class, 'deleteVote']);
 });
 
 Route::middleware(['auth:user'])->group(function(){

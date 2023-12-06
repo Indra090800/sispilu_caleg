@@ -167,7 +167,7 @@
                         <a class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
                           Master voters 
                         </a>
-                      @else if (Auth::guard('user')->user()->id_role == 2)
+                      @elseif (Auth::guard('user')->user()->id_role == 2)
                         <a class="dropdown-item {{ request()->is(['caleg']) ? 'active' : '' }}" href="/caleg">
                           Master Caleg
                         </a>
