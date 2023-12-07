@@ -90,5 +90,8 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/voters/{id_voters}/delete', [VotersController::class, 'delete']);
     //report
     Route::post('/voters/cetakVoters', [VotersController::class, 'cetakVoters']);
+
+    //sispilu monitoring
+    Route::get('/sispilu/monitoring', [VotersController::class, 'monitoring']);
 });
 

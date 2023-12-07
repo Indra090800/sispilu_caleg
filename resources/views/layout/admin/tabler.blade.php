@@ -23,6 +23,7 @@
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
     </style>
+    <script src="{{ asset('assets/js/chart.js') }}"></script>
   </head>
   <body >
     <script src="{{ asset('dist/js/demo-theme.min.js?1674944402') }}"></script>

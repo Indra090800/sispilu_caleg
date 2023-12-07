@@ -123,4 +123,10 @@ class VotersController extends Controller
         }
         return view('report.pdfVoters', compact('cetak'));
     }
+
+    public function monitoring()
+    {
+        $caleg = DB::table('tb_vote_caleg')->
+        return view('master.monitoring');
+    }
 }
