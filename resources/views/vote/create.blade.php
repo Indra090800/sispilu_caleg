@@ -44,7 +44,7 @@
                             <th width="30px">No</th>
                             <th class="text-center">Nama candidat</th>
                             <th class="text-center">Jumlah Suara</th>
-                            <th>#</th>
+                            <th class="text-center">#</th>
                         </tr>
                         <?php
                             $jml =0;
