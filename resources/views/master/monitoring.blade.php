@@ -1,6 +1,7 @@
 @extends('layout.admin.tabler')
 
 @section('content')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <div class="page-header d-print-none">
     <div class="container-xl">
     <div class="row g-2 align-items-center">
@@ -22,7 +23,7 @@
                 <div class="card">
                   <div class="card-body">
                     <h3 class="card-title">Traffic Suara</h3>
-                    <canvas id="mataChart" class="chartjs" width="undefined" height="undefined"></canvas>
+                        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
                   </div>
                 </div>
             </div>
@@ -34,6 +35,7 @@
                                 <tr>
                                     <th>Nama Kandidat</th>
                                     <th>% Suara</th>
+                                    <th>{{ date('H:i:s') }}</th>
                                 </tr>
                             </table>
                         </div>
@@ -46,33 +48,40 @@
 
 
 @endsection
+@foreach($caleg as $cd)
+    <?php
+        foreach($c as $cc){}
+    ?>
+    @push('myscripct')
+        <script>
+            $(function(){
+                var jam = "{{ $cd->jam }}"
+                var jml_vote = "{{ $cc->total }}"
+                const xValues = [jam];
+                const yValues = [jml_vote];
 
-@push('myscripct')
-    <script>
-        $(function(){
-
-            var ctx = document.getElementById("mataChart").getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
+                new Chart("myChart", {
+                type: "line",
                 data: {
-                    labels: ,
-                datasets: [{
-                label: 'Statistik User',
-                backgroundColor: '#ADD8E6',
-                borderColor: '#93C3D2',
-                data: 
-                }],
+                    labels: xValues,
+                    datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                    }]
+                },
                 options: {
-                animation: {
-                onProgress: function(animation) {
-                    progress.value = animation.animationObject.currentStep / animation.animationObject.numSteps;
-                        }
+                    legend: {display: false},
+                    scales: {
+                    yAxes: [{ticks: {min: 50, max:1500}}],
                     }
                 }
-            },
+                });
             });
-        });
 
 
-    </script>
-@endpush
+        </script>
+    @endpush
+@endforeach

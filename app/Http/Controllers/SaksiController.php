@@ -220,7 +220,8 @@ class SaksiController extends Controller
                 'id_saksi' => $id_saksi,
                 'id_tps'   => $id_tps,
                 'id'       => $id,
-                'jml_vote' => $jml_vote
+                'jml_vote' => $jml_vote,
+                'jam' => date("H")
             ];
             $simpan = DB::table('tb_vote_caleg')->insert($data);
         if($simpan){

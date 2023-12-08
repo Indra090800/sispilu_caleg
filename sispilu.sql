@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Des 2023 pada 05.24
+-- Waktu pembuatan: 08 Des 2023 pada 04.20
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -52,7 +52,7 @@ CREATE TABLE `tb_parpol` (
 --
 
 INSERT INTO `tb_parpol` (`id_parpol`, `nama_parpol`, `alamat`, `no_telp`, `foto_logo`, `id_role`) VALUES
-(3, 'PDIP Depok', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '089663366710', 'PDIP Depok.png', 2);
+(1, 'PDIP Depok', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '089663366710', 'PDIP Depok.png', 2);
 
 -- --------------------------------------------------------
 
@@ -97,8 +97,9 @@ CREATE TABLE `tb_saksi` (
 --
 
 INSERT INTO `tb_saksi` (`id_saksi`, `nik_ktp`, `nama_saksi`, `id_parpol`, `alamat`, `no_hp`, `foto_saksi`, `id_tps`, `password`) VALUES
-(3, '12123', 'Andri M', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '1', '$2y$12$kptFNWVI4oqm/yvRTQJbbOAwidu3RVVuKAZX1L8Pi0.EfhSjm32WW'),
-(4, '123455', 'Indra Maulana', '3', 'Banjar', '089663366710', '123455.jpg', '1', '$2y$12$uPhz41d.aM3IQuastq1FvO2I4yLxslVpbWhCh.a.D0akjP7SJxiS.');
+(3, '12345', 'Andri Mulyana', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '1', '$2y$12$GH4baR9UVoKtlBbqYxQOb.HxwTR2lQgXBC2.oI2LjqLj/L2lr6Nw.'),
+(5, '123456', 'Randa', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '2', '$2y$12$GH4baR9UVoKtlBbqYxQOb.HxwTR2lQgXBC2.oI2LjqLj/L2lr6Nw.'),
+(6, '123457', 'Duda', '1', 'Jln. Sempu 1 No.7 Kel. Beji, Kec. Beji Kota Depok', '082118471055', '12123.png', '3', '$2y$12$GH4baR9UVoKtlBbqYxQOb.HxwTR2lQgXBC2.oI2LjqLj/L2lr6Nw.');
 
 -- --------------------------------------------------------
 
@@ -112,15 +113,18 @@ CREATE TABLE `tb_tps` (
   `alamat` varchar(50) NOT NULL,
   `desa` varchar(25) NOT NULL,
   `kecamatan` varchar(25) NOT NULL,
-  `lokasi` varchar(50) NOT NULL
+  `lokasi` varchar(50) NOT NULL,
+  `foto_bukti` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tb_tps`
 --
 
-INSERT INTO `tb_tps` (`id_tps`, `nama_tps`, `alamat`, `desa`, `kecamatan`, `lokasi`) VALUES
-(1, 'TPS 01', 'Grogol RT 03/08, Cilegon Barat', 'Grogol', 'Cilegon Barat', '-6.3592698110021155, 106.82927899924012');
+INSERT INTO `tb_tps` (`id_tps`, `nama_tps`, `alamat`, `desa`, `kecamatan`, `lokasi`, `foto_bukti`) VALUES
+(1, 'TPS 01', 'Grogol RT 03/08, Cilegon Barat', 'Grogol', 'Cilegon Barat', '-6.362709080711586, 106.8237540967312', '1.jpg'),
+(2, 'TPS 02', 'Grogol RT 03/08, Cilegon Barat', 'Grogol', 'Cilegon Barat', '-6.362709080711586, 106.8237540967312', '2.jpg'),
+(3, 'TPS 03', 'Grogol RT 03/08, Cilegon Barat', 'Grogol', 'Cilegon Barat', '-6.362709080711586, 106.8237540967312', '3.jpg');
 
 -- --------------------------------------------------------
 
@@ -158,9 +162,18 @@ INSERT INTO `tb_voters` (`id_voters`, `nama_voters`, `nik_voters`, `usia`, `alam
 CREATE TABLE `tb_vote_caleg` (
   `id_saksi` int(11) NOT NULL,
   `id_tps` int(11) NOT NULL,
-  `id_caleg` int(11) NOT NULL,
-  `jml_vote` int(11) NOT NULL
+  `jml_vote` int(11) NOT NULL,
+  `jam` varchar(15) NOT NULL,
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tb_vote_caleg`
+--
+
+INSERT INTO `tb_vote_caleg` (`id_saksi`, `id_tps`, `jml_vote`, `jam`, `id`) VALUES
+(3, 1, 4, '10', 6),
+(5, 2, 64, '10', 6);
 
 -- --------------------------------------------------------
 
@@ -190,8 +203,8 @@ CREATE TABLE `users` (
   `id_role` int(11) NOT NULL,
   `alamat` varchar(255) NOT NULL,
   `no_hp` varchar(15) NOT NULL,
-  `foto_caleg` varchar(50) NOT NULL,
-  `id_parpol` int(11) NOT NULL,
+  `foto_caleg` varchar(50) DEFAULT NULL,
+  `id_parpol` int(11) DEFAULT NULL,
   `remember_token` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -200,9 +213,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nik`, `nama_caleg`, `email`, `password`, `id_role`, `alamat`, `no_hp`, `foto_caleg`, `id_parpol`, `remember_token`) VALUES
-(1, '12345', 'Indra Maulana', 'inmaulana09@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 2, 'Banjar', '09898879', '', 3, NULL),
-(2, '12346', 'Andri M', 'in@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 1, '', '', '', 3, NULL),
-(6, '112', 'Indra', 'in11@gmail.com', '$2y$12$rfsYZSKjIXL.NPOJD1UDle8/4sD4OmAfnM0j0rvbbMFlerv8PxeO2', 1, 'Banjar', '2342342', '112.jpg', 3, NULL);
+(1, '12345', 'Indra Maulana', 'inmaulana09@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 2, 'Banjar', '09898879', '', NULL, NULL),
+(2, '12346', 'Andri M', 'in@gmail.com', '$2y$10$tYDNKxvfRj9UbyZv1MNf2e5lKJXU51Dc8z8hqPJGTxUduIciP1T06', 1, '', '', '', 1, NULL),
+(6, '112', 'Indra', 'in11@gmail.com', '$2y$12$rfsYZSKjIXL.NPOJD1UDle8/4sD4OmAfnM0j0rvbbMFlerv8PxeO2', 1, 'Banjar', '2342342', '112.jpg', 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -277,13 +290,13 @@ ALTER TABLE `tb_role`
 -- AUTO_INCREMENT untuk tabel `tb_saksi`
 --
 ALTER TABLE `tb_saksi`
-  MODIFY `id_saksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_saksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_tps`
 --
 ALTER TABLE `tb_tps`
-  MODIFY `id_tps` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tps` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_voters`
