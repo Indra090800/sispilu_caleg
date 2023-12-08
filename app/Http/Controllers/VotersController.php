@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Voters;
-use App\Models\VoteSuara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -127,11 +126,6 @@ class VotersController extends Controller
 
     public function monitoring()
     {
-        $id_caleg = Auth::guard('user')->user()->id;
-        $query = VoteSuara::query();
-        $query->selectRaw('SUM(jml_vote) as total');
-        $query->where('id', 'like', '%'. $id_caleg.'%');
-        $c = $query->get();
         $query = VoteSuara::query();
         $query->orderBy('jam', 'desc');
         $query->where('id', 'like', '%'. $id_caleg.'%');

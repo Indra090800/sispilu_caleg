@@ -6,6 +6,7 @@ use App\Models\Saksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Models\VoteSuara;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -210,6 +211,11 @@ class SaksiController extends Controller
 
     public function addvote(Request $request)
     {
+        $query = VoteSuara::query();
+        $query->selectRaw('SUM(jml_vote) as total');
+        $query->where('id', 'like', '%'. $request->id.'%');
+        $c = $query->first();
+        $total = $c + parseInt($request->jml_vote);
         $id_saksi = Auth::guard('caleg')->user()->id_saksi;
         $id_tps = Auth::guard('caleg')->user()->id_tps;
         $id = $request->id;
@@ -221,8 +227,13 @@ class SaksiController extends Controller
                 'id_tps'   => $id_tps,
                 'id'       => $id,
                 'jml_vote' => $jml_vote,
-                'jam' => date("H")
+                'jam'      => date("H")
             ];
+            DB::table('tb_traffic')->insert([
+                'jml_vote' => $total,
+                'id'       => $id,
+                'jam'      => date("H")
+            ]);
             $simpan = DB::table('tb_vote_caleg')->insert($data);
         if($simpan){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
