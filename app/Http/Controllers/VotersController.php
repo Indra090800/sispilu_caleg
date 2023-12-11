@@ -123,7 +123,7 @@ class VotersController extends Controller
             $time = date("d-M-Y H:i:s");
 
             header("Content-type: application/vnd-ms-excel");
-            header("Content-Disposition: attachment; filename=Rekap-Pemilih-Relawan-Ades.xlsx");
+            header("Content-Disposition: attachment; filename=Rekap-Pemilih-Relawan-Ades.xls");
         }
         return view('report.pdfVoters', compact('cetak'));
     }
@@ -149,16 +149,19 @@ class VotersController extends Controller
 
         $jam = Traffic::select('*')
         ->where('id', $id)
+        ->take(7)
         ->get(['jml_vote', 'jam']);
 
         $kandidat = DB::table('users')->where('id', $id)->first();
-
+        $data = [];
         foreach($jam as $j){
             $data[] = [
                 $j->jam,
                 $j->jml_vote,
             ];
         }
+        $data1 = [];
+        $data2 = [];
         for($i=0; $i < count($data); $i++){
             $data1[] = $data[$i][0];
             $data2[] = $data[$i][1];
