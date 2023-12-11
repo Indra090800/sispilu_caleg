@@ -6,14 +6,14 @@
             <div id="user-detail">
                 <div class="avatar">
 
-                    {{-- @if (!empty(Auth::guard()->user()->foto))
+                    @if (!empty(Auth::guard()->user()->foto_saksi))
                     @php
-                        $path = Storage::url('public/uploads/karyawan/'.Auth::guard('karyawan')->user()->foto);
+                        $path = Storage::url('public/uploads/saksi/'.Auth::guard('caleg')->user()->foto_saksi);
                     @endphp
                     <img src="{{ url($path) }}" alt="avatar" class="imaged w64 rounded" style="height: 60px;">
-                    @else --}}
+                    @else
                     <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w64 rounded">
-                    {{-- @endif --}}
+                    @endif
 
                 </div>
                 <div id="user-info">
@@ -139,13 +139,17 @@
                         <ul class="listview image-listview">
 
                             @foreach ($caleg as $d)
-                            @php
-                                $path = Storage::url('uploads/caleg/'.$d->foto_caleg);
-                            @endphp
                             <li>
                                 <div class="item">
                                     <div class="icon-box bg-primary">
+                                        @if (!empty($d->foto_caleg))
+                                        @php
+                                            $path = Storage::url('public/uploads/caleg/'.$d->foto_caleg);
+                                        @endphp
+                                        <img src="{{ url($path) }}" alt="avatar" class="imaged w32 rounded" style="height: 40px; width: 40px">
+                                        @else
                                         <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w32 rounded">
+                                        @endif
                                     </div>
                                     <div class="in">
                                         <div>{{ $d->nama_caleg }}</div>
@@ -264,7 +268,7 @@
     var lok = lokasi.split(",");
     var map = L.map('map').setView([lok[0], lok[1]], 18);
 
-    
+
     L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
             maxZoom: 20,
             subdomains:['mt0','mt1','mt2','mt3']
