@@ -215,7 +215,7 @@ class SaksiController extends Controller
         $query->selectRaw('SUM(jml_vote) as total');
         $query->where('id', 'like', '%'. $request->id.'%');
         $c = $query->first();
-        $total = $c + parseInt($request->jml_vote);
+        $total = $c->total + (int)$request->jml_vote;
         $id_saksi = Auth::guard('caleg')->user()->id_saksi;
         $id_tps = Auth::guard('caleg')->user()->id_tps;
         $id = $request->id;
@@ -227,7 +227,7 @@ class SaksiController extends Controller
                 'id_tps'   => $id_tps,
                 'id'       => $id,
                 'jml_vote' => $jml_vote,
-                'jam'      => date("H")
+                'jam'      => date("H:i")
             ];
             DB::table('tb_traffic')->insert([
                 'jml_vote' => $total,

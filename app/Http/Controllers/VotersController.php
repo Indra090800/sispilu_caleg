@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Traffic;
 use App\Models\Voters;
+use App\Models\VoteSuara;
+use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Termwind\Components\Dd;
 
 class VotersController extends Controller
 {
@@ -124,13 +128,43 @@ class VotersController extends Controller
         return view('report.pdfVoters', compact('cetak'));
     }
 
-    public function monitoring()
+    public function monitoring(Request $request)
     {
+        $id = Auth::guard('user')->user()->id;
+        $query = Traffic::query();
+        $query->selectRaw('Min(jml_vote) as min');
+        $query->selectRaw('Max(jml_vote) as max');
+        $c = $query->first();
+        // jml voters
+        $query = Voters::query();
+        $query->selectRaw('COUNT(id_voters) as vote');
+        $d = $query->first();
+        //jmlVote
         $query = VoteSuara::query();
-        $query->orderBy('jam', 'desc');
-        $query->where('id', 'like', '%'. $id_caleg.'%');
-        $caleg = $query->limit(1)->get();
-        
-        return view('master.monitoring', compact('caleg','c'));
+        $query->selectRaw('SUM(jml_vote) as total');
+        $query->where('id', 'like', '%'. $request->id.'%');
+        $e = $query->first();
+        //hitung persentase
+        $persentase = (float)($e->total/$d->vote)*100;
+
+        $jam = Traffic::select('*')
+        ->where('id', $id)
+        ->get(['jml_vote', 'jam']);
+
+        $kandidat = DB::table('users')->where('id', $id)->first();
+
+        foreach($jam as $j){
+            $data[] = [
+                $j->jam,
+                $j->jml_vote,
+            ];
+        }
+        for($i=0; $i < count($data); $i++){
+            $data1[] = $data[$i][0];
+            $data2[] = $data[$i][1];
+        }
+
+
+        return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2'));
     }
 }

@@ -22,6 +22,7 @@
             <div class="col-lg-6">
                 <div class="card">
                   <div class="card-body">
+
                     <h3 class="card-title">Traffic Suara</h3>
                         <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
                   </div>
@@ -30,12 +31,16 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
+
                         <div class="table-responsive">
                             <table class="table table-striped">
                                 <tr>
                                     <th>Nama Kandidat</th>
                                     <th>% Suara</th>
-                                    <th>{{ date('H:i:s') }}</th>
+                                </tr>
+                                <tr>
+                                    <td>{{ $kandidat->nama_caleg }}</td>
+                                    <td>{{ $persentase }}%</td>
                                 </tr>
                             </table>
                         </div>
@@ -45,20 +50,14 @@
         </div>
     </div>
 </div>
-
-
 @endsection
-@foreach($caleg as $cd)
-    <?php
-        foreach($c as $cc){}
-    ?>
+
+
     @push('myscripct')
         <script>
             $(function(){
-                var jam = "{{ $cd->jam }}"
-                var jml_vote = "{{ $cc->total }}"
-                const xValues = [jam];
-                const yValues = [jml_vote];
+                const xValues = {!! json_encode($data1) !!};
+                const yValues = {!! json_encode($data2) !!};
 
                 new Chart("myChart", {
                 type: "line",
@@ -75,7 +74,7 @@
                 options: {
                     legend: {display: false},
                     scales: {
-                    yAxes: [{ticks: {min: 50, max:1500}}],
+                    yAxes: [{ticks: {min: {{ $c->min }}, max:{{ $c->max }}}}],
                     }
                 }
                 });
@@ -84,4 +83,4 @@
 
         </script>
     @endpush
-@endforeach
+
