@@ -17,7 +17,7 @@ class CalegController extends Controller
         $query = Caleg::query();
         $query->select('users.*','nama_role', 'nama_parpol');
         $query->join('tb_role', 'users.id_role', '=', 'tb_role.id_role');
-        $query->join('t b_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->join('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol');
         $query->orderBY('nama_caleg');
         if(!empty($request->nama_caleg)){
             $query->where('nama_caleg', 'like', '%'. $request->nama_caleg.'%');
