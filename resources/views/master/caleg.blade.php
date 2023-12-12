@@ -153,9 +153,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                </div>
-                                {{ $caleg->links('vendor.pagination.bootstrap-4') }}
+                                </div><br>
                             </div>
+                            {{ $caleg->links('vendor.pagination.bootstrap-4') }}
                         </div>
                     </div>
                 </div>

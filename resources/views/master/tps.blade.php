@@ -138,7 +138,8 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                </div>
+                                </div><br>
+                                {{ $tps->links('vendor.pagination.bootstrap-4') }}
                             </div>
                         </div>
                     </div>

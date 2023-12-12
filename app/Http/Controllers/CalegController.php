@@ -25,7 +25,7 @@ class CalegController extends Controller
         if(!empty($request->id_parpol)){
             $query->where('users.id_parpol', $request->id_parpol);
         }
-        $caleg = $query->paginate(7);
+        $caleg = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();
 
         return view('master.caleg', compact('caleg','parpol'));

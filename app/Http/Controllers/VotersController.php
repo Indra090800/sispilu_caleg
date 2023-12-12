@@ -24,7 +24,7 @@ class VotersController extends Controller
         if(!empty($request->nama_voters)){
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
         }
-        $voters = $query->paginate(7);
+        $voters = $query->paginate(15);
         return view('master.voters', compact('voters'));
     }
 

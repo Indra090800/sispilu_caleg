@@ -26,7 +26,7 @@ class SaksiController extends Controller
         if(!empty($request->id_parpol)){
             $query->where('tb_saksi.id_parpol', $request->id_parpol);
         }
-        $saksi = $query->paginate(7);
+        $saksi = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();
         $tps = DB::table('tb_tps')->get();
 

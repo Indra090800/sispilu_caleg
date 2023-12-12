@@ -145,7 +145,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                </div>
+                                </div><br>
                                 {{ $saksi->links('vendor.pagination.bootstrap-4') }}
                             </div>
                         </div>

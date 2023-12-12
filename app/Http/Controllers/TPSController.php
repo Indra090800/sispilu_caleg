@@ -26,7 +26,7 @@ class TPSController extends Controller
         if(!empty($request->denah == 'Kecamatan')){
             $query->where('tb_tps.kecamatan', $request->search_denah);
         }
-        $tps = $query->paginate(7);
+        $tps = $query->paginate(15);
         return view('master.tps', compact('tps'));
     }
 
