@@ -47,6 +47,14 @@
                                 <path d="M5 12l14 0"></path>
                                 </svg>
                                 Tambah Data</a>
+                                <br>.
+                                <form action="/tps" method="post" enctype="multipart/form-data" style="mt-2">
+                                    @csrf
+                                    <div class="input-group mb-3">
+                                        <input type="file" name="file" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                        <button class="btn btn-primary" type="submit" id="button-addon2">Import</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="row mt-2">
