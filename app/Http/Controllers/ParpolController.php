@@ -22,8 +22,17 @@ class ParpolController extends Controller
             $query->where('nama_parpol', 'like', '%'. $request->nama_parpol.'%');
         }
         $parpol = $query->paginate(7);
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
 
-        return view('master.parpol', compact('parpol'));
+        return view('master.parpol', compact('parpol','log', 'count'));
     }
 
     public function addParpol(Request $request)

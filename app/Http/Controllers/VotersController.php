@@ -25,7 +25,16 @@ class VotersController extends Controller
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
         }
         $voters = $query->paginate(15);
-        return view('master.voters', compact('voters'));
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        return view('master.voters', compact('voters', 'log', 'count'));
     }
 
     public function addVoters(Request $request)
@@ -166,8 +175,16 @@ class VotersController extends Controller
             $data1[] = $data[$i][0];
             $data2[] = $data[$i][1];
         }
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
 
-
-        return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2'));
+        return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2','log', 'count'));
     }
 }

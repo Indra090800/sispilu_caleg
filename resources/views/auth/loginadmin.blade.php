@@ -24,7 +24,7 @@
   </head>
   <body  class=" d-flex flex-column">
     <script src="{{ asset('dist/js/demo-theme.min.js?1674944402') }}"></script>
-    <div class="page page-center">
+    <div class="page page-center" style="backgroundcolor: #fff;">
       <div class="container container-normal py-4">
         <div class="row align-items-center g-4">
           <div class="col-lg">

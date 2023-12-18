@@ -27,8 +27,17 @@ class CalegController extends Controller
         }
         $caleg = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
 
-        return view('master.caleg', compact('caleg','parpol'));
+        return view('master.caleg', compact('caleg','parpol','log', 'count'));
     }
 
     public function addCaleg(Request $request)

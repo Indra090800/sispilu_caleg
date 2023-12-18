@@ -27,7 +27,16 @@ class TPSController extends Controller
             $query->where('tb_tps.kecamatan', $request->search_denah);
         }
         $tps = $query->paginate(15);
-        return view('master.tps', compact('tps'));
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        return view('master.tps', compact('tps', 'log','count'));
     }
 
     public function addTPS(Request $request)
