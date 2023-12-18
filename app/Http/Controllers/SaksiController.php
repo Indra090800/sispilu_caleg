@@ -234,6 +234,13 @@ class SaksiController extends Controller
                 'id'       => $id,
                 'jam'      => date("H:i")
             ]);
+            DB::table('tb_log')->insert([
+                'id_saksi'  => $id_saksi,
+                'deskripsi' => ' add vote '.$jml_vote. ' for '.$id.' in '.$id_tps,
+                'id'        => $id,
+                'id_tps'    => $id_tps,
+                'jam'       => date("H:i")
+            ]);
             $simpan = DB::table('tb_vote_caleg')->insert($data);
         if($simpan){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
@@ -280,8 +287,17 @@ class SaksiController extends Controller
         ->where('id', $id)
         ->where('id_tps', $id_tps)
         ->delete();
+        $id_saksi = Auth::guard('caleg')->user()->id_saksi;
+        $id_tps = Auth::guard('caleg')->user()->id_tps;
 
         if($delete){
+            DB::table('tb_log')->insert([
+                'id_saksi'  => $id_saksi,
+                'deskripsi' => 'delete vote from '.$id.' in '.$id_tps,
+                'id'        => $id,
+                'id_tps'    => $id_tps,
+                'jam'       => date("H:i")
+            ]);
             return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
         }else{
             return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);

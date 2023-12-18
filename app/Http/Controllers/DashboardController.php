@@ -32,6 +32,15 @@ class DashboardController extends Controller
 
     public function dashboardadmin()
     {
-        return view('dashboard.dashboardadmin');
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        return view('dashboard.dashboardadmin', compact('log','count'));
     }
 }
