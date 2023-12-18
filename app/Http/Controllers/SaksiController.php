@@ -232,7 +232,7 @@ class SaksiController extends Controller
             DB::table('tb_traffic')->insert([
                 'jml_vote' => $total,
                 'id'       => $id,
-                'jam'      => date("H")
+                'jam'      => date("H:i")
             ]);
             $simpan = DB::table('tb_vote_caleg')->insert($data);
         if($simpan){
