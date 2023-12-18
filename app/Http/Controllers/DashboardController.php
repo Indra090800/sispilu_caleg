@@ -41,6 +41,19 @@ class DashboardController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
-        return view('dashboard.dashboardadmin', compact('log','count'));
+        $countVoters = DB::table('tb_voters')
+        ->selectRaw('COUNT(id_voters) as jml_voters')
+        ->first();
+        $counttps = DB::table('tb_tps')
+        ->selectRaw('COUNT(id_tps) as jml_tps')
+        ->first();
+        $countusers = DB::table('users')
+        ->selectRaw('COUNT(id) as jml_users')
+        ->first();
+        $countparpol = DB::table('tb_parpol')
+        ->selectRaw('COUNT(id_parpol) as jml_parpol')
+        ->first();
+        
+        return view('dashboard.dashboardadmin', compact('log','count', 'countVoters', 'counttps', 'countusers', 'countparpol'));
     }
 }

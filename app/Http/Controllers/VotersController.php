@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Traffic;
 use App\Models\Voters;
 use App\Models\VoteSuara;
+use App\Models\TPS;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -151,7 +152,7 @@ class VotersController extends Controller
         //jmlVote
         $query = VoteSuara::query();
         $query->selectRaw('SUM(jml_vote) as total');
-        $query->where('id', 'like', '%'. $request->id.'%');
+        $query->where('id', $id);
         $e = $query->first();
         //hitung persentase
         $persentase = (float)($e->total/$d->vote)*100;
@@ -185,6 +186,8 @@ class VotersController extends Controller
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
 
-        return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2','log', 'count'));
+        $tps = DB::table('tb_tps')->paginate(2);
+
+        return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2','log', 'count','tps'));
     }
 }

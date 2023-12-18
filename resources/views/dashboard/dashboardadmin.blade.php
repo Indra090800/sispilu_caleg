@@ -33,6 +33,7 @@
                         </div>
                         <div class="col">
                         <div class="font-weight-medium">
+                            {{ $countVoters->jml_voters }}
                         </div>
                         <div class="text-muted">
                             Jumlah Voters
@@ -61,6 +62,7 @@
                         </div>
                         <div class="col">
                         <div class="font-weight-medium">
+                        {{ $counttps->jml_tps }}
                         </div>
                         <div class="text-muted">
                             Jumlah TPS
@@ -82,6 +84,7 @@
                     </div>
                     <div class="col">
                     <div class="font-weight-medium">
+                    {{ $countusers->jml_users }}
                     </div>
                     <div class="text-muted">
                         Jumlah Caleg
@@ -103,6 +106,7 @@
                     </div>
                     <div class="col">
                     <div class="font-weight-medium">
+                    {{ $countparpol->jml_parpol }}
                     </div>
                     <div class="text-muted">
                         Jumlah Parpol

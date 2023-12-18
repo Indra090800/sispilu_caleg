@@ -31,18 +31,45 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Nama Kandidat</th>
+                                        <th>% Suara</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ $kandidat->nama_caleg }}</td>
+                                        <td>{{ $persentase }}%</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Nama Kandidat</th>
-                                    <th>% Suara</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ $kandidat->nama_caleg }}</td>
-                                    <td>{{ $persentase }}%</td>
-                                </tr>
-                            </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>Nama TPS</th>
+                                        <th>Bukti Suara</th>
+                                    </tr>
+                                    @foreach($tps as $t)
+                                            @php
+                                                $path = Storage::url('uploads/bukti_tps/'.$t->foto_bukti);
+                                            @endphp
+                                        <tr>
+                                            <td>{{ $t->nama_tps }}</td>
+                                            <td><a href="{{ url($path) }}" download>{{ $t->foto_bukti }}</a></td>
+                                        </tr>
+                                    @endforeach
+                                </table>
+                            </div>
+                            .
+                            {{ $tps->links('vendor.pagination.bootstrap-4') }}
                         </div>
                     </div>
                 </div>
