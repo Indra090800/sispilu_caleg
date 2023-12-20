@@ -52,7 +52,7 @@
                     <div class="mb-2">
                       <label class="form-label">
                         Password
-                        
+
                       </label>
                       <div class="input-group input-group-flat">
                         <div class="input-group" id="show_hide_password">
@@ -63,9 +63,9 @@
                       </div>
                       </div>
                     </div>
-                    
+
                     <div class="form-footer">
-                      <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                      <button type="submit" class="btn btn-danger w-100">Sign in</button>
                     </div>
                   </form>
                 </div>
@@ -84,7 +84,7 @@
     <script src="{{ asset('dist/js/demo.min.js?1674944402') }}" defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-    <script>  
+    <script>
       $(document).ready(function(){
         $("#show_hide_password a").on('click', function(event) {
             event.preventDefault();

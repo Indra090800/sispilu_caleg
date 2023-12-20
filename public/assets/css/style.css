@@ -35,7 +35,7 @@ a:hover,
 a:active,
 a:focus {
   outline: 0 !important;
-  color: #1e74fd;
+  color: #e32205;
   text-decoration: none;
 }
 
@@ -427,7 +427,7 @@ button:focus {
   align-items: center;
   justify-content: center;
   border-radius: 200px;
-  background: #1e74fd;
+  background: #e32205;
 }
 
 .appBottomMenu .item .action-button.large {
@@ -7996,7 +7996,7 @@ body.dark-mode-active .cart-item .cart-item-footer {
 
 #user-section {
   height: 180px;
-  background-color: #092c9f;
+  background-color: #e32205;
   padding: 20px;
 }
 

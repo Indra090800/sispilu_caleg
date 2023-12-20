@@ -1,7 +1,7 @@
 @extends('layout.presensi');
 @section('header')
 
-    <div class="appHeader bg-primary text-light">
+    <div class="appHeader bg-danger text-light">
         <div class="left">
             <a href="javascript:;" class="headerButton goBacc">
                 <ion-icon name="chevron-bacc-outline"></ion-icon>
@@ -46,7 +46,7 @@
         <div class="card mt-2">
             <div class="card-body">
                 <div class="col-12">
-                    <form action="/voters" method="GET">
+                    <form action="/sispilu/voters/add" method="GET">
                         <div class="row">
                             <div class="col-4">
                                 <div class="form-group">
@@ -101,7 +101,7 @@
                                     <td class="text-center">{{ $k->no_hp }}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
-                                        <form action="/voters/{{ $k->id_voters }}/delete" method="POST" style="margin-left: 5px;">
+                                        <form action="/sispilu/voters/{{ $k->id_voters }}/delete" method="POST" style="margin-left: 5px;">
                                             @csrf
                                             <a class="btn btn-danger btn-sm btnEdit">
                                                 <ion-icon name="trash-outline"></ion-icon>
@@ -129,7 +129,7 @@
 </div>
 
 <div class="fab-button animate bottom-right dropdown" style="margin-bottom: 70px;">
-    <a href="#" class="fab bg-primary" data-toggle="modal" data-target="#modal-inputvoters">
+    <a href="#" class="fab bg-danger" data-toggle="modal" data-target="#modal-inputvoters">
         <ion-icon name="add-outline" role="img" class="md hydrated"></ion-icon>
     </a>
 </div>

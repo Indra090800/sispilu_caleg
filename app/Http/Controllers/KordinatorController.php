@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
-class CalegController extends Controller
+class KordinatorController extends Controller
 {
     public function index(Request $request)
     {
@@ -25,6 +25,7 @@ class CalegController extends Controller
         if(!empty($request->id_parpol)){
             $query->where('users.id_parpol', $request->id_parpol);
         }
+        $query->where('users.id_role',  3);
         $caleg = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();
         $log = DB::table('tb_log')
@@ -37,7 +38,7 @@ class CalegController extends Controller
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
 
-        return view('master.caleg', compact('caleg','parpol','log', 'count'));
+        return view('master.kordinator', compact('caleg','parpol','log', 'count'));
     }
 
     public function addCaleg(Request $request)
@@ -48,7 +49,7 @@ class CalegController extends Controller
         $email          = $request->email;
         $no_hp          = $request->no_hp;
         $id_parpol      = $request->id_parpol;
-        $id_role        = 1;
+        $id_role        = Auth::guard('user')->user()->id_role;
         $password       = Hash::make('12345');
 
         if($request->hasFile('foto_caleg')){

@@ -1,7 +1,7 @@
 @extends('layout.presensi');
 @section('header')
 
-    <div class="appHeader bg-primary text-light">
+    <div class="appHeader bg-danger text-light">
         <div class="left">
             <a href="javascript:;" class="headerButton goBacc">
                 <ion-icon name="chevron-bacc-outline"></ion-icon>
@@ -82,7 +82,7 @@
 </div>
 
 <div class="fab-button animate bottom-right dropdown" style="margin-bottom: 70px;">
-    <a href="#" class="fab bg-primary" data-toggle="dropdown">
+    <a href="#" class="fab bg-danger" data-toggle="dropdown">
         <ion-icon name="add-outline" role="img" class="md hydrated"></ion-icon>
     </a>
     <div class="dropdown-menu">
@@ -178,8 +178,8 @@
                 })
             });
             $("#frmsuara").submit(function() {
-                var id = $("#id").val(); 
-                var jml_vote = $("#frmsuara").find("#jml_vote").val(); 
+                var id = $("#id").val();
+                var jml_vote = $("#frmsuara").find("#jml_vote").val();
 
                 if(id == ""){
                     Swal.fire({
@@ -198,7 +198,7 @@
                 }
             });
             $("#frbucti").submit(function() {
-                var foto_bucti = $("#foto_bucti").val(); 
+                var foto_bucti = $("#foto_bucti").val();
 
                 if(foto_bucti == ""){
                     Swal.fire({

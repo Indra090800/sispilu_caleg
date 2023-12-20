@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CalegController;
+use App\Http\Controllers\KordinatorController;
 use App\Http\Controllers\SaksiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ParpolController;
@@ -49,8 +50,9 @@ Route::middleware(['auth:caleg'])->group(function(){
     Route::post('/vote/{id}/{id_tps}/deleteVote', [SaksiController::class, 'deleteVote']);
 
     Route::get('/sispilu/voters/add', [votersController::class, 'create']);
-    Route::post('/sispilu/voters/addvote', [votersController::class, 'addvote']);
-    Route::post('/sispilu/voters/{id}/{id_tps}/deleteVote', [SaksiController::class, 'deleteVote']);
+    Route::post('/sispilu/addVoters', [VotersController::class, 'addVoters']);
+    Route::post('/sispilu/voters/{id_voters}/edit', [VotersController::class, 'editVoters']);
+    Route::post('/sispilu/voters/{id_voters}/delete', [VotersController::class, 'delete']);
 });
 
 Route::middleware(['auth:user'])->group(function(){
@@ -97,5 +99,10 @@ Route::middleware(['auth:user'])->group(function(){
 
     //sispilu monitoring
     Route::get('/sispilu/monitoring', [VotersController::class, 'monitoring']);
+    //kordinator
+    Route::get('/kordinator', [KordinatorController::class, 'index']);
+    Route::post('/addkordinator', [KordinatorController::class, 'addkordinator']);
+    Route::post('/kordinator/{id_voters}/edit', [KordinatorController::class, 'editkordinator']);
+    Route::post('/kordinator/{id_voters}/delete', [KordinatorController::class, 'delete']);
 });
 
