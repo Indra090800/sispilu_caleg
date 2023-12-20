@@ -47,6 +47,10 @@ Route::middleware(['auth:caleg'])->group(function(){
     Route::get('/vote/create', [SaksiController::class, 'create']);
     Route::post('/vote/addvote', [SaksiController::class, 'addvote']);
     Route::post('/vote/{id}/{id_tps}/deleteVote', [SaksiController::class, 'deleteVote']);
+
+    Route::get('/sispilu/voters/add', [votersController::class, 'create']);
+    Route::post('/sispilu/voters/addvote', [votersController::class, 'addvote']);
+    Route::post('/sispilu/voters/{id}/{id_tps}/deleteVote', [SaksiController::class, 'deleteVote']);
 });
 
 Route::middleware(['auth:user'])->group(function(){

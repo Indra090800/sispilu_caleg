@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 19 Des 2023 pada 15.22
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: localhost
+-- Waktu pembuatan: 20 Des 2023 pada 07.47
+-- Versi server: 10.4.28-MariaDB
+-- Versi PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `sispilu`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tb_kordinator`
+--
+
+CREATE TABLE `tb_kordinator` (
+  `id_kor` int(11) NOT NULL,
+  `nama_kor` varchar(255) NOT NULL,
+  `alamat_kor` varchar(100) NOT NULL,
+  `no_hp` varchar(15) NOT NULL,
+  `foto_kor` varchar(10) NOT NULL,
+  `type_kor` int(1) NOT NULL,
+  `wilayah` varchar(100) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -42,7 +59,8 @@ CREATE TABLE `tb_log` (
 INSERT INTO `tb_log` (`id_saksi`, `deskripsi`, `id`, `id_tps`, `jam`) VALUES
 (0, '6 delete vote from 6 in 2', 6, 2, '09:54'),
 (6, '6 delete vote 2 for 6 in 2', 6, 2, '09:56'),
-(6, '6 delete vote from 6 in 2', 6, 2, '09:56');
+(6, '6 delete vote from 6 in 2', 6, 2, '09:56'),
+(6, ' add vote 2 for 6 in 2', 6, 2, '13:04');
 
 -- --------------------------------------------------------
 
@@ -84,7 +102,9 @@ CREATE TABLE `tb_role` (
 INSERT INTO `tb_role` (`id_role`, `nama_role`) VALUES
 (1, 'caleg'),
 (2, 'admin'),
-(3, 'Parpol');
+(3, 'Parpol'),
+(5, 'Kecamatan'),
+(6, 'Kelurahan');
 
 -- --------------------------------------------------------
 
@@ -167,7 +187,8 @@ INSERT INTO `tb_traffic` (`id_traffic`, `jml_vote`, `id`, `jam`) VALUES
 (5, 6, 6, '09:52'),
 (6, 8, 6, '09:53'),
 (7, 6, 6, '09:55'),
-(8, 6, 6, '09:56');
+(8, 6, 6, '09:56'),
+(9, 6, 6, '13:04');
 
 -- --------------------------------------------------------
 
@@ -215,7 +236,8 @@ CREATE TABLE `tb_vote_caleg` (
 --
 
 INSERT INTO `tb_vote_caleg` (`id_saksi`, `id_tps`, `jml_vote`, `jam`, `id`) VALUES
-(8, 5, 4, '15:32', 6);
+(8, 5, 4, '15:32', 6),
+(6, 2, 2, '13:04', 6);
 
 -- --------------------------------------------------------
 
@@ -262,6 +284,12 @@ INSERT INTO `users` (`id`, `nik`, `nama_caleg`, `email`, `password`, `id_role`, 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `tb_kordinator`
+--
+ALTER TABLE `tb_kordinator`
+  ADD PRIMARY KEY (`id_kor`);
 
 --
 -- Indeks untuk tabel `tb_parpol`
@@ -311,6 +339,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `tb_kordinator`
+--
+ALTER TABLE `tb_kordinator`
+  MODIFY `id_kor` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `tb_parpol`
 --
 ALTER TABLE `tb_parpol`
@@ -320,7 +354,7 @@ ALTER TABLE `tb_parpol`
 -- AUTO_INCREMENT untuk tabel `tb_role`
 --
 ALTER TABLE `tb_role`
-  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_saksi`
@@ -338,7 +372,7 @@ ALTER TABLE `tb_tps`
 -- AUTO_INCREMENT untuk tabel `tb_traffic`
 --
 ALTER TABLE `tb_traffic`
-  MODIFY `id_traffic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_traffic` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_voters`

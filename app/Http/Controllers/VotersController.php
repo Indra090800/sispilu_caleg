@@ -190,4 +190,16 @@ class VotersController extends Controller
 
         return view('master.monitoring', compact('c', 'persentase', 'kandidat', 'data1', 'data2','log', 'count','tps'));
     }
+
+    public function create(Request $request)
+    {
+        $query = Voters::query();
+        $query->select('tb_voters.*');
+        $query->orderBY('nik_voters');
+        if(!empty($request->nama_voters)){
+            $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
+        }
+        $voters = $query->paginate(15);
+        return view('vote.v_voters', compact('voters'));
+    }
 }
