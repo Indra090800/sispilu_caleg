@@ -149,7 +149,7 @@
               <li class="nav-item dropdown">
                 <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['caleg', 'parpol','saksi','role','voters','kordinator']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['caleg', 'parpol','saksi','role','voters','kordinator']) ? 'true' : '' }}" >
                   <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-stack" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" /><path d="M5 21h14" /><path d="M5 18h14" /><path d="M5 15h14" /></svg>
                   </span>
                   <span class="nav-link-title">
                     Data Master
@@ -177,9 +177,6 @@
                             <a style="color: white" class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
                             Master voters
                             </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator']) ? 'active' : '' }}" href="/kordinator">
-                                Master kordinator
-                                </a>
                         @endif
                     </div>
                   </div>
@@ -204,22 +201,54 @@
                   </a>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link {{ request()->is(['sispilu/monitoring_parpol']) ? 'show' : '' }}" href="#" style="color: white">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-stethoscope" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1"></path>
-                      <path d="M8 15a6 6 0 1 0 12 0v-3"></path>
-                      <path d="M11 3v2"></path>
-                      <path d="M6 3v2"></path>
-                      <path d="M20 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                    </svg>
-                    </span>
-                    <span class="nav-link-title">
-                    Monitoring Vote Parpol
-                    </span>
-                  </a>
+                <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['kordinator/*']) ? 'true' : '' }}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Kordinator
+                  </span>
+                </a>
+                <div class="dropdown-menu {{ request()->is(['kordinator/*']) ? 'show' : '' }}">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column">
+                        @if (Auth::guard('user')->user()->id_role == 2)
+                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kecamatan']) ? 'active' : '' }}" href="/kordinator/kecamatan">
+                            Kordinator Kecamatan
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kelurahan']) ? 'active' : '' }}" href="/kordinator/kelurahan">
+                            Kordinator Kelurahan
+                            </a>
+                        @endif
+                    </div>
+                  </div>
+                </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['monitor/kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['monitor/kordinator/*']) ? 'true' : '' }}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-heart-monitor-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 3a3 3 0 0 1 2.995 2.824l.005 .176v12a3 3 0 0 1 -2.824 2.995l-.176 .005h-12a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-12a3 3 0 0 1 2.824 -2.995l.176 -.005h12zm-4 13a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm3 0a1 1 0 0 0 -.993 .883l-.007 .117l.007 .127a1 1 0 0 0 1.986 0l.007 -.117l-.007 -.127a1 1 0 0 0 -.993 -.883zm-6 -6.764l-.106 .211a1 1 0 0 1 -.77 .545l-.124 .008l-5 -.001v3.001h14v-3.001l-4.382 .001l-.724 1.447a1 1 0 0 1 -1.725 .11l-.063 -.11l-1.106 -2.211zm7 -4.236h-12a1 1 0 0 0 -.993 .883l-.007 .117v1.999l4.381 .001l.725 -1.447a1 1 0 0 1 1.725 -.11l.063 .11l1.106 2.21l.106 -.21a1 1 0 0 1 .77 -.545l.124 -.008l5 -.001v-1.999a1 1 0 0 0 -.883 -.993l-.117 -.007z" stroke-width="0" fill="currentColor" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Monitoring Kordinator
+                  </span>
+                </a>
+                <div class="dropdown-menu {{ request()->is(['monitor/kordinator/*']) ? 'show' : '' }}">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column">
+                        @if (Auth::guard('user')->user()->id_role == 2)
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kecamatan']) ? 'active' : '' }}" href="/monitor/kordinator/kecamatan">
+                            Kordinator Kecamatan
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan">
+                            Kordinator Kelurahan
+                            </a>
+                        @endif
+                    </div>
+                  </div>
+                </div>
                 </li>
 
             </ul>

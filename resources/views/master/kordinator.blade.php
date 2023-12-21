@@ -7,7 +7,7 @@
         <div class="col">
         <!-- Page pre-title -->
         <h2 class="page-title">
-            Data Kordinator
+            Data Kordinator Kecamatan
         </h2>
         </div>
         <!-- Page title actions -->
@@ -92,11 +92,13 @@
                                             <tr>
                                                 <th class="text-center">No</th>
                                                 <th class="text-center">NIK</th>
-                                                <th class="text-center">Nama Caleg</th>
+                                                <th class="text-center">Nama Kordinator</th>
                                                 <th class="text-center">Alamat</th>
                                                 <th class="text-center">Email</th>
                                                 <th class="text-center">No. HP</th>
-                                                <th class="text-center">foto_caleg</th>
+                                                <th class="text-center">Kordinator</th>
+                                                <th class="text-center">Wilayah </th>
+                                                <th class="text-center">Foto</th>
                                                 <th class="text-center">Asal Parpol</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
@@ -113,6 +115,8 @@
                                                     <td>{{ $k->alamat }}</td>
                                                     <td>{{ $k->email }}</td>
                                                     <td>{{ $k->no_hp }}</td>
+                                                    <td>{{ $k->nama_role }}</td>
+                                                    <td>{{ $k->wilayah }}</td>
                                                     <td class="text-center">
                                                         @if (empty($k->foto_caleg))
                                                         <img src="{{ asset('assets/img/nophoto.png') }}" class="avatar" alt="">
@@ -123,7 +127,7 @@
                                                     <td>{{ $k->nama_parpol }}</td>
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <form action="/caleg/{{ $k->nik }}/delete" method="POST" style="margin-left: 5px;">
+                                                        <form action="/kordinator/{{ $k->nik }}/delete" method="POST" style="margin-left: 5px;">
                                                             @csrf
                                                             <a class="btn btn-danger btn-sm btnEdit">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eraser" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -132,12 +136,6 @@
                                                             <path d="M18 13.3l-6.3 -6.3"></path>
                                                             </svg>
                                                             </a>
-                                                            <a href="/konfig/{{ $k->nik }}/setjamkerja" class="btn btn-success btn-sm">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings-filled" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                                    <path d="M14.647 4.081a.724 .724 0 0 0 1.08 .448c2.439 -1.485 5.23 1.305 3.745 3.744a.724 .724 0 0 0 .447 1.08c2.775 .673 2.775 4.62 0 5.294a.724 .724 0 0 0 -.448 1.08c1.485 2.439 -1.305 5.23 -3.744 3.745a.724 .724 0 0 0 -1.08 .447c-.673 2.775 -4.62 2.775 -5.294 0a.724 .724 0 0 0 -1.08 -.448c-2.439 1.485 -5.23 -1.305 -3.745 -3.744a.724 .724 0 0 0 -.447 -1.08c-2.775 -.673 -2.775 -4.62 0 -5.294a.724 .724 0 0 0 .448 -1.08c-1.485 -2.439 1.305 -5.23 3.744 -3.745a.722 .722 0 0 0 1.08 -.447c.673 -2.775 4.62 -2.775 5.294 0zm-2.647 4.919a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z" stroke-width="0" fill="currentColor"></path>
-                                                                 </svg>
-                                                                </a>
                                                             <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editcaleg{{ $k->nik }}">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -174,7 +172,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/addCaleg" method="post" id="frmCaleg" enctype="multipart/form-data">
+            <form action="/addKordinator" method="post" id="frmCaleg" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12">
@@ -205,7 +203,7 @@
                                 <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path><path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path></svg>
                             </span>
-                            <input type="text" name="nama_caleg" id="nama_caleg" class="form-control" placeholder="Nama Caleg">
+                            <input type="text" name="nama_caleg" id="nama_caleg" class="form-control" placeholder="Nama Kordinator">
                         </div>
                     </div>
                 </div>
@@ -263,6 +261,28 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" name="wilayah" id="wilayah" class="form-control" placeholder="Wilayah">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class="mb-3">
@@ -310,7 +330,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/caleg/{{ $k->nik }}/edit" method="POST" id="frCaleg" enctype="multipart/form-data">
+            <form action="/kordinator/{{ $k->nik }}/edit" method="POST" id="frCaleg" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12">
@@ -375,7 +395,7 @@
                                 <!-- Download SVG icon from http://tabler-icons.io/i/user -->
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg>
                             </span>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                            <input type="email" value="{{ $k->email }}" name="email" id="email" class="form-control" placeholder="Email">
                         </div>
                     </div>
                 </div>
@@ -396,6 +416,28 @@
                                 </svg>
                             </span>
                             <input type="number" value="{{ $k->no_hp }}" maxlength="15" name="no_hp" id="no_hp" class="form-control" placeholder="No Hp">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" value="{{ $k->wilayah }}" name="wilayah" id="wilayah" class="form-control" placeholder="wilayah">
                         </div>
                     </div>
                 </div>

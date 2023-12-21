@@ -25,6 +25,7 @@ class CalegController extends Controller
         if(!empty($request->id_parpol)){
             $query->where('users.id_parpol', $request->id_parpol);
         }
+        $query->where('users.id_role', 1);
         $caleg = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();
         $log = DB::table('tb_log')
@@ -94,7 +95,7 @@ class CalegController extends Controller
         $alamat         = $request->alamat;
         $email          = $request->email;
         $no_hp          = $request->no_hp;
-        $id_role        = Auth::guard('user')->user()->id_role;
+        $id_role        = 1;
         $id_parpol      = $request->id_parpol;
         $password       = Hash::make('12345');
 

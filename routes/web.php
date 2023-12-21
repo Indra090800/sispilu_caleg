@@ -100,9 +100,12 @@ Route::middleware(['auth:user'])->group(function(){
     //sispilu monitoring
     Route::get('/sispilu/monitoring', [VotersController::class, 'monitoring']);
     //kordinator
-    Route::get('/kordinator', [KordinatorController::class, 'index']);
-    Route::post('/addkordinator', [KordinatorController::class, 'addkordinator']);
-    Route::post('/kordinator/{id_voters}/edit', [KordinatorController::class, 'editkordinator']);
-    Route::post('/kordinator/{id_voters}/delete', [KordinatorController::class, 'delete']);
+    Route::get('/kordinator/kecamatan', [KordinatorController::class, 'index']);
+    Route::get('/kordinator/kelurahan', [KordinatorController::class, 'create']);
+    Route::post('/addKordinator', [KordinatorController::class, 'addKordinator']);
+    Route::post('/kordinator/{nik}/edit', [KordinatorController::class, 'editKordinator']);
+    Route::post('/addKordinator1', [KordinatorController::class, 'addKordinator1']);
+    Route::post('/kordinator/{nik}/edit1', [KordinatorController::class, 'editKordinator1']);
+    Route::post('/kordinator/{nik}/delete', [KordinatorController::class, 'delete']);
 });
 
