@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CalegController;
+use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KordinatorController;
 use App\Http\Controllers\SaksiController;
 use App\Http\Controllers\RoleController;
@@ -107,5 +108,8 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addKordinator1', [KordinatorController::class, 'addKordinator1']);
     Route::post('/kordinator/{nik}/edit1', [KordinatorController::class, 'editKordinator1']);
     Route::post('/kordinator/{nik}/delete', [KordinatorController::class, 'delete']);
+    //monitor kordinator
+    Route::get('/monitor/kordinator/kecamatan', [KaryawanController::class, 'index']);
+    Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
 });
 
