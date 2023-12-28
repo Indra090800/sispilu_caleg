@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\DB;
 
 class KaryawanController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
+<<<<<<< HEAD
         //log
+=======
+>>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
@@ -23,6 +26,7 @@ class KaryawanController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
+<<<<<<< HEAD
         //jml voters
         $jml_voters = DB::table('tb_voters')
         ->selectRaw('COUNT(id_voters) as jml_voters')
@@ -73,6 +77,12 @@ class KaryawanController extends Controller
     }
 
     public function create(Request $request)
+=======
+        return view('monitor.kecamatan', compact('log', 'count'));
+    }
+
+    public function create()
+>>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
     {
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
@@ -83,6 +93,7 @@ class KaryawanController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
+<<<<<<< HEAD
         $jml_voters = DB::table('tb_voters')
         ->selectRaw('COUNT(id_voters) as jml_voters')
         ->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%')
@@ -112,5 +123,8 @@ class KaryawanController extends Controller
         $tps = $query->paginate(10);
 
         return view('monitor.kelurahan', compact('log', 'count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
+=======
+        return view('monitor.kelurahan', compact('log', 'count'));
+>>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
     }
 }
