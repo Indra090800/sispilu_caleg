@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class KaryawanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
@@ -72,7 +72,7 @@ class KaryawanController extends Controller
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
