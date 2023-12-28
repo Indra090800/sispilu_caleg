@@ -22,11 +22,8 @@
     <div class="container-xl">
         <div class="row">
 
-<<<<<<< HEAD
             <div class="col-md-6 col-xl-6">
-=======
             <div class="col-md-6 col-xl-3">
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
                 <div class="card card-sm">
                     <div class="card-body">
                     <div class="row align-items-center">
@@ -37,10 +34,7 @@
                         </div>
                         <div class="col">
                         <div class="font-weight-medium">
-<<<<<<< HEAD
                             {{ $jml_voters->jml_voters }}
-=======
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
                         </div>
                         <div class="text-muted">
                             Jumlah Voters
@@ -51,11 +45,8 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
             <div class="col-md-6 col-xl-6">
-=======
             <div class="col-md-6 col-xl-3">
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
                 <div class="card card-sm">
                     <div class="card-body">
                     <div class="row align-items-center">
@@ -73,10 +64,7 @@
                         </div>
                         <div class="col">
                         <div class="font-weight-medium">
-<<<<<<< HEAD
                             {{ $jml_tps->jml_tps }}
-=======
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
                         </div>
                         <div class="text-muted">
                             Jumlah TPS
@@ -87,7 +75,6 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
         </div>
 
         <div class="row mt-2">
@@ -241,7 +228,6 @@
                     </table><br>
                     {{ $tps->links('vendor.pagination.bootstrap-4') }}
                 </div>
-=======
             <div class="col-md-6 col-xl-3">
             <div class="card card-sm">
                 <div class="card-body">
@@ -282,7 +268,6 @@
                 </div>
                 </div>
             </div>
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
             </div>
         </div>
     </div>

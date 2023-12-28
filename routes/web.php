@@ -22,11 +22,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/linkstorage', function () {
-    $targetFolder = base_path().'/storage/app/public/uploads';
-    $linkFolder = $_SERVER['DOCUMENT_ROOT'].'/public/storage';
-    symlink($targetFolder, $linkFolder);
-});
 
 Route::middleware(['guest:caleg'])->group(function(){
     Route::get('/', function () {
@@ -116,11 +111,8 @@ Route::middleware(['auth:user'])->group(function(){
     //monitor kordinator
     Route::get('/monitor/kordinator/kecamatan', [KaryawanController::class, 'index']);
     Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
-<<<<<<< HEAD
     //carimonitor
     Route::get('/cari/monitor', [DashboardController::class, 'cari']);
-=======
->>>>>>> 44a586d21952ee4300d4de68172682b58ca8b0e1
 });
 
 
