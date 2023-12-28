@@ -302,6 +302,17 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id_kor" id="id_kor" class="form-select">
+                            <option value="">Pilih Kandidat</option>
+                            @foreach ($kandidat as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class="form-group">
@@ -349,7 +360,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="number" value="{{ $k->nik }}" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
+                            <input type="number" readonly value="{{ $k->nik }}" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
                         </div>
                     </div>
                 </div>
@@ -461,6 +472,17 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id_kor" id="id_kor" class="form-select">
+                            <option value="{{ $k->id_kor }}">Pilih Kandidat</option>
+                            @foreach ($kandidat as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="row mt-2">
                     <div class="col-12">
                         <div class="form-group">
@@ -517,6 +539,7 @@
                 var email = $("#email").val();
                 var id_parpol = $("#frmCaleg").find("#id_parpol").val();
                 var foto_caleg = $("#frmCaleg").find("#foto_caleg").val();
+                var id_kor = $("#frmCaleg").find("#id_kor").val();
 
                 if(nik==""){
                     Swal.fire({
@@ -526,6 +549,17 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#nik").focus();
+                    });
+
+                    return false;
+                }else if(id_kor==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Kandiat Caleg Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#id_kor").focus();
                     });
 
                     return false;

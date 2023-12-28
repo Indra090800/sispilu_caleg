@@ -37,8 +37,9 @@ class KordinatorController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
+        $kandidat = DB::table('users')->where('id_role',1)->get();
 
-        return view('master.kordinator', compact('caleg','parpol','log', 'count'));
+        return view('master.kordinator', compact('caleg','parpol','log', 'count', 'kandidat'));
     }
 
     public function create(Request $request)
@@ -66,8 +67,9 @@ class KordinatorController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
+        $kandidat = DB::table('users')->where('id_role',1)->get();
 
-        return view('master.kor_kelurahan', compact('caleg','parpol','log', 'count'));
+        return view('master.kor_kelurahan', compact('caleg','parpol','log', 'count', 'kandidat'));
     }
 
     public function addKordinator(Request $request)
@@ -79,6 +81,7 @@ class KordinatorController extends Controller
         $no_hp          = $request->no_hp;
         $id_parpol      = $request->id_parpol;
         $wilayah        = $request->wilayah;
+        $id_kor         = $request->id_kor;
         $id_role        = 5;
         $password       = Hash::make('12345');
 
@@ -99,6 +102,7 @@ class KordinatorController extends Controller
                 'id_parpol'     => $id_parpol,
                 'wilayah'       => $wilayah,
                 'id_role'       => $id_role,
+                'id_kor'        => $id_kor,
                 'foto_caleg'    => $foto_caleg
             ];
             $simpan = DB::table('users')->insert($data);
@@ -130,6 +134,7 @@ class KordinatorController extends Controller
         $id_parpol      = $request->id_parpol;
         $wilayah        = $request->wilayah;
         $password       = Hash::make('12345');
+        $id_kor         = $request->id_kor;
 
         $caleg = DB::table('users')->where('nik', $nik)->first();
         $old_foto_caleg = $caleg->foto_caleg;
@@ -149,6 +154,7 @@ class KordinatorController extends Controller
                 'id_role'       => $id_role,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
+                'id_kor'        => $id_kor,
                 'wilayah'       => $wilayah,
                 'foto_caleg'    => $foto_caleg
             ];
@@ -178,6 +184,7 @@ class KordinatorController extends Controller
         $wilayah        = $request->wilayah;
         $id_role        = 6;
         $password       = Hash::make('12345');
+        $id_kor         = $request->id_kor;
 
         if($request->hasFile('foto_caleg')){
             $foto_caleg = $nik.".".$request->file('foto_caleg')->getClientOriginalExtension();
@@ -196,6 +203,7 @@ class KordinatorController extends Controller
                 'id_parpol'     => $id_parpol,
                 'wilayah'       => $wilayah,
                 'id_role'       => $id_role,
+                'id_kor'        => $id_kor,
                 'foto_caleg'    => $foto_caleg
             ];
             $simpan = DB::table('users')->insert($data);
@@ -227,6 +235,7 @@ class KordinatorController extends Controller
         $id_parpol      = $request->id_parpol;
         $wilayah        = $request->wilayah;
         $password       = Hash::make('12345');
+        $id_kor         = $request->id_kor;
 
         $caleg = DB::table('users')->where('nik', $nik)->first();
         $old_foto_caleg = $caleg->foto_caleg;
@@ -246,6 +255,7 @@ class KordinatorController extends Controller
                 'id_role'       => $id_role,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
+                'id_kor'        => $id_kor,
                 'wilayah'       => $wilayah,
                 'foto_caleg'    => $foto_caleg
             ];

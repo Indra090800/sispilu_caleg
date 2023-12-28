@@ -38,6 +38,7 @@
                             @endif
                             </div>
                         </div>
+                        @if(Auth::guard()->user()->id_role == 2)
                         <div class="row">
                             <div class="col-12">
                                 <a href="#" class="btn btn-primary" id="btnTambah">
@@ -49,6 +50,7 @@
                                 Tambah Data</a>
                             </div>
                         </div>
+                        @endif
                         <div class="row mt-2">
                             <div class="col-12">
                                 <form action="/saksi" method="GET">
@@ -97,7 +99,10 @@
                                                 <th class="text-center">No. HP</th>
                                                 <th class="text-center">foto_saksi</th>
                                                 <th class="text-center">Asal Parpol</th>
+                                                <th class="text-center">Asal TPS</th>
+                                                @if(Auth::guard()->user()->id_role == 2)
                                                 <th class="text-center">Aksi</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,6 +124,8 @@
                                                         @endif
                                                     </td>
                                                     <td>{{ $k->nama_parpol }}</td>
+                                                    <td>{{ $k->nama_tps }}</td>
+                                                    @if(Auth::guard()->user()->id_role == 2)
                                                     <td class="text-center">
                                                         <div class="btn-group">
                                                         <form action="/saksi/{{ $k->id_saksi }}/delete" method="POST" style="margin-left: 5px;">
@@ -141,6 +148,7 @@
                                                         </form>
                                                         </div>
                                                     </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>

@@ -61,7 +61,19 @@
                 @endif
                 <div class="d-none d-xl-block ps-2">
                   <div>{{ Auth::guard('user')->user()->nama_caleg }}</div>
-                  <div class="mt-1 small text-muted">{{ Auth::guard('user')->user()->id_role == 1 ? 'Caleg' : 'Administrator' }}</div>
+                  <div class="mt-1 small text-muted">
+                    @if (Auth::guard('user')->user()->id_role == 1)
+                        Caleg
+                    @elseif (Auth::guard('user')->user()->id_role == 2)
+                        admin
+                    @elseif (Auth::guard('user')->user()->id_role == 3)
+                        Parpol
+                    @elseif (Auth::guard('user')->user()->id_role == 5)
+                        Kor Kecamatan
+                    @elseif (Auth::guard('user')->user()->id_role == 6)
+                        Kor Kelurahan
+                    @endif
+                  </div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

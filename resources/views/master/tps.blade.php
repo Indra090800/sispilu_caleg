@@ -38,8 +38,8 @@
                             @endif
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="row mt-2">
+                           <div class="col-12">
                                 <a href="#" class="btn btn-primary" id="btnTambah">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -47,14 +47,6 @@
                                 <path d="M5 12l14 0"></path>
                                 </svg>
                                 Tambah Data</a>
-                                <br>.
-                                <form action="/tps" method="post" enctype="multipart/form-data" style="mt-2">
-                                    @csrf
-                                    <div class="input-group mb-3">
-                                        <input type="file" name="file" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
-                                        <button class="btn btn-primary" type="submit" id="button-addon2">Import</button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -107,14 +99,14 @@
                                                 <th class="text-center">Alamat</th>
                                                 <th class="text-center">Desa</th>
                                                 <th class="text-center">Kecamatan</th>
-                                                <th class="text-center">Lokasi</th>
+                                                <th class="text-center">RT/RW</th>
                                                 <th class="text-center">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($tps as $k)
                                                 <tr>
-                                                    <td width="5px">{{ $loop->iteration }}</td>
+                                                    <td width="5px">{{ $loop->iteration + $tps->firstItem()-1 }}</td>
                                                     <td class="text-center">{{ $k->nama_tps }}</td>
                                                     <td class="text-center">{{ $k->alamat }}</td>
                                                     <td class="text-center">{{ $k->desa }}</td>
@@ -217,7 +209,7 @@
                             <span class="input-icon-addon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-current-location" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>
                             </span>
-                            <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="lokasi TPS">
+                            <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="RT/RW">
                         </div>
                     </div>
                 </div>
@@ -300,7 +292,7 @@
                             <span class="input-icon-addon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-current-location" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0 -16 0" /><path d="M12 2l0 2" /><path d="M12 20l0 2" /><path d="M20 12l2 0" /><path d="M2 12l2 0" /></svg>
                             </span>
-                            <input type="text" value="{{ $k->lokasi }}" name="lokasi" id="lokasi" class="form-control" placeholder="lokasi TPS">
+                            <input type="text" value="{{ $k->lokasi }}" name="lokasi" id="lokasi" class="form-control" placeholder="RT/RW">
                         </div>
                     </div>
                 </div>

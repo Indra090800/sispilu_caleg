@@ -26,7 +26,7 @@ class TPSController extends Controller
         if(!empty($request->denah == 'Kecamatan')){
             $query->where('tb_tps.kecamatan', $request->search_denah);
         }
-        $tps = $query->paginate(15);
+        $tps = $query->paginate(25);
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')

@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#000000">
-    <title>SIS-PEMILU</title>
+    <title>SAHABAT ADES</title>
     <meta name="description" content="Mobilekit HTML Mobile UI Kit">
     <meta name="keywords" content="bootstrap 4, mobile template, cordova, phonegap, mobile, html" />
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}" sizes="32x32">
@@ -31,10 +31,10 @@
 
         <div class="login-form mt-1">
             <div class="section">
-                <img src="{{ asset('assets/img/login/login.jpg') }}" alt="image" class="form-image">
+                <img src="{{ asset('dist/img/logo_ades.png') }}" alt="image" class="form-image">
             </div>
             <div class="section mt-1">
-                <h1>SIS-PEMILU</h1>
+                <h1>SAHABAT ADES</h1>
                 <h4>Silahkan Login</h4>
             </div>
             <div class="section mt-1 mb-5">

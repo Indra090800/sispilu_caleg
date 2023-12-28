@@ -155,7 +155,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="input-icon mb-3">
-                            <input type="text" name="nik_voters" id="nik_voters" class="form-control" placeholder="NIK">
+                            <input type="text" maxlength="17" name="nik_voters" id="nik_voters" class="form-control" placeholder="NIK">
                         </div>
                     </div>
                 </div>
@@ -338,8 +338,10 @@
 @endsection
 
 @push('myscript')
+
 <script>
     $(function(){
+
         $("#btnTambah").click(function(){
             $("#modal-inputvoters").modal("show");
         });
@@ -363,6 +365,11 @@
 
         $("#frmVoters").submit(function(){
             var nama_voters = $("#frmVoters").find("#nama_voters").val();
+            var nik_voters = $("#frmVoters").find("#nik_voters").val();
+            var usia = $("#frmVoters").find("#usia").val();
+            var rw = $("#frmVoters").find("#rw").val();
+            var rt = $("#frmVoters").find("#rt").val();
+            var no_hp = $("#frmVoters").find("#no_hp").val();
             var alamat = $("#alamat").val();
             var desa = $("#desa").val();
             var kecamatan = $("#kecamatan").val();
@@ -376,6 +383,61 @@
                 confirmButtonText: 'OK'
                 }).then((result) => {
                     $("#nama_voters").focus();
+                });
+
+                return false;
+            }else if(nik_voters==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'NIK Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#nik_voters").focus();
+                });
+
+                return false;
+            }else if(usia==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'usia Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#usia").focus();
+                });
+
+                return false;
+            }else if(rw==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Rw Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#rw").focus();
+                });
+
+                return false;
+            }else if(rt==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'RT Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#rt").focus();
+                });
+
+                return false;
+            }else if(no_hp==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'No Hp Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#no_hp").focus();
                 });
 
                 return false;

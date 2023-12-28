@@ -20,7 +20,8 @@ class VotersController extends Controller
     public function index(Request $request)
     {
         $query = Voters::query();
-        $query->select('tb_voters.*');
+        $query->select('tb_voters.*', 'nama_saksi');
+        $query->join('tb_saksi', 'tb_voters.id_saksi', '=', 'tb_saksi.id_saksi');
         $query->orderBY('nik_voters');
         if(!empty($request->nama_voters)){
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
@@ -64,19 +65,14 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_saksi'     => Auth::guard('caleg')->user()->id_saksi,
             ];
             $simpan = DB::table('tb_voters')->insert($data);
         if($simpan){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
         }
         } catch (\Exception $e) {
-            if($e->getCode()==23000){
-                $message = "Data Sudah Ada!!";
-            }else {
-                $message = "Hubungi Tim IT";
-            }
-            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
-
+            echo $e;
         }
     }
 
@@ -105,6 +101,7 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_saksi'     => Auth::guard('caleg')->user()->id_saksi,
             ];
             $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
         if($update){
@@ -155,7 +152,8 @@ class VotersController extends Controller
         $query->where('id', $id);
         $e = $query->first();
         //hitung persentase
-        $persentase = (float)($e->total/$d->vote)*100;
+        $persentase =0;
+        $persentase == 0 ? 0 : (float)($e->total/$d->vote)*100;
 
         $jam = Traffic::select('*')
         ->where('id', $id)
@@ -196,6 +194,7 @@ class VotersController extends Controller
         $query = Voters::query();
         $query->select('tb_voters.*');
         $query->orderBY('nik_voters');
+        $query->where('id_saksi', Auth::guard('caleg')->user()->id_saksi);
         if(!empty($request->nama_voters)){
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
         }

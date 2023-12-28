@@ -3,135 +3,114 @@
 namespace App\Http\Controllers;
 
 use App\Models\Karyawan;
+use App\Models\TPS;
+use App\Models\Voters;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
 
 class KaryawanController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Karyawan::query();
-        $query->select('tbl_karyawan.*','nama_dept', 'nama_cabang');
-        $query->join('tbl_dept', 'tbl_karyawan.kode_dept', '=', 'tbl_dept.kode_dept');
-        $query->join('tbl_cabang', 'tbl_karyawan.kode_cabang', '=', 'tbl_cabang.kode_cabang');
-        $query->orderBY('nama_lengkap');
-        if(!empty($request->nama_lengkap)){
-            $query->where('nama_lengkap', 'like', '%'. $request->nama_lengkap.'%');
-        }
-        if(!empty($request->kode_dept)){
-            $query->where('tbl_karyawan.kode_dept', $request->kode_dept);
-        }
-        $karyawan = $query->paginate(7);
-        $dept = DB::table('tbl_dept')->get();
-        $cabang = DB::table('tbl_cabang')->get();
+        //log
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        //jml voters
+        $jml_voters = DB::table('tb_voters')
+        ->selectRaw('COUNT(id_voters) as jml_voters')
+        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
 
-        return view('karyawan.index', compact('karyawan', 'dept', 'cabang'));
+        $jml_voters_desa = DB::table('tb_voters')
+        ->selectRaw('COUNT(id_voters) as jml_voters_desa')
+        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->where('desa', 'like', '%'. $request->desa.'%')
+        ->first();
+        //jml tps
+        $jml_tps = DB::table('tb_tps')
+        ->selectRaw('COUNT(id_tps) as jml_tps')
+        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
+        //voters
+        $query = Voters::query();
+        $query->select('tb_voters.*');
+        $query->orderBY('nik_voters');
+        $query->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        if(!empty($request->desa)){
+            $query->where('desa', 'like', '%'. $request->desa.'%');
+        }
+        $voters = $query->paginate(7);
+
+        //TPS
+        $query = TPS::query();
+        $query->select('tb_tps.*');
+        $query->orderBY('desa');
+        $query->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        if(!empty($request->desa1)){
+            $query->where('desa', 'like', '%'. $request->desa1.'%');
+            $tps = $query->paginate(25);
+        }else{
+        $tps = $query->paginate(10);
+        }
+        $Otps = DB::table('tb_tps')
+        ->selectRaw('desa')
+        ->groupBy('desa')
+        ->get();
+        $Ovoters = DB::table('tb_voters')
+        ->selectRaw('desa')
+        ->groupBy('desa')
+        ->get();
+
+        return view('monitor.kecamatan', compact('log', 'Otps', 'Ovoters','count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
     }
 
-    public function addKaryawan(Request $request)
+    public function create(Request $request)
     {
-        $nik            = $request->nik;
-        $nama_lengkap   = $request->nama_lengkap;
-        $jabatan        = $request->jabatan;
-        $no_hp          = $request->no_hp;
-        $kode_dept      = $request->kode_dept;
-        $kode_cabang      = $request->kode_cabang;
-        $password       = Hash::make('12345');
-        $kode_cabang    = $request->kode_cabang;
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        $jml_voters = DB::table('tb_voters')
+        ->selectRaw('COUNT(id_voters) as jml_voters')
+        ->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
 
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
-        }else{
-            $foto = null;
-        }
-        
-        try {
-            $data = [
-                'nik'           => $nik,
-                'nama_lengkap'  => $nama_lengkap,
-                'jabatan'       => $jabatan,
-                'no_hp'         => $no_hp,
-                'kode_dept'     => $kode_dept,
-                'password'      => $password,
-                'kode_cabang'   => $kode_cabang,
-                'foto'          => $foto
-            ];
-            $simpan = DB::table('tbl_karyawan')->insert($data);
-        if($simpan){
-            if($request->hasFile('foto')){
-                $folderPath = "public/uploads/karyawan/";
-                $request->file('foto')->storeAs($folderPath, $foto);
-            }
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
-        }
-        } catch (\Exception $e) {
-            if($e->getCode()==23000){
-                $message = "Data NIK = ".$nik." Sudah Ada!!";
-            }else {
-                $message = "Hubungi Tim IT";
-            }
-            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
-        }
-    }
+        $jml_voters_desa = DB::table('tb_voters')
+        ->selectRaw('COUNT(id_voters) as jml_voters_desa')
+        ->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
+        //jml tps
+        $jml_tps = DB::table('tb_tps')
+        ->selectRaw('COUNT(id_tps) as jml_tps')
+        ->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
+        //voters
+        $query = Voters::query();
+        $query->select('tb_voters.*');
+        $query->orderBY('nik_voters');
+        $query->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        $voters = $query->paginate(7);
 
-    public function editKaryawan($nik, Request $request)
-    {
-        $nama_lengkap = $request->nama_lengkap;
-        $jabatan = $request->jabatan;
-        $no_hp = $request->no_hp;
-        $kode_dept = $request->kode_dept;
-        $password = Hash::make('12345');
-        $kode_cabang = $request->kode_cabang;
+        //TPS
+        $query = TPS::query();
+        $query->select('tb_tps.*');
+        $query->orderBY('desa');
+        $query->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        $tps = $query->paginate(10);
 
-        $karyawan = DB::table('tbl_karyawan')->where('nik', $nik)->first();
-        $old_foto = $karyawan->foto;
-
-        if($request->hasFile('foto')){
-            $foto = $nik.".".$request->file('foto')->getClientOriginalExtension();
-        }else{
-            $foto = $old_foto;
-        }
-        
-        try {
-            $data = [
-                'nama_lengkap' => $nama_lengkap,
-                'jabatan' => $jabatan,
-                'no_hp' => $no_hp,
-                'kode_dept' =>$kode_dept,
-                'password' => $password,
-                'kode_cabang'   => $kode_cabang,
-                'foto' => $foto
-            ];
-            $update = DB::table('tbl_karyawan')->where('nik', $nik)->update($data);
-        if($update){
-            if($request->hasFile('foto')){
-                $folderPath = "public/uploads/karyawan/";
-                $folderPathOld = "public/uploads/karyawan/".$old_foto;
-                Storage::delete($folderPathOld);
-                $request->file('foto')->storeAs($folderPath, $foto);
-            }
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
-        }
-        } catch (\Exception $e) {
-            return Redirect::back()->with(['error' => 'Data Gagal Di Update!!']);
-        }
-    }
-
-    public function delete($nik)
-    {
-        $karyawan = DB::table('tbl_karyawan')->where('nik', $nik)->first();
-        $old_foto = $karyawan->foto;
-        $folderPathOld = "public/uploads/karyawan/".$old_foto;
-        Storage::delete($folderPathOld);
-        $delete =  DB::table('tbl_karyawan')->where('nik', $nik)->delete();  
-        
-        if($delete){
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
-        }else{
-            return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']); 
-        }
+        return view('monitor.kelurahan', compact('log', 'count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
     }
 }

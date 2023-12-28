@@ -323,7 +323,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="number" value="{{ $k->nik }}" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
+                            <input type="number" readonly value="{{ $k->nik }}" maxlength="17" name="nik" class="form-control" placeholder="NIK" id="nik">
                         </div>
                     </div>
                 </div>

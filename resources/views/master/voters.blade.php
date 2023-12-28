@@ -40,6 +40,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
+                            @if(Auth::guard()->user()->id_role == 2)
                                 <a href="#" class="btn btn-primary" id="btnTambah">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -47,6 +48,7 @@
                                 <path d="M5 12l14 0"></path>
                                 </svg>
                                 Tambah Data</a>
+                            @endif
                                 <form action="/voters/cetakVoters" method="POST" target="_blank" class="mt-2">
                                     @csrf
                                     <button type="submit" class="btn btn-danger">
@@ -110,13 +112,16 @@
                                                 <th class="text-center">Kecamatan</th>
                                                 <th class="text-center">Kota</th>
                                                 <th class="text-center">No. HP</th>
+                                                <th class="text-center">Nama Saksi</th>
+                                                @if(Auth::guard()->user()->id_role == 2)
                                                 <th class="text-center">Aksi</th>
+                                                @endif
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($voters as $k)
                                                 <tr>
-                                                    <td width="5px">{{ $loop->iteration }}</td>
+                                                    <td width="5px">{{ $loop->iteration + $voters->firstItem()-1 }}</td>
                                                     <td class="text-center">{{ $k->nama_voters }}</td>
                                                     <td class="text-center">{{ $k->nik_voters }}</td>
                                                     <td class="text-center">{{ $k->usia }}</td>
@@ -127,6 +132,8 @@
                                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                                     <td class="text-center">{{ $k->kota }}</td>
                                                     <td class="text-center">{{ $k->no_hp }}</td>
+                                                    <td class="text-center">{{ $k->nama_saksi}}</td>
+                                                    @if(Auth::guard()->user()->id_role == 2)
                                                     <td class="text-center">
                                                         <div class="btn-group">
                                                         <form action="/voters/{{ $k->id_voters }}/delete" method="POST" style="margin-left: 5px;">
@@ -149,6 +156,7 @@
                                                         </form>
                                                         </div>
                                                     </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>
