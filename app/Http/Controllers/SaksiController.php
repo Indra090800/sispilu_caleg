@@ -20,11 +20,11 @@ class SaksiController extends Controller
         $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
         $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
         $query->orderBY('nama_saksi');
-        if(!empty($request->nama_saksi)){
-            $query->where('nama_saksi', 'like', '%'. $request->nama_saksi.'%');
+        if(!empty($request->alamat)){
+            $query->where('tb_saksi.alamat', 'like', '%'. $request->alamat.'%');
         }
-        if(!empty($request->id_parpol)){
-            $query->where('tb_saksi.id_parpol', $request->id_parpol);
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
         }
         $saksi = $query->paginate(15);
         $parpol = DB::table('tb_parpol')->get();

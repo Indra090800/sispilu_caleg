@@ -112,7 +112,7 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/monitor/kordinator/kecamatan', [KaryawanController::class, 'index']);
     Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
     //carimonitor
-    Route::get('/cari/monitor', [DashboardController::class, 'cari']);
+    Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);
 });
 
 

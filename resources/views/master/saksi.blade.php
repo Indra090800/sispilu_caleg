@@ -57,15 +57,15 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" name="nama_saksi" id="nama_saksi" value="{{ Request('nama_saksi') }}"  class="form-control" placeholder="Nama saksi">
+                                                <input type="text" name="alamat" id="alamat" value="{{ Request('alamat') }}"  class="form-control" placeholder="Alamat">
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="form-group">
-                                                <select name="id_parpol" id="id_parpol" class="form-select">
-                                                    <option value="">Asal Parpol</option>
-                                                    @foreach ($parpol as $j)
-                                                        <option {{ Request('id_parpol') == $j->id_parpol ? 'selected' : '' }} value="{{ $j->id_parpol }}">{{ $j->nama_parpol }}</option>
+                                                <select name="id_tps" id="id_tps" class="form-select">
+                                                    <option value="">Asal TPS</option>
+                                                    @foreach ($tps as $j)
+                                                        <option {{ Request('id_tps') == $j->id_tps ? 'selected' : '' }} value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
