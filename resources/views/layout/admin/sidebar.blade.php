@@ -205,6 +205,36 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('user')->user()->id_role == 1 ||Auth::guard('user')->user()->id_role == 2)
+                <li class="nav-item dropdown">
+                <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['kordinator/*']) ? 'true' : '' }}" >
+                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" /><path d="M12 12l8 -4.5" /><path d="M12 12l0 9" /><path d="M12 12l-8 -4.5" /><path d="M16 5.25l-8 4.5" /></svg>
+                  </span>
+                  <span class="nav-link-title">
+                    Monitoring
+                  </span>
+                </a>
+                <div class="dropdown-menu {{ request()->is(['kordinator/*']) ? 'show' : '' }}">
+                  <div class="dropdown-menu-columns">
+                    <div class="dropdown-menu-column">
+
+                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/saksi']) ? 'active' : '' }}" href="/kordinator/saksi">
+                            Saksi
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/tps']) ? 'active' : '' }}" href="/kordinator/tps">
+                            TPS
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/voters']) ? 'active' : '' }}" href="/kordinator/voters">
+                            Voters
+                            </a>
+
+                    </div>
+                  </div>
+                </div>
+                </li>
+                @endif
+
                 @if (Auth::guard('user')->user()->id_role == 2)
                 <li class="nav-item dropdown">
                 <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['kordinator/*']) ? 'true' : '' }}" >
@@ -231,6 +261,7 @@
                 </div>
                 </li>
                 @endif
+                
                 @if (Auth::guard('user')->user()->id_role == 5 || Auth::guard('user')->user()->id_role == 6)
                 <li class="nav-item dropdown">
                 <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['monitor/kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['monitor/kordinator/*']) ? 'true' : '' }}" >
@@ -245,8 +276,14 @@
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
                         @if (Auth::guard('user')->user()->id_role == 5)
-                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kecamatan']) ? 'active' : '' }}" href="/monitor/kordinator/kecamatan">
-                            Kordinator Kecamatan
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/saksi']) ? 'active' : '' }}" href="/monitor/kordinator/saksi">
+                            Monitoring Saksi
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/tps']) ? 'active' : '' }}" href="/monitor/kordinator/tps">
+                            Monitoring TPS
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/voters']) ? 'active' : '' }}" href="/monitor/kordinator/voters">
+                            Monitoring Voters
                             </a>
                         @elseif (Auth::guard('user')->user()->id_role == 6)
                             <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan">

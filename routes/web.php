@@ -116,6 +116,11 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
     //carimonitor
     Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);
+
+    //monitoring caleg saksi,tps,voters
+    Route::get('/kordinator/saksi', [KordinatorController::class, 'saksi']);
+    Route::get('/kordinator/tps', [KordinatorController::class, 'tps']);
+    Route::get('/kordinator/voters', [KordinatorController::class, 'voters']);
 });
 
 
