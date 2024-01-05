@@ -31,7 +31,7 @@ class KordinatorController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
@@ -61,7 +61,7 @@ class KordinatorController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')

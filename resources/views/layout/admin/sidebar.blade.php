@@ -183,31 +183,6 @@
                   </div>
                 </div>
                 </li>
-                @elseif(Auth::guard('user')->user()->id_role == 1)
-                <li class="nav-item dropdown">
-                <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['caleg', 'parpol','saksi','role','voters','kordinator']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['caleg', 'parpol','saksi','role','voters','kordinator']) ? 'true' : '' }}" >
-                  <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-stack" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4" /><path d="M5 21h14" /><path d="M5 18h14" /><path d="M5 15h14" /></svg>
-                  </span>
-                  <span class="nav-link-title">
-                    Data Master
-                  </span>
-                </a>
-                <div class="dropdown-menu {{ request()->is(['caleg', 'parpol','saksi', 'tps','role','voters','kordinator']) ? 'show' : '' }}">
-                  <div class="dropdown-menu-columns">
-                    <div class="dropdown-menu-column">
-
-                            <a  style="color: white"class="dropdown-item {{ request()->is(['saksi']) ? 'active' : '' }}" href="/saksi">
-                            Master Saksi
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
-                            Master voters
-                            </a>
-
-                    </div>
-                  </div>
-                </div>
-                </li>
                 @endif
 
                 @if (Auth::guard('user')->user()->id_role == 1 ||Auth::guard('user')->user()->id_role == 2)

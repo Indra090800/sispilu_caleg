@@ -99,7 +99,7 @@
 
         <div class="row mt-2">
             <div class="col-12">
-                <form action="/cari/monitor" method="GET">
+                <form action="/cari/monitor/{{ $kecamatan }}" method="GET">
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -149,6 +149,7 @@
                                 <th class="text-center">Kecamatan</th>
                                 <th class="text-center">Kota</th>
                                 <th class="text-center">No. HP</th>
+                                <th class="text-center">Nama. Saksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -165,11 +166,12 @@
                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                     <td class="text-center">{{ $k->kota }}</td>
                                     <td class="text-center">{{ $k->no_hp }}</td>
+                                    <td class="text-center">{{ $k->nama_saksi}}</td>
                                 </tr>
 
                             @endforeach
                             <tr>
-                                <td colspan="10" class="text-right">Jumlah </td>
+                                <td colspan="11" class="text-right">Jumlah </td>
                                 <td class="text-center">{{ $jml_voters_desa->jml_voters_desa }}</td>
                             </tr>
                         </tbody>
@@ -181,7 +183,7 @@
 
         <div class="row mt-2">
             <div class="col-12">
-                <form action="/cari/monitor" method="GET">
+                <form action="/cari/monitor/{{ $kecamatan }}" method="GET">
                     <div class="row">
                         <div class="col-4">
                             <div class="form-group">
@@ -258,7 +260,7 @@
 
         <div class="row mt-2">
                             <div class="col-12">
-                                <form action="/cari/monitor" method="GET">
+                                <form action="/cari/monitor/{{ $kecamatan }}" method="GET">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">

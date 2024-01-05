@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Karyawan;
 use App\Models\TPS;
 use App\Models\Voters;
+use App\Models\Saksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,17 +17,20 @@ class KaryawanController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
         //jml voters
-        $jml_voters = DB::table('tb_voters')
-        ->selectRaw('COUNT(id_voters) as jml_voters')
-        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
-        ->first();
+        $query = Voters::query();
+        $query->selectRaw('COUNT(id_voters) as jml_voters ');
+        $query->where('kecamatan', Auth::guard()->user()->wilayah);
+        if(!empty($request->desa)){
+            $query->where('desa', 'like', '%'. $request->desa.'%');
+        }
+        $jml_voters = $query->first();
 
         $jml_voters_desa = DB::table('tb_voters')
         ->selectRaw('COUNT(id_voters) as jml_voters_desa')
@@ -34,10 +38,13 @@ class KaryawanController extends Controller
         ->where('desa', 'like', '%'. $request->desa.'%')
         ->first();
         //jml tps
-        $jml_tps = DB::table('tb_tps')
-        ->selectRaw('COUNT(id_tps) as jml_tps')
-        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
-        ->first();
+        $query = TPS::query();
+        $query->selectRaw('COUNT(id_tps) as jml_tps');
+        $query->where('kecamatan', Auth::guard()->user()->wilayah);
+        if(!empty($request->desa1)){
+            $query->where('desa', 'like', '%'. $request->desa1.'%');
+        }
+        $jml_tps= $query->first();
         //voters
         $query = Voters::query();
         $query->select('tb_voters.*');
@@ -67,8 +74,26 @@ class KaryawanController extends Controller
         ->selectRaw('desa')
         ->groupBy('desa')
         ->get();
+        $query = Saksi::query();
+        $query->select('tb_saksi.*','nama_tps', 'nama_parpol');
+        $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
+        $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->where('tb_saksi.kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        $query->orderBY('nama_saksi');
+        if(!empty($request->alamat)){
+            $query->where('tb_saksi.alamat', 'like', '%'. $request->alamat.'%');
+        }
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
+        }
+        $saksi = $query->paginate(15);
+        $jml_saksi = DB::table('tb_saksi')
+        ->selectRaw('COUNT(id_saksi) as jml_saksi')
+        ->where('kecamatan', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
+        $tps1 = DB::table('tb_tps')->get();
 
-        return view('monitor.kecamatan', compact('log', 'Otps', 'Ovoters','count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
+        return view('monitor.kecamatan', compact('saksi','jml_saksi','tps1','log', 'Otps', 'Ovoters','count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
     }
 
 
@@ -77,7 +102,7 @@ class KaryawanController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
@@ -111,6 +136,25 @@ class KaryawanController extends Controller
         $query->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%');
         $tps = $query->paginate(10);
 
-        return view('monitor.kelurahan', compact('log', 'count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
+        $query = Saksi::query();
+        $query->select('tb_saksi.*','nama_tps', 'nama_parpol');
+        $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
+        $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->where('tb_saksi.desa', 'like', '%'.Auth::guard()->user()->wilayah.'%');
+        $query->orderBY('nama_saksi');
+        if(!empty($request->alamat)){
+            $query->where('tb_saksi.alamat', 'like', '%'. $request->alamat.'%');
+        }
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
+        }
+        $saksi = $query->paginate(15);
+        $jml_saksi = DB::table('tb_saksi')
+        ->selectRaw('COUNT(id_saksi) as jml_saksi')
+        ->where('desa', 'like', '%'.Auth::guard()->user()->wilayah.'%')
+        ->first();
+        $tps1 = DB::table('tb_tps')->get();
+
+        return view('monitor.kelurahan', compact('saksi','jml_saksi','tps1','log', 'count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps'));
     }
 }

@@ -3,6 +3,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>PANEL - SAHABAT ADES </title>
     <!-- CSS files -->
     <link href="{{ asset('dist/css/tabler.min.css?1674944402') }}" rel="stylesheet"/>
@@ -23,9 +24,10 @@
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{{ asset('assets/js/chart.js') }}"></script>
   </head>
-  <body >
+  <body>
     <script src="{{ asset('dist/js/demo-theme.min.js?1674944402') }}"></script>
     <div class="page">
       @include('layout.admin.sidebar')
@@ -51,6 +53,7 @@
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
      crossorigin=""></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
     @stack('myscripct')
 

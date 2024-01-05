@@ -124,7 +124,7 @@
                     <ul class="nav nav-tabs style1" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#home" role="tab">
-                                Kandidat
+                                Calon Pemilih Tetap
                             </a>
                         </li>
                         <li class="nav-item">
@@ -142,19 +142,12 @@
                             <li>
                                 <div class="item">
                                     <div class="icon-box bg-primary">
-                                        @if (!empty($d->foto_caleg))
-                                        @php
-                                            $path = Storage::url('public/uploads/caleg/'.$d->foto_caleg);
-                                        @endphp
-                                        <img src="{{ url($path) }}" alt="avatar" class="imaged w32 rounded" style="height: 40px;">
-                                        @else
                                         <img src="assets/img/sample/avatar/avatar1.jpg" alt="avatar" class="imaged w32 rounded">
-                                        @endif
                                     </div>
                                     <div class="in">
-                                        <div>{{ $d->nama_caleg }}</div>
-                                        <span class="badge badge-success"></span>
-                                        <span class="badge badge-danger">{{ $d->nama_parpol }}</span>
+                                        <div>{{ $d->nama_voters }}</div>
+                                        <span class="badge badge-success">{{ $d->desa }}</span>
+                                        <span class="badge badge-danger">{{ $d->kecamatan }}</span>
                                     </div>
                                 </div>
                             </li>

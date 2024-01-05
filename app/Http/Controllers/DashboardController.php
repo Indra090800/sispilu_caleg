@@ -106,11 +106,12 @@ class DashboardController extends Controller
         $jml_tps= $query->first();
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*');
+        $query->select('tb_voters.*','nama_saksi');
         $query->orderBY('nik_voters');
-        $query->where('kecamatan', 'like', '%'.$kecamatan.'%');
+        $query->join('tb_saksi', 'tb_voters.id_saksi', '=', 'tb_saksi.id_saksi');
+        $query->where('tb_voters.kecamatan', 'like', '%'.$kecamatan.'%');
         if(!empty($request->desa2)){
-            $query->where('desa', 'like', '%'. $request->desa2.'%');
+            $query->where('tb_voters.desa', 'like', '%'. $request->desa2.'%');
         }
         if(!empty($request->nama_voters)){
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
@@ -162,6 +163,6 @@ class DashboardController extends Controller
         }
         $jml_saksi= $query->first();
 
-        return view('monitor.cari', compact('jml_saksi','log', 'Otps', 'Ovoters','count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps','saksi','tps1'));
+        return view('monitor.cari', compact('kecamatan','jml_saksi','log', 'Otps', 'Ovoters','count', 'jml_voters', 'jml_tps', 'voters', 'jml_voters_desa','tps','saksi','tps1'));
     }
 }

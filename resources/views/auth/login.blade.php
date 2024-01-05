@@ -50,7 +50,7 @@
                     @csrf
                     <div class="form-group boxed">
                         <div class="input-wrapper">
-                            <input type="text" name="nik_ktp" class="form-control" id="nik_ktp" placeholder="NIK">
+                            <input type="text" name="nik_ktp" class="form-control" id="nik_ktp" placeholder="Username">
                             <i class="clear-input">
                                 <ion-icon name="close-circle"></ion-icon>
                             </i>
@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-links mt-2">
-                        <div><a href="/panel" class="text-muted">Login Sebagai Caleg?</a></div>
+                        <div><a href="/panel" class="text-muted">Login Sebagai Caleg/Kordinator?</a></div>
                     </div>
 
                     <div class="form-button-group">

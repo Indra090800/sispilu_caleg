@@ -30,13 +30,19 @@ class VotersController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
-        return view('master.voters', compact('voters', 'log', 'count'));
+        $caleg = DB::table('users')
+        ->leftJoin('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol')
+        ->where('users.id_parpol', '>=', 1)
+        ->where('users.id_role', 1)
+        ->orderBy('users.id_parpol', 'ASC')->get();
+        
+        return view('master.voters', compact('voters', 'log', 'count','caleg'));
     }
 
     public function addVoters(Request $request)
@@ -66,6 +72,7 @@ class VotersController extends Controller
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
                 'id_saksi'     => Auth::guard('caleg')->user()->id_saksi,
+                'id'           => Auth::guard('caleg')->user()->id,
             ];
             $simpan = DB::table('tb_voters')->insert($data);
         if($simpan){
@@ -102,6 +109,82 @@ class VotersController extends Controller
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
                 'id_saksi'     => Auth::guard('caleg')->user()->id_saksi,
+                'id'           => Auth::guard('caleg')->user()->id,
+            ];
+            $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
+        if($update){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
+        }
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error' => 'Data Gagal Di Update!!']);
+        }
+    }
+    
+    public function addVoters1(Request $request)
+    {
+        $nama_voters   = $request->nama_voters;
+        $nik_voters    = $request->nik_voters;
+        $alamat        = $request->alamat;
+        $usia          = $request->usia;
+        $rt            = $request->rt;
+        $rw            = $request->rw;
+        $desa          = $request->desa;
+        $kecamatan     = $request->kecamatan;
+        $kota          = $request->kota;
+        $no_hp         = $request->no_hp;
+
+        try {
+            $data = [
+                'nama_voters'  => $nama_voters,
+                'nik_voters'   => $nik_voters,
+                'alamat'       => $alamat,
+                'usia'         => $usia,
+                'rt'           => $rt,
+                'rw'           => $rw,
+                'no_hp'        => $no_hp,
+                'desa'         => $desa,
+                'desa'         => $desa,
+                'kecamatan'    => $kecamatan,
+                'kota'         => $kota,
+                'id_saksi'     => Auth::guard()->user()->id,
+                'id'           => $request->id,
+            ];
+            $simpan = DB::table('tb_voters')->insert($data);
+        if($simpan){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+        }
+        } catch (\Exception $e) {
+            echo $e;
+        }
+    }
+
+    public function editVoters1($id_voters, Request $request)
+    {
+        $nama_voters   = $request->nama_voters;
+        $nik_voters    = $request->nik_voters;
+        $alamat        = $request->alamat;
+        $usia          = $request->usia;
+        $rt            = $request->rt;
+        $rw            = $request->rw;
+        $desa          = $request->desa;
+        $kecamatan     = $request->kecamatan;
+        $kota          = $request->kota;
+        $no_hp         = $request->no_hp;
+
+        try {
+            $data = [
+                'nama_voters'  => $nama_voters,
+                'nik_voters'   => $nik_voters,
+                'alamat'       => $alamat,
+                'usia'         => $usia,
+                'rt'           => $rt,
+                'rw'           => $rw,
+                'no_hp'        => $no_hp,
+                'desa'         => $desa,
+                'kecamatan'    => $kecamatan,
+                'kota'         => $kota,
+                'id_saksi'     => Auth::guard()->user()->id,
+                'id'           => $request->id,
             ];
             $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
         if($update){
@@ -177,7 +260,7 @@ class VotersController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')

@@ -32,14 +32,19 @@ class SaksiController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
+        $caleg = DB::table('users')
+        ->leftJoin('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol')
+        ->where('users.id_parpol', '>=', 1)
+        ->where('users.id_role', 1)
+        ->orderBy('users.id_parpol', 'ASC')->get();
 
-        return view('master.saksi', compact('saksi','parpol', 'tps','count','log'));
+        return view('master.saksi', compact('saksi','parpol', 'tps','count','log','caleg'));
     }
 
     public function editprofile()
@@ -54,10 +59,13 @@ class SaksiController extends Controller
         $nik_ktp            = $request->nik_ktp;
         $nama_saksi     = $request->nama_saksi;
         $alamat         = $request->alamat;
+        $desa           = $request->desa;
+        $kecamatan      = $request->kecamatan;
         $no_hp          = $request->no_hp;
         $id_parpol      = $request->id_parpol;
         $id_tps         = $request->id_tps;
         $password       = Hash::make('12345');
+        $id             = $request->id;
 
         if($request->hasFile('foto_saksi')){
             $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
@@ -70,10 +78,13 @@ class SaksiController extends Controller
                 'nik_ktp'       => $nik_ktp,
                 'nama_saksi'    => $nama_saksi,
                 'alamat'        => $alamat,
+                'desa'          => $desa,
+                'kecamatan'     => $kecamatan,
                 'no_hp'         => $no_hp,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_tps'        => $id_tps,
+                'id'            => $id,
                 'foto_saksi'    => $foto_saksi
             ];
             $simpan = DB::table('tb_saksi')->insert($data);
@@ -100,10 +111,13 @@ class SaksiController extends Controller
         $nik_ktp        = $request->nik_ktp;
         $nama_saksi     = $request->nama_saksi;
         $alamat         = $request->alamat;
+        $desa           = $request->desa;
+        $kecamatan      = $request->kecamatan;
         $no_hp          = $request->no_hp;
         $id_tps         = $request->id_tps;
         $id_parpol      = $request->id_parpol;
         $password       = Hash::make('12345');
+        $id             = $request->id;
 
         $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         $old_foto_saksi = $saksi->foto_saksi;
@@ -119,8 +133,10 @@ class SaksiController extends Controller
                 'nik_ktp'       => $nik_ktp,
                 'nama_saksi'    => $nama_saksi,
                 'alamat'        => $alamat,
+                'desa'          => $desa,
+                'kecamatan'     => $kecamatan,
                 'no_hp'         => $no_hp,
-                'id_tps'        => $id_tps,
+                'id'            => $id,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'foto_saksi'    => $foto_saksi
@@ -163,9 +179,14 @@ class SaksiController extends Controller
         $no_hp          = $request->no_hp;
         $id_tps         = Auth::guard('caleg')->user()->id_tps;
         $id_parpol      = Auth::guard('caleg')->user()->id_parpol;
-        $password       = Hash::make($request->password);
-
+        
+        $c = $request->password;
         $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
+        if($c = null){
+          $password = Hash::make('12345');
+        }else{
+          $password = Hash::make($request->password);
+        }
         $old_foto_saksi = $saksi->foto_saksi;
 
         if($request->hasFile('foto_saksi')){
@@ -205,6 +226,7 @@ class SaksiController extends Controller
         $caleg = DB::table('users')
         ->leftJoin('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol')
         ->where('users.id_parpol', '>=', 1)
+        ->where('users.id_role', 1)
         ->orderBy('users.id_parpol', 'ASC')->get();
         //tps
         $id_tps = Auth::guard('caleg')->user()->id_tps;
@@ -230,6 +252,7 @@ class SaksiController extends Controller
         $id = $request->id;
         $jml_vote = $request->jml_vote;
         $caleg = DB::table('users')->where('id', $id)->first();
+        $cek = DB::table('tb_vote')->where('id', $id)->where('id_tps', $id_tps)->where('id_saksi', $id_saksi)->count();
         try {
             $data = [
                 'id_saksi' => $id_saksi,

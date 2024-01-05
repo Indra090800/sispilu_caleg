@@ -182,7 +182,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/addVoters" method="post" id="frmVoters">
+            <form action="/addVoters1" method="post" id="frmVoters">
                 @csrf
 
                 <div class="row">
@@ -287,6 +287,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id" id="id" class="form-select">
+                            <option value="">--Pilih for Caleg--</option>
+                            @foreach ($caleg as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -316,7 +326,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/voters/{{ $k->id_voters }}/edit" method="POST" id="frVoters">
+            <form action="/voters/{{ $k->id_voters }}/edit1" method="POST" id="frVoters">
                 @csrf
 
                 <div class="row">
@@ -421,6 +431,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id" id="id" class="form-select">
+                            <option value="">--Pilih for Caleg--</option>
+                            @foreach ($caleg as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -469,70 +489,142 @@
 
 
             $("#frmVoters").submit(function(){
-                var nama_voters = $("#frmVoters").find("#nama_voters").val();
-                var alamat = $("#alamat").val();
-                var desa = $("#desa").val();
-                var kecamatan = $("#kecamatan").val();
-                var kota = $("#kota").val();
+            var nama_voters = $("#frmVoters").find("#nama_voters").val();
+            var nik_voters = $("#frmVoters").find("#nik_voters").val();
+            var usia = $("#frmVoters").find("#usia").val();
+            var rw = $("#frmVoters").find("#rw").val();
+            var rt = $("#frmVoters").find("#rt").val();
+            var no_hp = $("#frmVoters").find("#no_hp").val();
+            var alamat = $("#alamat").val();
+            var desa = $("#desa").val();
+            var kecamatan = $("#kecamatan").val();
+            var kota = $("#kota").val();
+            var id = $("#id").val();
 
-                if(nama_voters==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'Nama Voters Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#nama_voters").focus();
-                    });
+            if(nama_voters==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Nama Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#nama_voters").focus();
+                });
 
-                    return false;
-                }else if(alamat==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'Alamat Voters Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#alamat").focus();
-                    });
+                return false;
+            }else if(nik_voters==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'NIK Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#nik_voters").focus();
+                });
 
-                    return false;
-                }else if(desa==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'Desa Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#desa").focus();
-                    });
+                return false;
+            }else if(usia==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'usia Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#usia").focus();
+                });
 
-                    return false;
-                }else if(kecamatan==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'Kecamatan Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#kecamatan").focus();
-                    });
+                return false;
+            }else if(rw==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Rw Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#rw").focus();
+                });
 
-                    return false;
-                }
-                else if(kota==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'kota Voters Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#kota").focus();
-                    });
+                return false;
+            }else if(rt==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'RT Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#rt").focus();
+                });
 
-                    return false;
-                }
-            });
+                return false;
+            }else if(no_hp==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'No Hp Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#no_hp").focus();
+                });
+
+                return false;
+            }else if(alamat==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Alamat Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#alamat").focus();
+                });
+
+                return false;
+            }else if(desa==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Desa Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#desa").focus();
+                });
+
+                return false;
+            }else if(kecamatan==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'Kecamatan Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#kecamatan").focus();
+                });
+
+                return false;
+            }
+            else if(kota==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'kota Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#kota").focus();
+                });
+
+                return false;
+            }else if(id==""){
+                Swal.fire({
+                title: 'Warning!',
+                text: 'For Voters Harus Diisi !!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+                }).then((result) => {
+                    $("#id").focus();
+                });
+
+                return false;
+            }
+        });
 
             $("#frVoters").submit(function(){
                 var nama_voters = $("#frVoters").find("#nama_voters").val();

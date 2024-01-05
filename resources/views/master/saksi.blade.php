@@ -93,9 +93,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">nik_ktp</th>
+                                                <th class="text-center">Username</th>
                                                 <th class="text-center">Nama Saksi</th>
                                                 <th class="text-center">Alamat</th>
+                                                <th class="text-center">Desa</th>
+                                                <th class="text-center">Kecamatan</th>
                                                 <th class="text-center">No. HP</th>
                                                 <th class="text-center">foto_saksi</th>
                                                 <th class="text-center">Asal Parpol</th>
@@ -115,6 +117,8 @@
                                                     <td>{{ $k->nik_ktp }}</td>
                                                     <td>{{ $k->nama_saksi }}</td>
                                                     <td>{{ $k->alamat }}</td>
+                                                    <td>{{ $k->desa}}</td>
+                                                    <td>{{ $k->kecamatan}}</td>
                                                     <td>{{ $k->no_hp }}</td>
                                                     <td class="text-center">
                                                         @if (empty($k->foto_saksi))
@@ -193,7 +197,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="text" maxlength="17" name="nik_ktp" class="form-control" placeholder="nik_ktp" id="nik_ktp">
+                            <input type="text" maxlength="17" name="nik_ktp" class="form-control" placeholder="Username" id="nik_ktp">
                         </div>
                     </div>
                 </div>
@@ -228,6 +232,50 @@
                                 </svg>
                             </span>
                             <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Alamat">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" name="desa" id="desa" class="form-control" placeholder="Desa">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" name="kecamatan" id="kecamatan" class="form-control" placeholder="kecamatan">
                         </div>
                     </div>
                 </div>
@@ -281,6 +329,17 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id" id="id" class="form-select">
+                            <option value="">--Pilih for Caleg--</option>
+                            @foreach ($caleg as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -329,7 +388,7 @@
                                 <path d="M19 11l0 2"></path>
                                 </svg>
                             </span>
-                            <input type="number" value="{{ $k->nik_ktp }}" maxlength="17" name="nik_ktp" class="form-control" placeholder="nik_ktp" id="nik_ktp">
+                            <input type="text" value="{{ $k->nik_ktp }}" maxlength="17" name="nik_ktp" class="form-control" placeholder="Username" id="nik_ktp">
                         </div>
                     </div>
                 </div>
@@ -364,6 +423,50 @@
                                 </svg>
                             </span>
                             <input type="text" value="{{ $k->alamat }}" name="alamat" id="alamat" class="form-control" placeholder="Alamat">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" value="{{ $k->desa}}" name="desa" id="desa" class="form-control" placeholder="Desa">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3 21l18 0"></path>
+                                <path d="M9 8l1 0"></path>
+                                <path d="M9 12l1 0"></path>
+                                <path d="M9 16l1 0"></path>
+                                <path d="M14 8l1 0"></path>
+                                <path d="M14 12l1 0"></path>
+                                <path d="M14 16l1 0"></path>
+                                <path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16"></path>
+                                </svg>
+                            </span>
+                            <input type="text" value="{{ $k->kecamatan}}" name="kecamatan" id="kecamatan" class="form-control" placeholder="kecamatan">
                         </div>
                     </div>
                 </div>
@@ -417,6 +520,17 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id" id="id" class="form-select">
+                            <option value="{{ $k->id }}">--Pilih for Caleg--</option>
+                            @foreach ($caleg as $j)
+                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -444,7 +558,6 @@
     <script>
         $(function(){
 
-            $('#nik_ktp').mask("00000000000000000");
             $("#btnTambah").click(function(){
                 $("#modal-inputsaksi").modal("show");
             });
@@ -469,15 +582,18 @@
             $("#frmSaksi").submit(function(){
                 var nik_ktp = $("#nik_ktp").val();
                 var nama_saksi = $("#frmSaksi").find("#nama_saksi").val();
-                var alamat = $("#alamat").val();
+                var alamat = $("#frmSaksi").find("#alamat ").val();
+                var desa= $("#desa").val();
+                var kecamatan= $("#kecamatan").val();
                 var no_hp = $("#no_hp").val();
                 var id_parpol = $("#frmSaksi").find("#id_parpol").val();
                 var foto_saksi = $("#frmSaksi").find("#foto_saksi").val();
+                var id = $("#frmSaksi").find("#id").val();
 
                 if(nik_ktp==""){
                     Swal.fire({
                     title: 'Warning!',
-                    text: 'nik_ktp Harus Diisi !!',
+                    text: 'Username Harus Diisi !!',
                     icon: 'warning',
                     confirmButtonText: 'OK'
                     }).then((result) => {
@@ -504,6 +620,28 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#alamat").focus();
+                    });
+
+                    return false;
+                }else if(desa==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Desa Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#desa").focus();
+                    });
+
+                    return false;
+                }else if(kecamatan==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'kecamatan Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#kecamatan").focus();
                     });
 
                     return false;
@@ -540,6 +678,17 @@
                     });
 
                     return false;
+                }else if(id==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: ' For Kandidat Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#id").focus();
+                    });
+
+                    return false;
                 }
             });
 
@@ -547,13 +696,16 @@
                 var nik_ktp = $("#frSaksi").find("#nik_ktp").val();
                 var nama_saksi = $("#frSaksi").find("#nama_saksi").val();
                 var alamat = $("#frSaksi").find("#alamat").val();
+                var desa= $("#frSaksi").find("#desa").val();
+                var kecamatan= $("#frSaksi").find("#kecamatan").val();
                 var no_hp = $("#frSaksi").find("#no_hp").val();
                 var id_parpol = $("#frSaksi").find("#id_parpol").val();
+                var id= $("#frSaksi").find("#id").val();
 
                 if(nik_ktp==""){
                     Swal.fire({
                     title: 'Warning!',
-                    text: 'nik_ktp Harus Diisi !!',
+                    text: 'Username Harus Diisi !!',
                     icon: 'warning',
                     confirmButtonText: 'OK'
                     }).then((result) => {
@@ -580,6 +732,28 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#alamat").focus();
+                    });
+
+                    return false;
+                }else if(desa==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'Desa Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#desa").focus();
+                    });
+
+                    return false;
+                }else if(kecamatan==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: 'kecamatanHarus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#kecamatan").focus();
                     });
 
                     return false;
@@ -613,6 +787,17 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#kode_cabang").focus();
+                    });
+
+                    return false;
+                }else if(id==""){
+                    Swal.fire({
+                    title: 'Warning!',
+                    text: ' For Kandidat Harus Diisi !!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                    }).then((result) => {
+                        $("#id").focus();
                     });
 
                     return false;

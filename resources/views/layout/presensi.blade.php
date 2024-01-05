@@ -37,7 +37,7 @@
     </style>
 </head>
 
-<body style="background-color:#e9ecef;">
+<body style="background-color:#e9ecef;" oncontextmenu="return false">
 
     <!-- loader -->
     <div id="loader">

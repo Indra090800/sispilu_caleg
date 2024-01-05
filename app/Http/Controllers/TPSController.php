@@ -30,13 +30,19 @@ class TPSController extends Controller
         $log = DB::table('tb_log')
         ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
         ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
-        ->where('id', Auth::guard()->user()->id)
+        ->where('tb_log.id', Auth::guard()->user()->id)
         ->limit(5)
         ->get();
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
-        return view('master.tps', compact('tps', 'log','count'));
+        $caleg = DB::table('users')
+        ->leftJoin('tb_parpol', 'users.id_parpol', '=', 'tb_parpol.id_parpol')
+        ->where('users.id_parpol', '>=', 1)
+        ->where('users.id_role', 1)
+        ->orderBy('users.id_parpol', 'ASC')->get();
+        
+        return view('master.tps', compact('tps', 'log','count','caleg'));
     }
 
     public function addTPS(Request $request)
@@ -46,6 +52,7 @@ class TPSController extends Controller
         $desa          = $request->desa;
         $kecamatan     = $request->kecamatan;
         $lokasi        = $request->lokasi;
+        $id            = $request->id;
 
         try {
             $data = [
@@ -54,6 +61,7 @@ class TPSController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'lokasi'       => $lokasi,
+                'id'           => $id,
             ];
             $simpan = DB::table('tb_tps')->insert($data);
         if($simpan){
@@ -76,6 +84,7 @@ class TPSController extends Controller
         $desa          = $request->desa;
         $kecamatan     = $request->kecamatan;
         $lokasi        = $request->lokasi;
+        $id            = $request->id;
 
         try {
             $data = [
@@ -84,6 +93,7 @@ class TPSController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'lokasi'       => $lokasi,
+                'id'           => $id,
             ];
             $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data);
         if($update){
