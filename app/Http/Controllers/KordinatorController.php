@@ -303,7 +303,7 @@ class KordinatorController extends Controller
         $count = DB::table('tb_log')
         ->selectRaw('COUNT(id_saksi) as jml')
         ->first();
-        
+
         $query = Saksi::query();
         $query->selectRaw('COUNT(id_saksi) as jml_saksi');
         if(!empty($request->desa)){
@@ -378,8 +378,8 @@ class KordinatorController extends Controller
         }else{
             $tps = $query->paginate(25);
         }
-        
-        
+
+
         $Otps = DB::table('tb_tps')
         ->selectRaw('desa')
         ->groupBy('desa')
@@ -389,7 +389,7 @@ class KordinatorController extends Controller
         ->selectRaw('kecamatan')
         ->groupBy('kecamatan')
         ->get();
-        
+
         return view('monitor.caleg.tps', compact('log', 'count', 'jml_tps', 'tps', 'Otps2', 'Otps'));
     }
 
@@ -423,8 +423,8 @@ class KordinatorController extends Controller
         if(!empty($request->kecamatan)){
             $query->where('tb_voters.kecamatan', 'like', '%'. $request->kecamatan.'%');
         }
-        if(!empty($request->desa2)){
-            $query->where('tb_voters.desa', 'like', '%'. $request->desa2.'%');
+        if(!empty($request->desa)){
+            $query->where('tb_voters.desa', 'like', '%'. $request->desa.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
         }else{
             $voters = $query->paginate(15);
@@ -435,7 +435,7 @@ class KordinatorController extends Controller
         }else{
             $voters = $query->paginate(15);
         }
-        
+
 
         $ovoters = DB::table('tb_voters')
         ->selectRaw('desa')

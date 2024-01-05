@@ -111,8 +111,11 @@ Route::middleware(['auth:user'])->group(function(){
     Route::post('/addKordinator1', [KordinatorController::class, 'addKordinator1']);
     Route::post('/kordinator/{nik}/edit1', [KordinatorController::class, 'editKordinator1']);
     Route::post('/kordinator/{nik}/delete', [KordinatorController::class, 'delete']);
-    //monitor kordinator
-    Route::get('/monitor/kordinator/kecamatan', [KaryawanController::class, 'index']);
+    //monitor kordinator camat saksi tps voters
+    Route::get('/monitor/kordinator/saksi', [KaryawanController::class, 'saksi']);
+    Route::get('/monitor/kordinator/tps', [KaryawanController::class, 'tps']);
+    Route::get('/monitor/kordinator/voters', [KaryawanController::class, 'voters']);
+    //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
     //carimonitor
     Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);
