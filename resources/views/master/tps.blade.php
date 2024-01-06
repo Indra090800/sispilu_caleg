@@ -213,17 +213,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -307,16 +297,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="{{ $k->id }}">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -370,7 +350,6 @@
                 var desa = $("#desa").val();
                 var kecamatan = $("#kecamatan").val();
                 var lokasi = $("#lokasi").val();
-                var id= $("#id").val();
 
                 if(nama_tps==""){
                     Swal.fire({
@@ -425,17 +404,6 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#lokasi").focus();
-                    });
-
-                    return false;
-                }else if(id==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: 'For TPS Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#id").focus();
                     });
 
                     return false;

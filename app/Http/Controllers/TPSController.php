@@ -41,7 +41,7 @@ class TPSController extends Controller
         ->where('users.id_parpol', '>=', 1)
         ->where('users.id_role', 1)
         ->orderBy('users.id_parpol', 'ASC')->get();
-        
+
         return view('master.tps', compact('tps', 'log','count','caleg'));
     }
 
@@ -52,7 +52,6 @@ class TPSController extends Controller
         $desa          = $request->desa;
         $kecamatan     = $request->kecamatan;
         $lokasi        = $request->lokasi;
-        $id            = $request->id;
 
         try {
             $data = [
@@ -61,7 +60,6 @@ class TPSController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'lokasi'       => $lokasi,
-                'id'           => $id,
             ];
             $simpan = DB::table('tb_tps')->insert($data);
         if($simpan){
@@ -84,7 +82,6 @@ class TPSController extends Controller
         $desa          = $request->desa;
         $kecamatan     = $request->kecamatan;
         $lokasi        = $request->lokasi;
-        $id            = $request->id;
 
         try {
             $data = [
@@ -93,7 +90,6 @@ class TPSController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'lokasi'       => $lokasi,
-                'id'           => $id,
             ];
             $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data);
         if($update){

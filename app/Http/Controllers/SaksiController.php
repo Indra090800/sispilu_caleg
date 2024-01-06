@@ -65,7 +65,6 @@ class SaksiController extends Controller
         $id_parpol      = $request->id_parpol;
         $id_tps         = $request->id_tps;
         $password       = Hash::make('12345');
-        $id             = $request->id;
 
         if($request->hasFile('foto_saksi')){
             $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
@@ -84,7 +83,6 @@ class SaksiController extends Controller
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_tps'        => $id_tps,
-                'id'            => $id,
                 'foto_saksi'    => $foto_saksi
             ];
             $simpan = DB::table('tb_saksi')->insert($data);
@@ -117,7 +115,6 @@ class SaksiController extends Controller
         $id_tps         = $request->id_tps;
         $id_parpol      = $request->id_parpol;
         $password       = Hash::make('12345');
-        $id             = $request->id;
 
         $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         $old_foto_saksi = $saksi->foto_saksi;
@@ -136,7 +133,6 @@ class SaksiController extends Controller
                 'desa'          => $desa,
                 'kecamatan'     => $kecamatan,
                 'no_hp'         => $no_hp,
-                'id'            => $id,
                 'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'foto_saksi'    => $foto_saksi
@@ -179,7 +175,7 @@ class SaksiController extends Controller
         $no_hp          = $request->no_hp;
         $id_tps         = Auth::guard('caleg')->user()->id_tps;
         $id_parpol      = Auth::guard('caleg')->user()->id_parpol;
-        
+
         $c = $request->password;
         $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         if($c = null){

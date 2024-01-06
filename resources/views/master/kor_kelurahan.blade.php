@@ -40,7 +40,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <a href="#" class="btn btn-primary" id="btnTambah">
+                                <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M12 5l0 14"></path>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
-                                <form action="/caleg" method="GET">
+                                <form action="/kordinator/kelurahan" method="GET">
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
@@ -127,9 +127,7 @@
                                                     <td>{{ $k->nama_parpol }}</td>
                                                     <td class="text-center">
                                                         <div class="btn-group">
-                                                        <form action="/kordinator/{{ $k->nik }}/delete" method="POST" style="margin-left: 5px;">
-                                                            @csrf
-                                                            <a class="btn btn-danger btn-sm btnEdit">
+                                                            <a class="btn btn-danger btn-sm btnEdit" data-bs-toggle="modal" data-bs-target="#hapus{{ $k->nik }}">
                                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eraser" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                                             <path d="M19 20h-10.5l-4.21 -4.3a1 1 0 0 1 0 -1.41l10 -10a1 1 0 0 1 1.41 0l5 5a1 1 0 0 1 0 1.41l-9.2 9.3"></path>
@@ -144,7 +142,6 @@
                                                                 <path d="M16 5l3 3"></path>
                                                                 </svg>
                                                             </a>
-                                                        </form>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -163,12 +160,45 @@
     </div>
 </div>
 
-
-<div class="modal modal-blur fade" id="modal-inputcaleg" tabindex="-1" role="dialog" aria-hidden="true">
+@foreach ($caleg as $k)
+<div class="modal modal-blur fade" id="hapus{{ $k->nik }}" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">
-        <h5 class="modal-title">Tambah Data Caleg</h5>
+        <h5 class="modal-title">Hapus Data </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/kordinator/{{ $k->nik }}/delete" method="POST" style="margin-left: 5px;">
+                @csrf
+                <b>Apakah yakin ingin menghapus data {{ $k->nama_caleg }}</b>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button class="btn btn-danger w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M10 14l11 -11"></path>
+                                <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
+                                </svg>
+                            Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+@endforeach
+
+
+<div class="modal modal-blur fade" id="tambah" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Tambah Data Kor Kelurahan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -511,7 +541,7 @@
 
             $('#nik').mask("00000000000000000");
             $("#btnTambah").click(function(){
-                $("#modal-inputcaleg").modal("show");
+                $("#tambah").modal("show");
             });
 
             $(".btnEdit").click(function(e){

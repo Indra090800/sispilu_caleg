@@ -111,7 +111,7 @@
                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                     <td class="text-center">{{ $k->kota }}</td>
                                     <td class="text-center">{{ $k->no_hp }}</td>
-                                    <td class="text-center">{{ $k->nama_saksi}}</td>
+                                    <td class="text-center">{{ $k->nama_caleg }}</td>
                                 </tr>
 
                             @endforeach

@@ -10,7 +10,7 @@
             Overview
         </div>
         <h2 class="page-title">
-            Monitoring Kecamatan/Desa Voters
+            Monitoring Kelurahan Voters
         </h2>
         </div>
         <!-- Page title actions -->
@@ -46,46 +46,6 @@
 
         </div>
 
-
-        <div class="row mt-2">
-            <div class="col-12">
-                <form action="/kordinator/voters" method="GET">
-                    <div class="row">
-                        <div class="col-4">
-                            <div class="form-group">
-                                <select name="desa" id="desa" class="form-select">
-                                    <option value="">{{ Request('desa') != null  ? Request('desa') : 'Pilih Desa' }}</option>
-                                    @foreach ($ovoters as $j)
-                                        <option value="{{ $j->desa }}">{{ $j->desa }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <select name="kecamatan" id="kecamatan" class="form-select">
-                                    <option value="">{{ Request('desa') != null  ? Request('kecamatan') : 'Pilih Kecamatan' }}</option>
-                                    @foreach ($ovoters2 as $j)
-                                        <option value="{{ $j->kecamatan }}">{{ $j->kecamatan }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                    <path d="M21 21l-6 -6"></path>
-                                    </svg>Cari
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-12">

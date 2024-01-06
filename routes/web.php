@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest:caleg'])->group(function(){
     Route::get('/', function () {
-        return view('auth.login');
+        return view('auth.loginadmin');
     })->name('login');
     Route::post('/proseslogin', [AuthController::class, 'proseslogin']);
 });
@@ -106,8 +106,6 @@ Route::middleware(['auth:user'])->group(function(){
     //kordinator
     Route::get('/kordinator/kecamatan', [KordinatorController::class, 'index']);
     Route::get('/kordinator/kelurahan', [KordinatorController::class, 'create']);
-    Route::post('/addKordinator', [KordinatorController::class, 'addKordinator']);
-    Route::post('/kordinator/{nik}/edit', [KordinatorController::class, 'editKordinator']);
     Route::post('/addKordinator1', [KordinatorController::class, 'addKordinator1']);
     Route::post('/kordinator/{nik}/edit1', [KordinatorController::class, 'editKordinator1']);
     Route::post('/kordinator/{nik}/delete', [KordinatorController::class, 'delete']);
@@ -116,7 +114,9 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/monitor/kordinator/tps', [KaryawanController::class, 'tps']);
     Route::get('/monitor/kordinator/voters', [KaryawanController::class, 'voters']);
     //monitor kordinator kelurahan
-    Route::get('/monitor/kordinator/kelurahan', [KaryawanController::class, 'create']);
+    Route::get('/monitor/kordinator/kelurahan/saksi', [KaryawanController::class, 'saksi1']);
+    Route::get('/monitor/kordinator/kelurahan/tps', [KaryawanController::class, 'tps1']);
+    Route::get('/monitor/kordinator/kelurahan/voters', [KaryawanController::class, 'voters1']);
     //carimonitor
     Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);
 

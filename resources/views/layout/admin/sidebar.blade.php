@@ -159,26 +159,24 @@
                 <div class="dropdown-menu {{ request()->is(['caleg', 'parpol','saksi', 'tps','role','voters','kordinator']) ? 'show' : '' }}">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-
-                            <a style="color: white" class="dropdown-item {{ request()->is(['caleg']) ? 'active' : '' }}" href="/caleg">
-                            Master Caleg
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['parpol']) ? 'active' : '' }}" href="/parpol">
-                            Master Parpol
-                            </a>
-                            <a  style="color: white"class="dropdown-item {{ request()->is(['saksi']) ? 'active' : '' }}" href="/saksi">
-                            Master Saksi
-                            </a>
-                            <a  style="color: white"class="dropdown-item {{ request()->is(['tps']) ? 'active' : '' }}" href="/tps">
-                            Master TPS
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['role']) ? 'active' : '' }}" href="/role">
-                            Master Role
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
-                            Master voters
-                            </a>
-
+                        <a style="color: white" class="dropdown-item {{ request()->is(['caleg']) ? 'active' : '' }}" href="/caleg">
+                        Master Caleg
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['parpol']) ? 'active' : '' }}" href="/parpol">
+                        Master Parpol
+                        </a>
+                        <a  style="color: white"class="dropdown-item {{ request()->is(['saksi']) ? 'active' : '' }}" href="/saksi">
+                        Master Saksi
+                        </a>
+                        <a  style="color: white"class="dropdown-item {{ request()->is(['tps']) ? 'active' : '' }}" href="/tps">
+                        Master TPS
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['role']) ? 'active' : '' }}" href="/role">
+                        Master Role
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['voters']) ? 'active' : '' }}" href="/voters">
+                        Master voters
+                        </a>
                     </div>
                   </div>
                 </div>
@@ -218,17 +216,15 @@
                 <div class="dropdown-menu {{ request()->is(['kordinator/*']) ? 'show' : '' }}">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/saksi']) ? 'active' : '' }}" href="/kordinator/saksi">
-                            Saksi
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/tps']) ? 'active' : '' }}" href="/kordinator/tps">
-                            TPS
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/voters']) ? 'active' : '' }}" href="/kordinator/voters">
-                            Voters
-                            </a>
-
+                        <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/saksi']) ? 'active' : '' }}" href="/kordinator/saksi">
+                        Saksi
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/tps']) ? 'active' : '' }}" href="/kordinator/tps">
+                        TPS
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/voters']) ? 'active' : '' }}" href="/kordinator/voters">
+                        Voters
+                        </a>
                     </div>
                   </div>
                 </div>
@@ -248,20 +244,18 @@
                 <div class="dropdown-menu {{ request()->is(['kordinator/*']) ? 'show' : '' }}">
                   <div class="dropdown-menu-columns">
                     <div class="dropdown-menu-column">
-
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kecamatan']) ? 'active' : '' }}" href="/kordinator/kecamatan">
-                            Kordinator Kecamatan
-                            </a>
-                            <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kelurahan']) ? 'active' : '' }}" href="/kordinator/kelurahan">
-                            Kordinator Kelurahan
-                            </a>
-
+                        <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kecamatan']) ? 'active' : '' }}" href="/kordinator/kecamatan">
+                        Kordinator Kecamatan
+                        </a>
+                        <a style="color: white" class="dropdown-item {{ request()->is(['kordinator/kelurahan']) ? 'active' : '' }}" href="/kordinator/kelurahan">
+                        Kordinator Kelurahan
+                        </a>
                     </div>
                   </div>
                 </div>
                 </li>
                 @endif
-                
+
                 @if (Auth::guard('user')->user()->id_role == 5 || Auth::guard('user')->user()->id_role == 6)
                 <li class="nav-item dropdown">
                 <a style="color: white" class="nav-link dropdown-toggle {{ request()->is(['monitor/kordinator/*']) ? 'show' : '' }}"  href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="{{ request()->is(['monitor/kordinator/*']) ? 'true' : '' }}" >
@@ -286,8 +280,14 @@
                             Monitoring Voters
                             </a>
                         @elseif (Auth::guard('user')->user()->id_role == 6)
-                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan">
-                            Kordinator Kelurahan
+                        <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan/saksi']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan/saksi">
+                            Monitoring Saksi
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan/tps']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan/tps">
+                            Monitoring TPS
+                            </a>
+                            <a style="color: white" class="dropdown-item {{ request()->is(['monitor/kordinator/kelurahan/voters']) ? 'active' : '' }}" href="/monitor/kordinator/kelurahan/voters">
+                            Monitoring Voters
                             </a>
                         @endif
                     </div>

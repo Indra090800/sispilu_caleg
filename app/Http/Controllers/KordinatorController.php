@@ -417,9 +417,9 @@ class KordinatorController extends Controller
 
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*','nama_saksi');
+        $query->select('tb_voters.*','nama_caleg');
         $query->orderBY('nik_voters');
-        $query->join('tb_saksi', 'tb_voters.id_saksi', '=', 'tb_saksi.id_saksi');
+        $query->join('users', 'tb_voters.id', '=', 'users.id');
         if(!empty($request->kecamatan)){
             $query->where('tb_voters.kecamatan', 'like', '%'. $request->kecamatan.'%');
         }
@@ -448,4 +448,6 @@ class KordinatorController extends Controller
         ->get();
         return view('monitor.caleg.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters', 'ovoters2'));
     }
+
+
 }

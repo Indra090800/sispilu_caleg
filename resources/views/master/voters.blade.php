@@ -132,7 +132,7 @@
                                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                                     <td class="text-center">{{ $k->kota }}</td>
                                                     <td class="text-center">{{ $k->no_hp }}</td>
-                                                    <td class="text-center">{{ $k->nama_saksi}}</td>
+                                                    <td class="text-center">{{ $k->nama_caleg }}</td>
                                                     @if(Auth::guard()->user()->id_role == 2)
                                                     <td class="text-center">
                                                         <div class="btn-group">
@@ -287,16 +287,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -431,16 +421,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -499,7 +479,6 @@
             var desa = $("#desa").val();
             var kecamatan = $("#kecamatan").val();
             var kota = $("#kota").val();
-            var id = $("#id").val();
 
             if(nama_voters==""){
                 Swal.fire({
@@ -609,17 +588,6 @@
                 confirmButtonText: 'OK'
                 }).then((result) => {
                     $("#kota").focus();
-                });
-
-                return false;
-            }else if(id==""){
-                Swal.fire({
-                title: 'Warning!',
-                text: 'For Voters Harus Diisi !!',
-                icon: 'warning',
-                confirmButtonText: 'OK'
-                }).then((result) => {
-                    $("#id").focus();
                 });
 
                 return false;

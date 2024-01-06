@@ -235,7 +235,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-12">
                         <div class="input-icon mb-3">
@@ -257,7 +257,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-12">
                         <div class="input-icon mb-3">
@@ -329,17 +329,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -426,7 +416,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-12">
                         <div class="input-icon mb-3">
@@ -448,7 +438,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-12">
                         <div class="input-icon mb-3">
@@ -520,17 +510,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-12">
-                        <select name="id" id="id" class="form-select">
-                            <option value="{{ $k->id }}">--Pilih for Caleg--</option>
-                            @foreach ($caleg as $j)
-                                <option value="{{ $j->id }}">{{ $j->nama_caleg }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -588,7 +568,6 @@
                 var no_hp = $("#no_hp").val();
                 var id_parpol = $("#frmSaksi").find("#id_parpol").val();
                 var foto_saksi = $("#frmSaksi").find("#foto_saksi").val();
-                var id = $("#frmSaksi").find("#id").val();
 
                 if(nik_ktp==""){
                     Swal.fire({
@@ -678,17 +657,6 @@
                     });
 
                     return false;
-                }else if(id==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: ' For Kandidat Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#id").focus();
-                    });
-
-                    return false;
                 }
             });
 
@@ -700,7 +668,6 @@
                 var kecamatan= $("#frSaksi").find("#kecamatan").val();
                 var no_hp = $("#frSaksi").find("#no_hp").val();
                 var id_parpol = $("#frSaksi").find("#id_parpol").val();
-                var id= $("#frSaksi").find("#id").val();
 
                 if(nik_ktp==""){
                     Swal.fire({
@@ -787,17 +754,6 @@
                     confirmButtonText: 'OK'
                     }).then((result) => {
                         $("#kode_cabang").focus();
-                    });
-
-                    return false;
-                }else if(id==""){
-                    Swal.fire({
-                    title: 'Warning!',
-                    text: ' For Kandidat Harus Diisi !!',
-                    icon: 'warning',
-                    confirmButtonText: 'OK'
-                    }).then((result) => {
-                        $("#id").focus();
                     });
 
                     return false;

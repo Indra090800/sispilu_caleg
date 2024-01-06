@@ -255,7 +255,7 @@ class KaryawanController extends Controller
         $query = Voters::query();
         $query->select('tb_voters.*','nama_saksi');
         $query->orderBY('nik_voters');
-        $query->join('tb_saksi', 'tb_voters.id_saksi', '=', 'tb_saksi.id_saksi');
+        $$query->join('users', 'tb_voters.id', '=', 'users.id');
         if(!empty($request->desa)){
             $query->where('tb_voters.desa', 'like', '%'. $request->desa.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
@@ -276,5 +276,102 @@ class KaryawanController extends Controller
         ->get();
 
         return view('monitor.camat.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters'));
+    }
+
+    public function saksi1(Request $request)
+    {
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('tb_log.id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+
+        $query = Saksi::query();
+        $query->selectRaw('COUNT(id_saksi) as jml_saksi');
+        $query->where('tb_saksi.desa', Auth::guard()->user()->wilayah);
+        $jml_saksi= $query->first();
+        $query = Saksi::query();
+        $query->select('tb_saksi.*','nama_tps', 'nama_parpol');
+        $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
+        $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->where('tb_saksi.desa', Auth::guard()->user()->wilayah);
+        $query->orderBY('nama_saksi');
+        $saksi = $query->paginate(15);
+
+        $Osaksi = DB::table('tb_saksi')
+        ->selectRaw('desa')
+        ->groupBy('desa')
+        ->get();
+
+        return view('monitor.lurah.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi'));
+    }
+
+    public function tps1(Request $request)
+    {
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('tb_log.id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        $query = TPS::query();
+        $query->selectRaw('COUNT(id_tps) as jml_tps');
+        $query->where('desa', Auth::guard()->user()->wilayah);
+        $jml_tps= $query->first();
+        //TPS
+        $query = TPS::query();
+        $query->select('tb_tps.*');
+        $query->orderBY('desa');
+        $query->where('desa', Auth::guard()->user()->wilayah);
+        $tps = $query->paginate(25);
+
+        $Otps = DB::table('tb_tps')
+        ->selectRaw('desa')
+        ->groupBy('desa')
+        ->get();
+
+
+        return view('monitor.lurah.tps', compact('log', 'count', 'jml_tps', 'tps', 'Otps'));
+    }
+
+    public function voters1(Request $request)
+    {
+        $log = DB::table('tb_log')
+        ->leftJoin('tb_saksi', 'tb_saksi.id_saksi', '=', 'tb_log.id_saksi')
+        ->leftJoin('tb_tps', 'tb_tps.id_tps', '=', 'tb_log.id_tps')
+        ->where('tb_log.id', Auth::guard()->user()->id)
+        ->limit(5)
+        ->get();
+        $count = DB::table('tb_log')
+        ->selectRaw('COUNT(id_saksi) as jml')
+        ->first();
+        //jml voters
+        $query = Voters::query();
+        $query->selectRaw('COUNT(id_voters) as jml_voters');
+        $query->where('tb_voters.desa', Auth::guard()->user()->wilayah);
+        $jml_voters= $query->first();
+
+        //voters
+        $query = Voters::query();
+        $query->select('tb_voters.*','nama_saksi');
+        $query->orderBY('nik_voters');
+        $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->where('tb_voters.desa', Auth::guard()->user()->wilayah);
+        $voters = $query->paginate(15);
+
+
+        $ovoters = DB::table('tb_voters')
+        ->selectRaw('desa')
+        ->groupBy('desa')
+        ->get();
+
+        return view('monitor.lurah.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters'));
     }
 }
