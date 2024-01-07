@@ -294,20 +294,25 @@ class KaryawanController extends Controller
         $query->selectRaw('COUNT(id_saksi) as jml_saksi');
         $query->where('tb_saksi.desa', Auth::guard()->user()->wilayah);
         $jml_saksi= $query->first();
+
         $query = Saksi::query();
         $query->select('tb_saksi.*','nama_tps', 'nama_parpol');
         $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
         $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
-        $query->where('tb_saksi.desa', Auth::guard()->user()->wilayah);
         $query->orderBY('nama_saksi');
+        $query->where('tb_saksi.desa', Auth::guard()->user()->wilayah);
+        if(!empty($request->alamat)){
+            $query->where('tb_saksi.alamat', 'like', '%'. $request->alamat.'%');
+        }
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
+        }
         $saksi = $query->paginate(15);
 
-        $Osaksi = DB::table('tb_saksi')
-        ->selectRaw('desa')
-        ->groupBy('desa')
-        ->get();
+        $tps = DB::table('tb_tps')->get();
+        $parpol = DB::table('tb_parpol')->get();
 
-        return view('monitor.lurah.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi'));
+        return view('monitor.lurah.saksi', compact('jml_saksi','log', 'count', 'saksi','tps','parpol'));
     }
 
     public function tps1(Request $request)
@@ -360,18 +365,12 @@ class KaryawanController extends Controller
 
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*','nama_saksi');
+        $query->select('tb_voters.*','nama_caleg');
         $query->orderBY('nik_voters');
         $query->join('users', 'tb_voters.id', '=', 'users.id');
         $query->where('tb_voters.desa', Auth::guard()->user()->wilayah);
         $voters = $query->paginate(15);
 
-
-        $ovoters = DB::table('tb_voters')
-        ->selectRaw('desa')
-        ->groupBy('desa')
-        ->get();
-
-        return view('monitor.lurah.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters'));
+        return view('monitor.lurah.voters', compact('log', 'count', 'jml_voters', 'voters'));
     }
 }

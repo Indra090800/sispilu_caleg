@@ -56,7 +56,7 @@ class SaksiController extends Controller
 
     public function addSaksi(Request $request)
     {
-        $nik_ktp            = $request->nik_ktp;
+        $nik_ktp        = $request->nik_ktp;
         $nama_saksi     = $request->nama_saksi;
         $alamat         = $request->alamat;
         $desa           = $request->desa;
@@ -64,7 +64,6 @@ class SaksiController extends Controller
         $no_hp          = $request->no_hp;
         $id_parpol      = $request->id_parpol;
         $id_tps         = $request->id_tps;
-        $password       = Hash::make('12345');
 
         if($request->hasFile('foto_saksi')){
             $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
@@ -80,7 +79,6 @@ class SaksiController extends Controller
                 'desa'          => $desa,
                 'kecamatan'     => $kecamatan,
                 'no_hp'         => $no_hp,
-                'password'      => $password,
                 'id_parpol'     => $id_parpol,
                 'id_tps'        => $id_tps,
                 'foto_saksi'    => $foto_saksi
@@ -114,7 +112,6 @@ class SaksiController extends Controller
         $no_hp          = $request->no_hp;
         $id_tps         = $request->id_tps;
         $id_parpol      = $request->id_parpol;
-        $password       = Hash::make('12345');
 
         $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
         $old_foto_saksi = $saksi->foto_saksi;
@@ -133,8 +130,103 @@ class SaksiController extends Controller
                 'desa'          => $desa,
                 'kecamatan'     => $kecamatan,
                 'no_hp'         => $no_hp,
-                'password'      => $password,
                 'id_parpol'     => $id_parpol,
+                'id_tps'        => $id_tps,
+                'foto_saksi'    => $foto_saksi
+            ];
+            $update = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->update($data);
+            if($update){
+                if($request->hasFile('foto_saksi')){
+                    $folderPath = "public/uploads/saksi/";
+                    $folderPathOld = "public/uploads/saksi/".$old_foto_saksi;
+                    Storage::delete($folderPathOld);
+                    $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
+            }
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error' => 'Data Gagal Di Update!!']);
+        }
+    }
+
+    public function addSaksi1(Request $request)
+    {
+        $nik_ktp        = $request->nik_ktp;
+        $nama_saksi     = $request->nama_saksi;
+        $alamat         = $request->alamat;
+        $desa           = $request->desa;
+        $kecamatan      = $request->kecamatan;
+        $no_hp          = $request->no_hp;
+        $id_parpol      = $request->id_parpol;
+        $id_tps         = $request->id_tps;
+
+        if($request->hasFile('foto_saksi')){
+            $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
+        }else{
+            $foto_saksi = null;
+        }
+
+        try {
+            $data = [
+                'nik_ktp'       => $nik_ktp,
+                'nama_saksi'    => $nama_saksi,
+                'alamat'        => $alamat,
+                'desa'          => $desa,
+                'kecamatan'     => $kecamatan,
+                'no_hp'         => $no_hp,
+                'id_parpol'     => $id_parpol,
+                'id_tps'        => $id_tps,
+                'foto_saksi'    => $foto_saksi
+            ];
+            $simpan = DB::table('tb_saksi')->insert($data);
+            if($simpan){
+                if($request->hasFile('foto_saksi')){
+                    $folderPath = "public/uploads/saksi/";
+                    $request->file('foto_saksi')->storeAs($folderPath, $foto_saksi);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+            }
+
+        } catch (\Exception $e) {
+            if($e->getCode()==23000){
+                $message = "Data nik_ktp = ".$nik_ktp." Sudah Ada!!";
+            }else {
+                $message = "Hubungi Tim IT";
+            }
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
+        }
+    }
+
+    public function editSaksi1($id_saksi, Request $request)
+    {
+        $nik_ktp        = $request->nik_ktp;
+        $nama_saksi     = $request->nama_saksi;
+        $alamat         = $request->alamat;
+        $desa           = $request->desa;
+        $kecamatan      = $request->kecamatan;
+        $no_hp          = $request->no_hp;
+        $id_tps         = $request->id_tps;
+        $id_parpol      = $request->id_parpol;
+
+        $saksi = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->first();
+        $old_foto_saksi = $saksi->foto_saksi;
+
+        if($request->hasFile('foto_saksi')){
+            $foto_saksi = $nik_ktp.".".$request->file('foto_saksi')->getClientOriginalExtension();
+        }else{
+            $foto_saksi = $old_foto_saksi;
+        }
+
+        try {
+            $data = [
+                'nik_ktp'       => $nik_ktp,
+                'nama_saksi'    => $nama_saksi,
+                'alamat'        => $alamat,
+                'desa'          => $desa,
+                'kecamatan'     => $kecamatan,
+                'no_hp'         => $no_hp,
+                'id_parpol'     => $id_parpol,
+                'id_tps'        => $id_tps,
                 'foto_saksi'    => $foto_saksi
             ];
             $update = DB::table('tb_saksi')->where('id_saksi', $id_saksi)->update($data);
@@ -269,6 +361,7 @@ class SaksiController extends Controller
                 'id_tps'    => $id_tps,
                 'jam'       => date("H:i")
             ]);
+
             $simpan = DB::table('tb_vote_caleg')->insert($data);
         if($simpan){
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
@@ -283,9 +376,21 @@ class SaksiController extends Controller
         }
     }
 
-    public function addbukti(Request $request)
+
+    public function addsuara(Request $request)
     {
-        $id_tps = Auth::guard('caleg')->user()->id_tps;
+        $query = VoteSuara::query();
+        $query->selectRaw('SUM(jml_vote) as total');
+        $query->where('id', 'like', '%'. $request->id.'%');
+        $c = $query->first();
+        $total = $c->total + (int)$request->jml_vote;
+        $id_saksi = Auth::guard()->user()->id;
+        $id_tps = $request->id_tps;
+        $id = Auth::guard()->user()->id_kor;
+        $jml_vote = $request->jml_vote;
+        $caleg = DB::table('users')->where('id', $id)->first();
+        $cek = DB::table('tb_vote_caleg')->where('id', $id)->where('id_tps', $id_tps)->where('id_saksi', $id_saksi)->count();
+
         if($request->hasFile('foto_bukti')){
             $foto_bukti = $id_tps.".".$request->file('foto_bukti')->getClientOriginalExtension();
         }else{
@@ -294,41 +399,48 @@ class SaksiController extends Controller
 
         try {
             $data = [
-                'foto_bukti'    => $foto_bukti
+                'id_saksi' => $id_saksi,
+                'id_tps'   => $id_tps,
+                'id'       => $id,
+                'jml_vote' => $jml_vote,
+                'jam'      => date("H:i")
             ];
-            $simpan = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data);
-        if($simpan){
-            if($request->hasFile('foto_bukti')){
-                $folderPath = "public/uploads/bukti_tps/";
-                $request->file('foto_bukti')->storeAs($folderPath, $foto_bukti);
-            }
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
-        }
-        } catch (\Exception $e) {
-            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!!']);
-        }
-    }
-
-    public function deleteVote($id,$id_tps)
-    {
-        $delete =  DB::table('tb_vote_caleg')
-        ->where('id', $id)
-        ->where('id_tps', $id_tps)
-        ->delete();
-        $id_saksi = Auth::guard('caleg')->user()->id_saksi;
-        $id_tps = Auth::guard('caleg')->user()->id_tps;
-
-        if($delete){
+            DB::table('tb_traffic')->insert([
+                'jml_vote' => $total,
+                'id'       => $id,
+                'jam'      => date("H:i")
+            ]);
             DB::table('tb_log')->insert([
                 'id_saksi'  => $id_saksi,
-                'deskripsi' => 'delete vote from '.$id.' in '.$id_tps,
+                'deskripsi' => ' add vote '.$jml_vote. ' for '.$id.' in '.$id_tps,
                 'id'        => $id,
                 'id_tps'    => $id_tps,
                 'jam'       => date("H:i")
             ]);
-            return Redirect::back()->with(['success' => 'Data Berhasil Di Delete!!']);
-        }else{
-            return Redirect::back()->with(['error' => 'Data Gagal Di Delete!!']);
+            $data2 = [
+                'foto_bukti' => $foto_bukti,
+            ];
+            $simpan = DB::table('tb_vote_caleg')->insert($data);
+            if($simpan){
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+            }
+            $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data2);
+            dd($update);
+            if($update){
+                if($request->hasFile('foto_bukti')){
+                    $folderPath = "public/uploads/bukti_tps/";
+                    $request->file('foto_bukti')->storeAs($folderPath, $foto_bukti);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+            }
+
+        }  catch (\Exception $e) {
+            if($e->getCode()==23000){
+                $message = "Data Suara Kandidat ".$caleg->nama_caleg." Sudah Ada!!";
+            }else {
+                $message = "Hubungi Tim IT";
+            }
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
         }
     }
 }

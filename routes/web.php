@@ -70,6 +70,9 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/saksi', [SaksiController::class, 'index']);
     Route::post('/addSaksi', [SaksiController::class, 'addSaksi']);
     Route::post('/saksi/{id_saksi}/edit', [SaksiController::class, 'editSaksi']);
+    //kordinator add saksi
+    Route::post('/addSaksi1', [SaksiController::class, 'addSaksi1']);
+    Route::post('/saksi/{id_saksi}/edit1', [SaksiController::class, 'editSaksi1']);
     Route::post('/saksi/{id_saksi}/delete', [SaksiController::class, 'delete']);
 
     //parpol
@@ -116,6 +119,9 @@ Route::middleware(['auth:user'])->group(function(){
     //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan/saksi', [KaryawanController::class, 'saksi1']);
     Route::get('/monitor/kordinator/kelurahan/tps', [KaryawanController::class, 'tps1']);
+    //addsuara
+    Route::post('/addsuara', [SaksiController::class, 'addsuara']);
+    //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan/voters', [KaryawanController::class, 'voters1']);
     //carimonitor
     Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);

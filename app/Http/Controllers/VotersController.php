@@ -108,7 +108,80 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
-                'id'     => Auth::guard()->user()->id,
+                'id'           => Auth::guard()->user()->id,
+            ];
+            $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
+        if($update){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
+        }
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error' => 'Data Gagal Di Update!!']);
+        }
+    }
+
+    public function addVoters(Request $request)
+    {
+        $nama_voters   = $request->nama_voters;
+        $nik_voters    = $request->nik_voters;
+        $alamat        = $request->alamat;
+        $usia          = $request->usia;
+        $rt            = $request->rt;
+        $rw            = $request->rw;
+        $desa          = $request->desa;
+        $kecamatan     = $request->kecamatan;
+        $kota          = $request->kota;
+        $no_hp         = $request->no_hp;
+
+        try {
+            $data = [
+                'nama_voters'  => $nama_voters,
+                'nik_voters'   => $nik_voters,
+                'alamat'       => $alamat,
+                'usia'         => $usia,
+                'rt'           => $rt,
+                'rw'           => $rw,
+                'no_hp'        => $no_hp,
+                'desa'         => $desa,
+                'desa'         => $desa,
+                'kecamatan'    => $kecamatan,
+                'kota'         => $kota,
+                'id'           => Auth::guard()->user()->id,
+            ];
+            $simpan = DB::table('tb_voters')->insert($data);
+        if($simpan){
+            return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+        }
+        } catch (\Exception $e) {
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!!']);
+        }
+    }
+
+    public function editVoters($id_voters, Request $request)
+    {
+        $nama_voters   = $request->nama_voters;
+        $nik_voters    = $request->nik_voters;
+        $alamat        = $request->alamat;
+        $usia          = $request->usia;
+        $rt            = $request->rt;
+        $rw            = $request->rw;
+        $desa          = $request->desa;
+        $kecamatan     = $request->kecamatan;
+        $kota          = $request->kota;
+        $no_hp         = $request->no_hp;
+
+        try {
+            $data = [
+                'nama_voters'  => $nama_voters,
+                'nik_voters'   => $nik_voters,
+                'alamat'       => $alamat,
+                'usia'         => $usia,
+                'rt'           => $rt,
+                'rw'           => $rw,
+                'no_hp'        => $no_hp,
+                'desa'         => $desa,
+                'kecamatan'    => $kecamatan,
+                'kota'         => $kota,
+                'id'           => Auth::guard()->user()->id,
             ];
             $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
         if($update){
@@ -159,8 +232,7 @@ class VotersController extends Controller
         $query->where('id', $id);
         $e = $query->first();
         //hitung persentase
-        $persentase =0;
-        $persentase == 0 ? 0 : (float)($e->total/$d->vote)*100;
+        $persentase = (float)($e->total/$d->vote)*100;
 
         $jam = Traffic::select('*')
         ->where('id', $id)
