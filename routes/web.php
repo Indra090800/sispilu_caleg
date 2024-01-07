@@ -121,6 +121,7 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/monitor/kordinator/kelurahan/tps', [KaryawanController::class, 'tps1']);
     //addsuara
     Route::post('/addsuara', [SaksiController::class, 'addsuara']);
+    Route::post('/editsuara', [SaksiController::class, 'editsuara']);
     //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan/voters', [KaryawanController::class, 'voters1']);
     //carimonitor

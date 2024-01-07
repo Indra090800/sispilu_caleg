@@ -421,17 +421,98 @@ class SaksiController extends Controller
                 'foto_bukti' => $foto_bukti,
             ];
             $simpan = DB::table('tb_vote_caleg')->insert($data);
+            $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data2);
             if($simpan){
                 return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
             }
-            $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data2);
-            dd($update);
+
             if($update){
                 if($request->hasFile('foto_bukti')){
                     $folderPath = "public/uploads/bukti_tps/";
                     $request->file('foto_bukti')->storeAs($folderPath, $foto_bukti);
                 }
                 return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
+            }
+
+        }  catch (\Exception $e) {
+            if($e->getCode()==23000){
+                $message = "Data Suara Kandidat ".$caleg->nama_caleg." Sudah Ada!!";
+            }else {
+                $message = "Hubungi Tim IT";
+            }
+            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!! '. $message]);
+        }
+    }
+
+    public function editsuara(Request $request)
+    {
+        $id_saksi = Auth::guard()->user()->id;
+        $id_tps = $request->id_tps;
+        $id = Auth::guard()->user()->id_kor;
+        $jml_vote = $request->jml_vote;
+        $caleg = DB::table('users')->where('id', $id)->first();
+        $cek = DB::table('tb_vote_caleg')->where('id', $id)->where('id_tps', $id_tps)->where('id_saksi', $id_saksi)->count();
+
+        $jml =0;
+        $jml_tps=0;
+        $cs =0;
+        $tot =0;
+        $tps = DB::table('tb_tps')->get();
+        foreach($tps as $k){
+            $count = DB::table('tb_vote_caleg')
+            ->selectRaw('SUM(jml_vote) as jml')
+            ->where('id_tps', $k->id_tps)
+            ->where('id', Auth::guard()->user()->id_kor)
+            ->first();
+            $jml = $count->jml;
+            $jml_tps += $jml;
+        }
+        $count1 = DB::table('tb_vote_caleg')
+            ->selectRaw('SUM(jml_vote) as jml')
+            ->where('id_tps', $request->id_tps)
+            ->where('id', Auth::guard()->user()->id_kor)
+            ->first();
+        $jml1 = $count1->jml;
+        $cs = $request->jml_vote - $jml1;
+        $tot = $cs + $jml_tps;
+        $saksi = DB::table('tb_tps')->where('id_tps', $id_tps)->first();
+        $old_foto_saksi = $saksi->foto_bukti;
+
+        if($request->hasFile('foto_bukti')){
+            $foto_bukti = $id_tps.".".$request->file('foto_bukti')->getClientOriginalExtension();
+        }else{
+            $foto_bukti = $old_foto_saksi;
+        }
+
+        try {
+            $data = [
+                'jml_vote' => $jml_vote,
+                'jam'      => date("H:i")
+            ];
+            DB::table('tb_traffic')->insert([
+                'jml_vote' => $tot,
+                'id'       => $id,
+                'jam'      => date("H:i")
+            ]);
+            DB::table('tb_log')->insert([
+                'id_saksi'  => $id_saksi,
+                'deskripsi' => ' add vote '.$jml_vote. ' for '.$id.' in '.$id_tps,
+                'id'        => $id,
+                'id_tps'    => $id_tps,
+                'jam'       => date("H:i")
+            ]);
+            $data2 = [
+                'foto_bukti' => $foto_bukti,
+            ];
+            DB::table('tb_vote_caleg')->where('id_saksi', $id_saksi)->where('id_tps', $id_tps)->where('id', $id)->update($data);
+            $update = DB::table('tb_tps')->where('id_tps', $id_tps)->update($data2);
+
+            if($update){
+                if($request->hasFile('foto_bukti')){
+                    $folderPath = "public/uploads/bukti_tps/";
+                    $request->file('foto_bukti')->storeAs($folderPath, $foto_bukti);
+                }
+                return Redirect::back()->with(['success' => 'Data Berhasil Di Update!!']);
             }
 
         }  catch (\Exception $e) {

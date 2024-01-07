@@ -237,6 +237,7 @@ class VotersController extends Controller
         $jam = Traffic::select('*')
         ->where('id', $id)
         ->take(7)
+        ->orderBy('jam', 'desc')
         ->get(['jml_vote', 'jam']);
 
         $kandidat = DB::table('users')->where('id', $id)->first();

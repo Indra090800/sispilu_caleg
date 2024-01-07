@@ -36,11 +36,17 @@
                                 <table class="table table-striped">
                                     <tr>
                                         <th>Nama Kandidat</th>
-                                        <th>% Suara</th>
+                                        <th>Suara</th>
                                     </tr>
+                                    @php
+                                        $count = DB::table('tb_vote_caleg')
+                                        ->selectRaw('SUM(jml_vote) as jml')
+                                        ->where('id', Auth::guard()->user()->id)
+                                        ->first();
+                                    @endphp
                                     <tr>
                                         <td>{{ $kandidat->nama_caleg }}</td>
-                                        <td>{{ $persentase }}%</td>
+                                        <td>{{ $count->jml }}</td>
                                     </tr>
                                 </table>
                             </div>

@@ -92,6 +92,8 @@
                                 <th class="text-center">Desa</th>
                                 <th class="text-center">Kecamatan</th>
                                 <th class="text-center">Suara</th>
+                                <th class="text-center">Foto Bukti</th>
+                                <th class="text-center">#</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,17 +111,35 @@
                                 $jml = $count->jml;
                                 $jml_tps += $jml;
                             ?>
+                            @php
+                                $path = Storage::url('uploads/bukti_tps/'.$k->foto_bukti);
+                            @endphp
                                 <tr>
                                     <td width="5px">{{ $loop->iteration + $tps->firstItem()-1 }}</td>
                                     <td class="text-center">{{ $k->nama_tps }}</td>
                                     <td class="text-center">{{ $k->desa }}</td>
                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                     <th class="text-center">{{ $count->jml }}</th>
+                                    <td class="text-center"><a href="{{ url($path) }}" download>{{ $k->foto_bukti }}</a></td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editsuara{{ $k->id_tps }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                <path d="M16 5l3 3"></path>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                             <tr>
                                 <td colspan="4" class="text-right">Jumlah</td>
                                 <td class="text-center">{{ $jml_tps }}</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table><br>
@@ -190,7 +210,7 @@
                                 <path d="M10 14l11 -11"></path>
                                 <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
                                 </svg>
-                            Simpan</button>
+                            Tambah</button>
                         </div>
                     </div>
                 </div>
@@ -199,6 +219,85 @@
     </div>
     </div>
 </div>
+
+@foreach ($tps as $k)
+<?php
+    $count = DB::table('tb_vote_caleg')
+    ->selectRaw('SUM(jml_vote) as jml')
+    ->where('id_tps', $k->id_tps)
+    ->where('id', Auth::guard()->user()->id_kor)
+    ->first();
+?>
+<div class="modal modal-blur fade" id="editsuara{{ $k->id_tps }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title">Edit Suara Kandidat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="/editsuara" method="post" id="frmSaksi" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-icon mb-3">
+                            <span class="input-icon-addon">
+                                <!-- Download SVG icon from http://tabler-icons.io/i/user -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-barcode" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 7v-1a2 2 0 0 1 2 -2h2"></path>
+                                <path d="M4 17v1a2 2 0 0 0 2 2h2"></path>
+                                <path d="M16 4h2a2 2 0 0 1 2 2v1"></path>
+                                <path d="M16 20h2a2 2 0 0 0 2 -2v-1"></path>
+                                <path d="M5 11h1v2h-1z"></path>
+                                <path d="M10 11l0 2"></path>
+                                <path d="M14 11h1v2h-1z"></path>
+                                <path d="M19 11l0 2"></path>
+                                </svg>
+                            </span>
+                            <input type="text" maxlength="17" value="{{ $count->jml }}" name="jml_vote" class="form-control" placeholder="Add Hasil Vote" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <select name="id_tps" id="id_tps" class="form-select" required>
+                            <option value="{{ $k->id_tps }}">{{ $k->nama_tps }}</option>
+                            @foreach ($tps as $j)
+                                <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <input type="file" name="foto_bukti" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <button class="btn btn-primary w-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-send" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M10 14l11 -11"></path>
+                                <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5"></path>
+                                </svg>
+                            Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+@endforeach
 @endsection
 
 @push('myscripct')
