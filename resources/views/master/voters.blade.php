@@ -79,6 +79,16 @@
                                                 <input type="text" name="nama_voters" id="nama_voters" value="{{ Request('nama_voters') }}"  class="form-control" placeholder="Nama voters">
                                             </div>
                                         </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                            <select name="id_tps" id="id_tps" class="form-select">
+                                                <option value="">Pilih TPS</option>
+                                                @foreach ($tps as $j)
+                                                    <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                                                @endforeach
+                                            </select>
+                                            </div>
+                                        </div>
                                         <div class="col-2">
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary">
@@ -112,7 +122,8 @@
                                                 <th class="text-center">Kecamatan</th>
                                                 <th class="text-center">Kota</th>
                                                 <th class="text-center">No. HP</th>
-                                                <th class="text-center">Nama Saksi</th>
+                                                <th class="text-center">Asal. TPS</th>
+                                                <th class="text-center">Nama Kordinator</th>
                                                 @if(Auth::guard()->user()->id_role == 2)
                                                 <th class="text-center">Aksi</th>
                                                 @endif
@@ -132,6 +143,7 @@
                                                     <td class="text-center">{{ $k->kecamatan }}</td>
                                                     <td class="text-center">{{ $k->kota }}</td>
                                                     <td class="text-center">{{ $k->no_hp }}</td>
+                                                    <td class="text-center">{{ $k->nama_tps }}</td>
                                                     <td class="text-center">{{ $k->nama_caleg }}</td>
                                                     @if(Auth::guard()->user()->id_role == 2)
                                                     <td class="text-center">
@@ -287,6 +299,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select name="id_tps" id="id_tps" class="form-select">
+                            <option value="">Pilih TPS</option>
+                            @foreach ($tps as $j)
+                                <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <div class="row mt-2">
                     <div class="col-12">
@@ -419,6 +441,16 @@
                             </span>
                             <input type="text" value="{{ $k->no_hp }}" name="no_hp" id="no_hp" class="form-control" placeholder="kota Voters">
                         </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select name="id_tps" id="id_tps" class="form-select">
+                            <option value="{{ $k->id_tps }}">{{ $k->nama_tps }}</option>
+                            @foreach ($tps as $j)
+                                <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
 

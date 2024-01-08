@@ -83,6 +83,8 @@
             <th>KECAMATAN</th>
             <th>KOTA</th>
             <th>NO HP</th>
+            <th>Asal Tps</th>
+            <th>Nama Saksi</th>
         </tr>
 
         @foreach ($cetak as $r)
@@ -98,6 +100,8 @@
                 <td><center>{{ $r->kecamatan }}</center></td>
                 <td><center>{{ $r->kota }}</center></td>
                 <td><center>{{ $r->no_hp }}</center></td>
+                <td><center>{{ $r->nama_tps }}</center></td>
+                <td><center>{{ $r->nama_caleg }}</center></td>
             </tr>
         @endforeach
     </table>

@@ -8,6 +8,7 @@ use App\Http\Controllers\KordinatorController;
 use App\Http\Controllers\SaksiController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ParpolController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\VotersController;
 use App\Http\Controllers\TPSController;
 use Illuminate\Support\Facades\Route;
@@ -97,33 +98,41 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/voters', [VotersController::class, 'index']);
     Route::post('/addVoters', [VotersController::class, 'addVoters']);
     Route::post('/voters/{id_voters}/edit', [VotersController::class, 'editVoters']);
+
     //admin voters
     Route::post('/addVoters1', [VotersController::class, 'addVoters1']);
     Route::post('/voters/{id_voters}/edit1', [VotersController::class, 'editVoters1']);
     Route::post('/voters/{id_voters}/delete', [VotersController::class, 'delete']);
+
     //report
     Route::post('/voters/cetakVoters', [VotersController::class, 'cetakVoters']);
 
     //sispilu monitoring
     Route::get('/sispilu/monitoring', [VotersController::class, 'monitoring']);
+
     //kordinator
     Route::get('/kordinator/kecamatan', [KordinatorController::class, 'index']);
     Route::get('/kordinator/kelurahan', [KordinatorController::class, 'create']);
     Route::post('/addKordinator1', [KordinatorController::class, 'addKordinator1']);
     Route::post('/kordinator/{nik}/edit1', [KordinatorController::class, 'editKordinator1']);
     Route::post('/kordinator/{nik}/delete', [KordinatorController::class, 'delete']);
+
     //monitor kordinator camat saksi tps voters
     Route::get('/monitor/kordinator/saksi', [KaryawanController::class, 'saksi']);
     Route::get('/monitor/kordinator/tps', [KaryawanController::class, 'tps']);
     Route::get('/monitor/kordinator/voters', [KaryawanController::class, 'voters']);
+
     //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan/saksi', [KaryawanController::class, 'saksi1']);
     Route::get('/monitor/kordinator/kelurahan/tps', [KaryawanController::class, 'tps1']);
+
     //addsuara
     Route::post('/addsuara', [SaksiController::class, 'addsuara']);
     Route::post('/editsuara', [SaksiController::class, 'editsuara']);
+
     //monitor kordinator kelurahan
     Route::get('/monitor/kordinator/kelurahan/voters', [KaryawanController::class, 'voters1']);
+
     //carimonitor
     Route::get('/cari/monitor/{kecamatan}', [DashboardController::class, 'cari']);
 
@@ -131,6 +140,11 @@ Route::middleware(['auth:user'])->group(function(){
     Route::get('/kordinator/saksi', [KordinatorController::class, 'saksi']);
     Route::get('/kordinator/tps', [KordinatorController::class, 'tps']);
     Route::get('/kordinator/voters', [KordinatorController::class, 'voters']);
+
+    //setting
+    Route::get('/settings', [SettingController::class, 'index']);
+    Route::post('/upsetting', [SettingController::class, 'upsetting']);
 });
+
 
 

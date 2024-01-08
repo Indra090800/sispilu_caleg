@@ -246,36 +246,44 @@ class KaryawanController extends Controller
         //jml voters
         $query = Voters::query();
         $query->selectRaw('COUNT(id_voters) as jml_voters');
+        $query->where('tb_voters.kecamatan', Auth::guard()->user()->wilayah);
         if(!empty($request->desa)){
             $query->where('desa', 'like', '%'. $request->desa.'%');
+        }
+        if(!empty($request->id_tps)){
+            $query->where('tb_voters.id_tps', 'like', '%'. $request->id_tps.'%');
         }
         $jml_voters= $query->first();
 
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*','nama_saksi');
+        $query->select('tb_voters.*','nama_caleg', 'nama_tps');
         $query->orderBY('nik_voters');
-        $$query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('tb_tps', 'tb_voters.id_tps', '=', 'tb_tps.id_tps');
+        $query->where('tb_voters.kecamatan', Auth::guard()->user()->wilayah);
         if(!empty($request->desa)){
             $query->where('tb_voters.desa', 'like', '%'. $request->desa.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
         }else{
             $voters = $query->paginate(15);
         }
-        if(!empty($request->nama_voters)){
-            $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
+        if(!empty($request->id_tps)){
+            $query->where('tb_voters.id_tps', 'like', '%'. $request->id_tps.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
         }else{
             $voters = $query->paginate(15);
         }
 
-
         $ovoters = DB::table('tb_voters')
         ->selectRaw('desa')
         ->groupBy('desa')
         ->get();
+        $tps = DB::table('tb_tps')
+        ->where('kecamatan', Auth::guard()->user()->wilayah)
+        ->get();
 
-        return view('monitor.camat.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters'));
+        return view('monitor.camat.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters', 'tps'));
     }
 
     public function saksi1(Request $request)
@@ -365,12 +373,22 @@ class KaryawanController extends Controller
 
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*','nama_caleg');
-        $query->orderBY('nik_voters');
+        $query->select('tb_voters.*', 'nama_caleg', 'nama_tps');
         $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('tb_tps', 'tb_voters.id_tps', '=', 'tb_tps.id_tps');
         $query->where('tb_voters.desa', Auth::guard()->user()->wilayah);
+        $query->orderBY('nik_voters');
+        if(!empty($request->id_tps)){
+            $query->where('tb_voters.id_tps', 'like', '%'. $request->id_tps.'%');
+        }
+        if(!empty($request->nama_voters)){
+            $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
+        }
         $voters = $query->paginate(15);
+        $tps = DB::table('tb_tps')
+        ->where('desa', Auth::guard()->user()->wilayah)
+        ->get();
 
-        return view('monitor.lurah.voters', compact('log', 'count', 'jml_voters', 'voters'));
+        return view('monitor.lurah.voters', compact('log', 'count', 'jml_voters', 'voters','tps'));
     }
 }

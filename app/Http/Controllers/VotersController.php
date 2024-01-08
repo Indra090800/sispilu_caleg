@@ -20,9 +20,13 @@ class VotersController extends Controller
     public function index(Request $request)
     {
         $query = Voters::query();
-        $query->select('tb_voters.*', 'nama_caleg');
+        $query->select('tb_voters.*', 'nama_caleg', 'nama_tps');
         $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('tb_tps', 'tb_voters.id_tps', '=', 'tb_tps.id_tps');
         $query->orderBY('nik_voters');
+        if(!empty($request->id_tps)){
+            $query->where('tb_voters.id_tps', 'like', '%'. $request->id_tps.'%');
+        }
         if(!empty($request->nama_voters)){
             $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
         }
@@ -41,8 +45,9 @@ class VotersController extends Controller
         ->where('users.id_parpol', '>=', 1)
         ->where('users.id_role', 1)
         ->orderBy('users.id_parpol', 'ASC')->get();
+        $tps = DB::table('tb_tps')->get();
 
-        return view('master.voters', compact('voters', 'log', 'count','caleg'));
+        return view('master.voters', compact('voters', 'log', 'count','caleg','tps'));
     }
 
 
@@ -58,6 +63,7 @@ class VotersController extends Controller
         $kecamatan     = $request->kecamatan;
         $kota          = $request->kota;
         $no_hp         = $request->no_hp;
+        $id_tps        = $request->id_tps;
 
         try {
             $data = [
@@ -72,6 +78,7 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_tps'       => $id_tps,
                 'id'           => Auth::guard()->user()->id,
             ];
             $simpan = DB::table('tb_voters')->insert($data);
@@ -79,7 +86,7 @@ class VotersController extends Controller
             return Redirect::back()->with(['success' => 'Data Berhasil Di Simpan!!']);
         }
         } catch (\Exception $e) {
-            return Redirect::back()->with(['error' => 'Data Gagal Di Simpan!!']);
+            echo $e;
         }
     }
 
@@ -95,6 +102,7 @@ class VotersController extends Controller
         $kecamatan     = $request->kecamatan;
         $kota          = $request->kota;
         $no_hp         = $request->no_hp;
+        $id_tps        = $request->id_tps;
 
         try {
             $data = [
@@ -108,6 +116,7 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_tps'       => $id_tps,
                 'id'           => Auth::guard()->user()->id,
             ];
             $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
@@ -131,6 +140,7 @@ class VotersController extends Controller
         $kecamatan     = $request->kecamatan;
         $kota          = $request->kota;
         $no_hp         = $request->no_hp;
+        $id_tps        = $request->id_tps;
 
         try {
             $data = [
@@ -145,6 +155,7 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_tps'       => $id_tps,
                 'id'           => Auth::guard()->user()->id,
             ];
             $simpan = DB::table('tb_voters')->insert($data);
@@ -168,6 +179,7 @@ class VotersController extends Controller
         $kecamatan     = $request->kecamatan;
         $kota          = $request->kota;
         $no_hp         = $request->no_hp;
+        $id_tps        = $request->id_tps;
 
         try {
             $data = [
@@ -181,6 +193,7 @@ class VotersController extends Controller
                 'desa'         => $desa,
                 'kecamatan'    => $kecamatan,
                 'kota'         => $kota,
+                'id_tps'       => $id_tps,
                 'id'           => Auth::guard()->user()->id,
             ];
             $update = DB::table('tb_voters')->where('id_voters', $id_voters)->update($data);
@@ -205,7 +218,12 @@ class VotersController extends Controller
 
     public function cetakVoters()
     {
-        $cetak = DB::table('tb_voters')->orderBy('id_voters')->get();
+        $query = Voters::query();
+        $query->select('tb_voters.*','nama_caleg', 'nama_tps');
+        $query->orderBY('nik_voters');
+        $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('tb_tps', 'tb_voters.id_tps', '=', 'tb_tps.id_tps');
+        $cetak = $query->get(15);
         if(isset($_POST['excel'])){
             $time = date("d-M-Y H:i:s");
 

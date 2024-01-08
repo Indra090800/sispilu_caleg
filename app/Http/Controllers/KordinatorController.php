@@ -413,24 +413,29 @@ class KordinatorController extends Controller
         if(!empty($request->desa)){
             $query->where('desa', 'like', '%'. $request->desa.'%');
         }
+        if(!empty($request->id_tps)){
+            $query->where('id_tps', 'like', '%'. $request->id_tps.'%');
+        }
         $jml_voters= $query->first();
 
         //voters
         $query = Voters::query();
-        $query->select('tb_voters.*','nama_caleg');
+        $query->select('tb_voters.*','nama_caleg', 'nama_tps');
         $query->orderBY('nik_voters');
         $query->join('users', 'tb_voters.id', '=', 'users.id');
+        $query->join('tb_tps', 'tb_voters.id_tps', '=', 'tb_tps.id_tps');
         if(!empty($request->kecamatan)){
             $query->where('tb_voters.kecamatan', 'like', '%'. $request->kecamatan.'%');
+            $voters = $query->paginate($jml_voters->jml_voters);
         }
-        if(!empty($request->desa)){
+        else if(!empty($request->desa)){
             $query->where('tb_voters.desa', 'like', '%'. $request->desa.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
         }else{
             $voters = $query->paginate(15);
         }
-        if(!empty($request->nama_voters)){
-            $query->where('nama_voters', 'like', '%'. $request->nama_voters.'%');
+        if(!empty($request->id_tps)){
+            $query->where('tb_voters.id_tps', 'like', '%'. $request->id_tps.'%');
             $voters = $query->paginate($jml_voters->jml_voters);
         }else{
             $voters = $query->paginate(15);
@@ -446,7 +451,9 @@ class KordinatorController extends Controller
         ->selectRaw('kecamatan')
         ->groupBy('kecamatan')
         ->get();
-        return view('monitor.caleg.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters', 'ovoters2'));
+        $tps = DB::table('tb_tps')->get();
+
+        return view('monitor.caleg.voters', compact('log', 'count', 'jml_voters', 'voters', 'ovoters', 'ovoters2', 'tps'));
     }
 
 
