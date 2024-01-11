@@ -180,18 +180,25 @@ class KaryawanController extends Controller
         $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
         $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
         $query->orderBY('nama_saksi');
-        if(!empty($request->desa)){
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
+            $saksi = $query->paginate($jml_saksi->jml_saksi);
+        }else if(!empty($request->desa)){
             $query->where('tb_saksi.desa', $request->desa);
             $saksi = $query->paginate($jml_saksi->jml_saksi);
-        }else{
+        }
+        else{
             $saksi = $query->paginate(15);
         }
         $Osaksi = DB::table('tb_saksi')
         ->selectRaw('desa')
         ->groupBy('desa')
         ->get();
+        $tps = DB::table('tb_tps')
+        ->where('kecamatan', Auth::guard()->user()->wilayah)
+        ->get();
 
-        return view('monitor.camat.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi'));
+        return view('monitor.camat.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi', 'tps'));
     }
 
     public function tps(Request $request)

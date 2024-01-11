@@ -51,7 +51,7 @@
             <div class="col-12">
                 <form action="/kordinator/saksi" method="GET">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
                                 <select name="desa" id="desa" class="form-select">
                                     <option value="">{{ Request('desa') != null  ? Request('desa') : 'Pilih Desa' }}</option>
@@ -61,7 +61,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
+                                    <select name="id_tps" id="id_tps" class="form-select">
+                                        <option value="">--Pilih TPS--</option>
+                                        @foreach ($tps as $j)
+                                            <option value="{{ $j->id_tps }}">{{ $j->nama_tps }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                        <div class="col-3">
                             <div class="form-group">
                                 <select name="kecamatan" id="kecamatan" class="form-select">
                                     <option value="">{{ Request('desa') != null  ? Request('kecamatan') : 'Pilih Kecamatan' }}</option>
@@ -71,7 +79,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

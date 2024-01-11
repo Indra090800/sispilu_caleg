@@ -330,6 +330,12 @@ class KordinatorController extends Controller
         }else{
             $saksi = $query->paginate(15);
         }
+        if(!empty($request->id_tps)){
+            $query->where('tb_saksi.id_tps', $request->id_tps);
+            $saksi = $query->paginate($jml_saksi->jml_saksi);
+        }else{
+            $saksi = $query->paginate(15);
+        }
         $Osaksi = DB::table('tb_saksi')
         ->selectRaw('desa')
         ->groupBy('desa')
@@ -339,7 +345,10 @@ class KordinatorController extends Controller
         ->selectRaw('kecamatan')
         ->groupBy('kecamatan')
         ->get();
-        return view('monitor.caleg.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi', 'Osaksi2'));
+        $tps = DB::table('tb_tps')
+        ->get();
+
+        return view('monitor.caleg.saksi', compact('jml_saksi','log', 'count', 'saksi','Osaksi', 'Osaksi2', 'tps'));
     }
 
     public function tps(Request $request)
