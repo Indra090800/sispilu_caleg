@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\VotersImport;
 use App\Models\Traffic;
 use App\Models\Voters;
 use App\Models\VoteSuara;
 use App\Models\TPS;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Termwind\Components\Dd;
 
 class VotersController extends Controller
@@ -298,5 +301,27 @@ class VotersController extends Controller
         }
         $voters = $query->paginate(15);
         return view('vote.v_voters', compact('voters'));
+    }
+
+    public function import_excel(Request $request)
+    {
+        // validasi
+        $this->validate($request, [
+        'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+        
+        // menangkap file excel
+        $file = $request->file('file');
+        
+        // membuat nama file unik
+        $nama_file = rand().$file->getClientOriginalName();
+        
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('file_siswa',$nama_file);
+        
+        // import data
+        Excel::import(new VotersImport, public_path('/file_voters/'.$nama_file));
+        
+        return Redirect::back()->with(['success' => 'Data Berhasil Di Import!!']);
     }
 }

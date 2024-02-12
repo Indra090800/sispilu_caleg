@@ -27,13 +27,13 @@
 
                             @if (Session::get('success'))
                                 <div class="alert alert-success">
-                                    {{ Session::get('success') }}
+                                    {{ Session::get('success') }} <button type="button" class="close" data-bs-dismiss="alert">×</button> 
                                 </div>
                             @endif
 
                             @if (Session::get('error'))
                                 <div class="alert alert-error">
-                                    {{ Session::get('error') }}
+                                    {{ Session::get('error') }} <button type="button" class="close" data-bs-dismiss="alert">×</button> 
                                 </div>
                             @endif
                             </div>
@@ -58,7 +58,7 @@
                                     <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"></path>
                                     <path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z"></path>
                                     </svg>
-                                    Cetak PDF</button>
+                                    CETAK PDF</button>
                                     <button type="submit" name="excel" class="btn btn-success">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-download" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -66,7 +66,10 @@
                                     <path d="M7 11l5 5l5 -5"></path>
                                     <path d="M12 4l0 12"></path>
                                     </svg>
-                                    Export to Excel</button>
+                                    EXPORT to Excel</button>
+                                    <button type="button" class="btn btn-primary mr-5" data-bs-toggle="modal" data-bs-target="#importExcel">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-spreadsheet" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M8 11h8v7h-8z" /><path d="M8 15h8" /><path d="M11 11v7" /></svg>IMPORT from EXCEL
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -328,6 +331,33 @@
     </div>
     </div>
 </div>
+
+ <!-- Import Excel -->
+ <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <form method="post" action="/voters/import_excel" enctype="multipart/form-data">
+    <div class="modal-content">
+    <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+    </div>
+    <div class="modal-body">
+    
+    {{ csrf_field() }}
+    
+    <label>Pilih file excel</label>
+    <div class="form-group">
+    <input type="file" name="file" required="required" class="form-control">
+    </div>
+    
+    </div>
+    <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Import</button>
+    </div>
+    </div>
+    </form>
+    </div>
+    </div>
 
 @foreach ($voters as $k)
 <div class="modal modal-blur fade" id="editvoters{{ $k->id_voters }}" tabindex="-1" voters="dialog" aria-hidden="true">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Saksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -82,5 +83,16 @@ class SettingController extends Controller
         } catch (\Exception $e) {
             return Redirect('/settings')->with(['error' => 'Data Gagal Di Update!!']);
         }
+    }
+
+    public function cetaksaksi()
+    {
+        $query = Saksi::query();
+        $query->select('tb_saksi.*','nama_tps', 'nama_parpol');
+        $query->join('tb_tps', 'tb_saksi.id_tps', '=', 'tb_tps.id_tps');
+        $query->join('tb_parpol', 'tb_saksi.id_parpol', '=', 'tb_parpol.id_parpol');
+        $query->orderBY('nama_saksi');
+        $saksi = $query->get();
+        return view('report.cetaksaksi', compact('saksi'));
     }
 }

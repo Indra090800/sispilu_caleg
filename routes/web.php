@@ -106,6 +106,7 @@ Route::middleware(['auth:user'])->group(function(){
 
     //report
     Route::post('/voters/cetakVoters', [VotersController::class, 'cetakVoters']);
+    Route::post('/voters/import_excel', [VotersController::class, 'import_excel']);
 
     //sispilu monitoring
     Route::get('/sispilu/monitoring', [VotersController::class, 'monitoring']);
@@ -144,6 +145,9 @@ Route::middleware(['auth:user'])->group(function(){
     //setting
     Route::get('/settings', [SettingController::class, 'index']);
     Route::post('/upsetting', [SettingController::class, 'upsetting']);
+
+    //cetaksaksi
+    Route::get('/cetaksaksi', [SettingController::class, 'cetaksaksi']);
 });
 
 
